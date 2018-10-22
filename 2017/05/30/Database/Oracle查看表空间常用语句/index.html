@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+	
+		<meta name="baidu-site-verification" content="oYxxak7jEB" />
+	
+    
+    <title>Oracle查看表空间常用语句 | 黄敏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="查看表空间使用率12345678910111213select a.tablespace_name,       a.bytes / 1024 / 1024 &quot;Sum MB&quot;,       (a.bytes - b.bytes) / 1024 / 1024 &quot;used MB&quot;,       b.bytes / 1024 / 1024 &quot;free MB&quot;,       round(((a.bytes">
+<meta name="keywords" content="Database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle查看表空间常用语句">
+<meta property="og:url" content="http://mindasoft.com/2017/05/30/Database/Oracle查看表空间常用语句/index.html">
+<meta property="og:site_name" content="黄敏">
+<meta property="og:description" content="查看表空间使用率12345678910111213select a.tablespace_name,       a.bytes / 1024 / 1024 &quot;Sum MB&quot;,       (a.bytes - b.bytes) / 1024 / 1024 &quot;used MB&quot;,       b.bytes / 1024 / 1024 &quot;free MB&quot;,       round(((a.bytes">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-05T02:41:49.291Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle查看表空间常用语句">
+<meta name="twitter:description" content="查看表空间使用率12345678910111213select a.tablespace_name,       a.bytes / 1024 / 1024 &quot;Sum MB&quot;,       (a.bytes - b.bytes) / 1024 / 1024 &quot;used MB&quot;,       b.bytes / 1024 / 1024 &quot;free MB&quot;,       round(((a.bytes">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+	
+
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?oYxxak7jEB";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">黄敏</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于我</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">黄敏</h2>
+            <h3 id="title">会一些前端和Android，懂一些后端和架构，做过一些管理和运维。我是一名程序员。</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>中国 - 长沙</span>
+            <a id="follow" target="_blank" href="http://github.com/hmiter">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                25
+                <span>文章</span>
+            </div>
+			<div class="article-info-block">
+                2
+                <span>分类</span>
+            </div>
+            <div class="article-info-block">
+                7
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/hmiter" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://git.oschina.net/hmiter" target="_blank" title="git" class=tooltip>
+                            <i class="fa fa-git"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="weixin" class=tooltip>
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="weibo" class=tooltip>
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Database/Oracle查看表空间常用语句" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Oracle查看表空间常用语句
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/05/30/Database/Oracle查看表空间常用语句/">
+            <time datetime="2017-05-30T12:02:59.000Z" itemprop="datePublished">2017-05-30</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/programming/">programming</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/database/">Database</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="查看表空间使用率"><a href="#查看表空间使用率" class="headerlink" title="查看表空间使用率"></a>查看表空间使用率</h1><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">select <span class="keyword">a</span>.tablespace_name,</span><br><span class="line">       <span class="keyword">a</span>.<span class="keyword">bytes</span> / <span class="number">1024</span> / <span class="number">1024</span> <span class="string">"Sum MB"</span>,</span><br><span class="line">       (<span class="keyword">a</span>.<span class="keyword">bytes</span> - b.<span class="keyword">bytes</span>) / <span class="number">1024</span> / <span class="number">1024</span> <span class="string">"used MB"</span>,</span><br><span class="line">       b.<span class="keyword">bytes</span> / <span class="number">1024</span> / <span class="number">1024</span> <span class="string">"free MB"</span>,</span><br><span class="line">       <span class="built_in">round</span>(((<span class="keyword">a</span>.<span class="keyword">bytes</span> - b.<span class="keyword">bytes</span>) / <span class="keyword">a</span>.<span class="keyword">bytes</span>) * <span class="number">100</span>, <span class="number">2</span>) <span class="string">"percent_used"</span></span><br><span class="line">  <span class="built_in">from</span> (select tablespace_name, <span class="built_in">sum</span>(<span class="keyword">bytes</span>) <span class="keyword">bytes</span></span><br><span class="line">          <span class="built_in">from</span> dba_data_files</span><br><span class="line">         group <span class="keyword">by</span> tablespace_name) <span class="keyword">a</span>,</span><br><span class="line">       (select tablespace_name, <span class="built_in">sum</span>(<span class="keyword">bytes</span>) <span class="keyword">bytes</span>, <span class="built_in">max</span>(<span class="keyword">bytes</span>) largest</span><br><span class="line">          <span class="built_in">from</span> dba_free_space</span><br><span class="line">         group <span class="keyword">by</span> tablespace_name) b</span><br><span class="line"> where <span class="keyword">a</span>.tablespace_name = b.tablespace_name</span><br><span class="line"> order <span class="keyword">by</span> ((<span class="keyword">a</span>.<span class="keyword">bytes</span> - b.<span class="keyword">bytes</span>) / <span class="keyword">a</span>.<span class="keyword">bytes</span>) desc</span><br></pre></td></tr></table></figure>
+<h1 id="查看用户、表空间使用率"><a href="#查看用户、表空间使用率" class="headerlink" title="查看用户、表空间使用率"></a>查看用户、表空间使用率</h1><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">select <span class="keyword">a</span>.username,b.* <span class="built_in">from</span> dba_users <span class="keyword">a</span> left join (select <span class="keyword">a</span>.tablespace_name,</span><br><span class="line">       <span class="keyword">a</span>.<span class="keyword">bytes</span> / <span class="number">1024</span> / <span class="number">1024</span> <span class="string">"Sum MB"</span>,</span><br><span class="line">       (<span class="keyword">a</span>.<span class="keyword">bytes</span> - b.<span class="keyword">bytes</span>) / <span class="number">1024</span> / <span class="number">1024</span> <span class="string">"used MB"</span>,</span><br><span class="line">       b.<span class="keyword">bytes</span> / <span class="number">1024</span> / <span class="number">1024</span> <span class="string">"free MB"</span>,</span><br><span class="line">       <span class="built_in">round</span>(((<span class="keyword">a</span>.<span class="keyword">bytes</span> - b.<span class="keyword">bytes</span>) / <span class="keyword">a</span>.<span class="keyword">bytes</span>) * <span class="number">100</span>, <span class="number">2</span>) <span class="string">"percent_used"</span></span><br><span class="line">  <span class="built_in">from</span> (select tablespace_name, <span class="built_in">sum</span>(<span class="keyword">bytes</span>) <span class="keyword">bytes</span></span><br><span class="line">          <span class="built_in">from</span> dba_data_files</span><br><span class="line">         group <span class="keyword">by</span> tablespace_name) <span class="keyword">a</span>,</span><br><span class="line">       (select tablespace_name, <span class="built_in">sum</span>(<span class="keyword">bytes</span>) <span class="keyword">bytes</span>, <span class="built_in">max</span>(<span class="keyword">bytes</span>) largest</span><br><span class="line">          <span class="built_in">from</span> dba_free_space</span><br><span class="line">         group <span class="keyword">by</span> tablespace_name) b</span><br><span class="line"> where <span class="keyword">a</span>.tablespace_name = b.tablespace_name) b <span class="keyword">on</span> <span class="title">a</span>.<span class="title">default_tablespace</span> = <span class="title">b</span>.<span class="title">tablespace_name</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="删除用户和数据文件"><a href="#删除用户和数据文件" class="headerlink" title="删除用户和数据文件"></a>删除用户和数据文件</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--步骤一：  删除user</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">user</span> ×× <span class="keyword">cascade</span></span><br><span class="line"><span class="comment">--说明： 删除了user，只是删除了该user下的schema objects，是不会删除相应的tablespace的。</span></span><br><span class="line"><span class="comment">--步骤二： 删除tablespace</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLESPACE</span> tablespace_name <span class="keyword">INCLUDING</span> <span class="keyword">CONTENTS</span> <span class="keyword">AND</span> <span class="keyword">DATAFILES</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="改变数据文件大小"><a href="#改变数据文件大小" class="headerlink" title="改变数据文件大小"></a>改变数据文件大小</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">database</span> <span class="keyword">datafile</span> <span class="string">'/u01/oracle/oradata/aeye/sysaux01.dbf'</span> <span class="keyword">resize</span> <span class="number">2</span>G;</span><br></pre></td></tr></table></figure>
+        
+        </div>
+        <footer class="article-footer">
+			
+				<! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+
+		   如果您觉得文章不错,可以请我喝一杯咖啡！
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden" >
+		<!-- 支付宝打赏图案 -->
+		<img src="/img/zhifubao.png" alt="支付宝打赏" > 
+		<!-- 微信打赏图案 -->
+		<img src="/img/weixin.png" alt="微信打赏" >  
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			//$('#donate_board').addClass('hidden');
+			if($('#donate_guide').hasClass('hidden')){
+				$('#donate_guide').removeClass('hidden');
+			}else{
+				$('#donate_guide').addClass('hidden');
+			}
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+			
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="http://mindasoft.com/2017/05/30/Database/Oracle查看表空间常用语句/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://mindasoft.com/2017/05/30/Database/Oracle查看表空间常用语句/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/05/30/Java/Velocity简单介绍/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Velocity简单介绍
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/04/20/Spring常用注解/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Spring常用注解</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2017/05/30/Database/Oracle查看表空间常用语句/" data-title="Oracle查看表空间常用语句" data-url="http://mindasoft.com/2017/05/30/Database/Oracle查看表空间常用语句/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">公告</h3>
+        <div class="widget">
+           <div class="card-front animated col s12 m12 l8 offset-l2 fadeInUp">
+		   <p class="board"> 
+		   欢迎来访问！<br> 
+		   QQ：150045153<br> 
+		   微信：150045153<br> 
+		   邮箱：hmiter@sina.com<br><br>
+		   欢迎交流与分享经验!
+		   </p>
+		   </div>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">Hexo</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">programming</a><span class="category-list-count">23</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/">Database</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blog.didispace.com/">程序员DDD</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Huang min<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a> <br>
+			
+Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261418845'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1261418845%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'mindasoft'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

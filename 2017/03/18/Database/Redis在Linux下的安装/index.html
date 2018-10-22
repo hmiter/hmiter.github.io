@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+	
+		<meta name="baidu-site-verification" content="oYxxak7jEB" />
+	
+    
+    <title>Redis在Linux下的安装 | 黄敏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="基本知识1、 Redis的数据类型：字符串、列表（lists）、集合（sets）、有序集合（sorts sets）、哈希表（hashs） 2、 Redis和memcache相比的独特之处：（1）redis可以用来做存储（storge）、而memcache是来做缓存（cache）。这个特点主要是因为其有“持久化”功能（2）存储的数据有“结构”，对于memcache来说，存储的数据，只有一种类型——“">
+<meta name="keywords" content="Database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis在Linux下的安装">
+<meta property="og:url" content="http://mindasoft.com/2017/03/18/Database/Redis在Linux下的安装/index.html">
+<meta property="og:site_name" content="黄敏">
+<meta property="og:description" content="基本知识1、 Redis的数据类型：字符串、列表（lists）、集合（sets）、有序集合（sorts sets）、哈希表（hashs） 2、 Redis和memcache相比的独特之处：（1）redis可以用来做存储（storge）、而memcache是来做缓存（cache）。这个特点主要是因为其有“持久化”功能（2）存储的数据有“结构”，对于memcache来说，存储的数据，只有一种类型——“">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-15T08:02:25.823Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis在Linux下的安装">
+<meta name="twitter:description" content="基本知识1、 Redis的数据类型：字符串、列表（lists）、集合（sets）、有序集合（sorts sets）、哈希表（hashs） 2、 Redis和memcache相比的独特之处：（1）redis可以用来做存储（storge）、而memcache是来做缓存（cache）。这个特点主要是因为其有“持久化”功能（2）存储的数据有“结构”，对于memcache来说，存储的数据，只有一种类型——“">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+	
+
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?oYxxak7jEB";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">黄敏</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于我</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">黄敏</h2>
+            <h3 id="title">会一些前端和Android，懂一些后端和架构，做过一些管理和运维。我是一名程序员。</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>中国 - 长沙</span>
+            <a id="follow" target="_blank" href="http://github.com/hmiter">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                25
+                <span>文章</span>
+            </div>
+			<div class="article-info-block">
+                2
+                <span>分类</span>
+            </div>
+            <div class="article-info-block">
+                7
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/hmiter" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://git.oschina.net/hmiter" target="_blank" title="git" class=tooltip>
+                            <i class="fa fa-git"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="weixin" class=tooltip>
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="weibo" class=tooltip>
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Database/Redis在Linux下的安装" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Redis在Linux下的安装
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/03/18/Database/Redis在Linux下的安装/">
+            <time datetime="2017-03-18T07:28:52.000Z" itemprop="datePublished">2017-03-18</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/programming/">programming</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/database/">Database</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本知识"><span class="toc-number">1.</span> <span class="toc-text">基本知识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载"><span class="toc-number">2.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解压"><span class="toc-number">3.</span> <span class="toc-text">解压</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编译源程序"><span class="toc-number">4.</span> <span class="toc-text">编译源程序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置文件"><span class="toc-number">5.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#服务启动和停止"><span class="toc-number">6.</span> <span class="toc-text">服务启动和停止</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#redis开机自启"><span class="toc-number">7.</span> <span class="toc-text">redis开机自启</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其他"><span class="toc-number">8.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis的配置"><span class="toc-number">9.</span> <span class="toc-text">Redis的配置</span></a></li></ol>
+                </div>
+            
+            <h1 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h1><p>1、 Redis的数据类型：<br>字符串、列表（lists）、集合（sets）、有序集合（sorts sets）、哈希表（hashs）</p>
+<p>2、 Redis和memcache相比的独特之处：<br>（1）redis可以用来做存储（storge）、而memcache是来做缓存（cache）。这个特点主要是因为其有“持久化”功能<br>（2）存储的数据有“结构”，对于memcache来说，存储的数据，只有一种类型——“字符串”，而redis则可以存储字符串、链表、集合、有序集合、哈序结构</p>
+<p>3、 持久化的两种方式：<br>Redis将数据存储于内存中，或被配置为使用虚拟内存。<br>实现数据持久化的两种方式：<br>（1）使用截图的方式，将内存中的数据不断写入磁盘（性能高，但可能会引起一定程度的数据丢失）<br>（2）使用类似mysql的方式，记录每次更新的日志</p>
+<p>4、 Redis的主从同步：对提高读取性能非常有益</p>
+<p>5、Redis服务端的默认端口是6379</p>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p><strong>安装环境：系统是 centos6.5</strong></p>
+<p>下载地址：<a href="http://download.redis.io/releases/redis-3.2.1.tar.gz" target="_blank" rel="noopener">http://download.redis.io/releases/redis-3.2.1.tar.gz</a><br>上传到Linux。</p>
+<h1 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h1><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">tar</span> <span class="selector-tag">-zxvf</span> <span class="selector-tag">redis-3</span><span class="selector-class">.2</span><span class="selector-class">.1</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br></pre></td></tr></table></figure>
+<h1 id="编译源程序"><a href="#编译源程序" class="headerlink" title="编译源程序"></a>编译源程序</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> redis-3.2.1</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"><span class="comment">#编译完成之后</span></span><br><span class="line"><span class="built_in">cd</span> src</span><br><span class="line">make install PREFIX=/usr/<span class="built_in">local</span>/redis</span><br></pre></td></tr></table></figure>
+<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp redis.conf <span class="regexp">/usr/</span>local<span class="regexp">/redis/</span>bin<span class="regexp">/</span></span><br></pre></td></tr></table></figure>
+<h1 id="服务启动和停止"><a href="#服务启动和停止" class="headerlink" title="服务启动和停止"></a>服务启动和停止</h1><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/redis/bin/</span></span><br><span class="line"><span class="string">./redis-server</span> redis.conf</span><br></pre></td></tr></table></figure>
+<p>默认情况，Redis不是在后台运行，我们需要把redis放在后台运行<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">vim</span> redis.conf</span><br><span class="line"><span class="comment">#将daemonize的值改为yes</span></span><br><span class="line">daemonize <span class="literal">yes</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>客户端连接</strong><br><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./redis-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>停止服务</strong><br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">./redis-cli</span> <span class="keyword">shutdown</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="redis开机自启"><a href="#redis开机自启" class="headerlink" title="redis开机自启"></a>redis开机自启</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="regexp">/etc/</span>rc.local</span><br><span class="line"><span class="comment">#加入redis启动脚本</span></span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/redis/</span>bin<span class="regexp">/redis-server /u</span>sr<span class="regexp">/local/</span>redis<span class="regexp">/bin/</span>redis.conf</span><br></pre></td></tr></table></figure>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>redis-benchmark：redis性能测试工具</p>
+<p>redis-check-aof：检查aof日志的工具</p>
+<p>redis-check-dump：检查rdb日志的工具</p>
+<p>redis-cli：连接用的客户端</p>
+<p>redis-server：redis服务进程</p>
+<h1 id="Redis的配置"><a href="#Redis的配置" class="headerlink" title="Redis的配置"></a>Redis的配置</h1><p>daemonize：如需要在后台运行，把该项的值改为yes</p>
+<p>　　pdifile：把pid文件放在/var/run/redis.pid，可以配置到其他地址</p>
+<p>　　bind：指定redis只接收来自该IP的请求，如果不设置，那么将处理所有请求，在生产环节中最好设置该项</p>
+<p>　　port：监听端口，默认为6379</p>
+<p>　　timeout：设置客户端连接时的超时时间，单位为秒</p>
+<p>　　loglevel：等级分为4级，debug，revbose，notice和warning。生产环境下一般开启notice</p>
+<p>　　logfile：配置log文件地址，默认使用标准输出，即打印在命令行终端的端口上</p>
+<p>　　database：设置数据库的个数，默认使用的数据库是0</p>
+<p>　　save：设置redis进行数据库镜像的频率</p>
+<p>　　rdbcompression：在进行镜像备份时，是否进行压缩</p>
+<p>　　dbfilename：镜像备份文件的文件名</p>
+<p>　　dir：数据库镜像备份的文件放置的路径</p>
+<p>　　slaveof：设置该数据库为其他数据库的从数据库</p>
+<p>　　masterauth：当主数据库连接需要密码验证时，在这里设定</p>
+<p>　　requirepass：设置客户端连接后进行任何其他指定前需要使用的密码</p>
+<p>　　maxclients：限制同时连接的客户端数量</p>
+<p>　　maxmemory：设置redis能够使用的最大内存</p>
+<p>　　appendonly：开启appendonly模式后，redis会把每一次所接收到的写操作都追加到appendonly.aof文件中，当redis重新启动时，会从该文件恢复出之前的状态</p>
+<p>　　appendfsync：设置appendonly.aof文件进行同步的频率</p>
+<p>　　vm_enabled：是否开启虚拟内存支持</p>
+<p>　　vm_swap_file：设置虚拟内存的交换文件的路径</p>
+<p>　　vm_max_momery：设置开启虚拟内存后，redis将使用的最大物理内存的大小，默认为0</p>
+<p>　　vm_page_size：设置虚拟内存页的大小</p>
+<p>　　vm_pages：设置交换文件的总的page数量</p>
+<p>　　vm_max_thrrads：设置vm IO同时使用的线程数量</p>
+
+        
+        </div>
+        <footer class="article-footer">
+			
+				<! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+
+		   如果您觉得文章不错,可以请我喝一杯咖啡！
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden" >
+		<!-- 支付宝打赏图案 -->
+		<img src="/img/zhifubao.png" alt="支付宝打赏" > 
+		<!-- 微信打赏图案 -->
+		<img src="/img/weixin.png" alt="微信打赏" >  
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			//$('#donate_board').addClass('hidden');
+			if($('#donate_guide').hasClass('hidden')){
+				$('#donate_guide').removeClass('hidden');
+			}else{
+				$('#donate_guide').addClass('hidden');
+			}
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+			
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="http://mindasoft.com/2017/03/18/Database/Redis在Linux下的安装/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://mindasoft.com/2017/03/18/Database/Redis在Linux下的安装/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/03/18/Database/memcached在Linux下的安装/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    memcached在Linux下的安装
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/03/18/Database/Oracle在Linux下的安装/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Oracle在Linux下的安装</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2017/03/18/Database/Redis在Linux下的安装/" data-title="Redis在Linux下的安装" data-url="http://mindasoft.com/2017/03/18/Database/Redis在Linux下的安装/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">公告</h3>
+        <div class="widget">
+           <div class="card-front animated col s12 m12 l8 offset-l2 fadeInUp">
+		   <p class="board"> 
+		   欢迎来访问！<br> 
+		   QQ：150045153<br> 
+		   微信：150045153<br> 
+		   邮箱：hmiter@sina.com<br><br>
+		   欢迎交流与分享经验!
+		   </p>
+		   </div>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">Hexo</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">programming</a><span class="category-list-count">23</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/">Database</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Server/">Server</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blog.didispace.com/">程序员DDD</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Huang min<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a> <br>
+			
+Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261418845'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1261418845%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'mindasoft'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
