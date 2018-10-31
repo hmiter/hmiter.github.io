@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mindasoft.com/"/>
-  <updated>2018-02-07T09:39:15.677Z</updated>
+  <updated>2018-10-24T06:29:38.002Z</updated>
   <id>http://mindasoft.com/</id>
   
   <author>
@@ -15,6 +15,22 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Integer源码分析</title>
+    <link href="http://mindasoft.com/2018/10/24/javase/Integer%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    <id>http://mindasoft.com/2018/10/24/javase/Integer源码分析/</id>
+    <published>2018-10-24T14:29:37.000Z</published>
+    <updated>2018-10-24T06:29:38.002Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="javase源码分析" scheme="http://mindasoft.com/categories/javase%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Linux查看物理CPU个数、核数、逻辑CPU个数.md</title>
@@ -319,11 +335,11 @@
   </entry>
   
   <entry>
-    <title>FreeMarker简单介绍</title>
-    <link href="http://mindasoft.com/2017/05/30/Java/FreeMarker%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/"/>
-    <id>http://mindasoft.com/2017/05/30/Java/FreeMarker简单介绍/</id>
+    <title>Velocity简单介绍</title>
+    <link href="http://mindasoft.com/2017/05/30/Java/Velocity%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://mindasoft.com/2017/05/30/Java/Velocity简单介绍/</id>
     <published>2017-05-30T12:13:44.000Z</published>
-    <updated>2017-12-05T02:41:49.300Z</updated>
+    <updated>2017-12-05T02:41:49.302Z</updated>
     
     <summary type="html">
     
@@ -337,11 +353,11 @@
   </entry>
   
   <entry>
-    <title>Velocity简单介绍</title>
-    <link href="http://mindasoft.com/2017/05/30/Java/Velocity%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/"/>
-    <id>http://mindasoft.com/2017/05/30/Java/Velocity简单介绍/</id>
+    <title>FreeMarker简单介绍</title>
+    <link href="http://mindasoft.com/2017/05/30/Java/FreeMarker%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://mindasoft.com/2017/05/30/Java/FreeMarker简单介绍/</id>
     <published>2017-05-30T12:13:44.000Z</published>
-    <updated>2017-12-05T02:41:49.302Z</updated>
+    <updated>2017-12-05T02:41:49.300Z</updated>
     
     <summary type="html">
     
@@ -470,31 +486,6 @@
       
         &lt;p&gt;&lt;strong&gt;安装环境：系统是 centos6.5&lt;/strong&gt;&lt;/p&gt;
 &lt;h1 id=&quot;libevent安装&quot;&gt;&lt;a href=&quot;#libevent安装&quot; class=&quot;headerlink&quot; title=&quot;libevent安装&quot;&gt;&lt;/a&gt;libevent安装&lt;/h
-      
-    
-    </summary>
-    
-      <category term="programming" scheme="http://mindasoft.com/categories/programming/"/>
-    
-    
-      <category term="Database" scheme="http://mindasoft.com/tags/database/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Redis在Linux下的安装</title>
-    <link href="http://mindasoft.com/2017/03/18/Database/Redis%E5%9C%A8Linux%E4%B8%8B%E7%9A%84%E5%AE%89%E8%A3%85/"/>
-    <id>http://mindasoft.com/2017/03/18/Database/Redis在Linux下的安装/</id>
-    <published>2017-03-18T07:28:52.000Z</published>
-    <updated>2017-12-15T08:02:25.823Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h1><p>1、 Redis的数据类型：<br>字符串、列表（lists）、集合（sets）、有序集合（sorts sets）、哈希表（hashs）</p><p>2、 Redis和memcache相比的独特之处：<br>（1）redis可以用来做存储（storge）、而memcache是来做缓存（cache）。这个特点主要是因为其有“持久化”功能<br>（2）存储的数据有“结构”，对于memcache来说，存储的数据，只有一种类型——“字符串”，而redis则可以存储字符串、链表、集合、有序集合、哈序结构</p><p>3、 持久化的两种方式：<br>Redis将数据存储于内存中，或被配置为使用虚拟内存。<br>实现数据持久化的两种方式：<br>（1）使用截图的方式，将内存中的数据不断写入磁盘（性能高，但可能会引起一定程度的数据丢失）<br>（2）使用类似mysql的方式，记录每次更新的日志</p><p>4、 Redis的主从同步：对提高读取性能非常有益</p><p>5、Redis服务端的默认端口是6379</p><h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p><strong>安装环境：系统是 centos6.5</strong></p><p>下载地址：<a href="http://download.redis.io/releases/redis-3.2.1.tar.gz" target="_blank" rel="noopener">http://download.redis.io/releases/redis-3.2.1.tar.gz</a><br>上传到Linux。</p><h1 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h1><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">tar</span> <span class="selector-tag">-zxvf</span> <span class="selector-tag">redis-3</span><span class="selector-class">.2</span><span class="selector-class">.1</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br></pre></td></tr></table></figure><h1 id="编译源程序"><a href="#编译源程序" class="headerlink" title="编译源程序"></a>编译源程序</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> redis-3.2.1</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"><span class="comment">#编译完成之后</span></span><br><span class="line"><span class="built_in">cd</span> src</span><br><span class="line">make install PREFIX=/usr/<span class="built_in">local</span>/redis</span><br></pre></td></tr></table></figure><h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp redis.conf <span class="regexp">/usr/</span>local<span class="regexp">/redis/</span>bin<span class="regexp">/</span></span><br></pre></td></tr></table></figure><h1 id="服务启动和停止"><a href="#服务启动和停止" class="headerlink" title="服务启动和停止"></a>服务启动和停止</h1><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/redis/bin/</span></span><br><span class="line"><span class="string">./redis-server</span> redis.conf</span><br></pre></td></tr></table></figure><p>默认情况，Redis不是在后台运行，我们需要把redis放在后台运行<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">vim</span> redis.conf</span><br><span class="line"><span class="comment">#将daemonize的值改为yes</span></span><br><span class="line">daemonize <span class="literal">yes</span></span><br></pre></td></tr></table></figure></p><p><strong>客户端连接</strong><br><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./redis-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure></p><p><strong>停止服务</strong><br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">./redis-cli</span> <span class="keyword">shutdown</span></span><br></pre></td></tr></table></figure></p><h1 id="redis开机自启"><a href="#redis开机自启" class="headerlink" title="redis开机自启"></a>redis开机自启</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="regexp">/etc/</span>rc.local</span><br><span class="line"><span class="comment">#加入redis启动脚本</span></span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/redis/</span>bin<span class="regexp">/redis-server /u</span>sr<span class="regexp">/local/</span>redis<span class="regexp">/bin/</span>redis.conf</span><br></pre></td></tr></table></figure><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>redis-benchmark：redis性能测试工具</p><p>redis-check-aof：检查aof日志的工具</p><p>redis-check-dump：检查rdb日志的工具</p><p>redis-cli：连接用的客户端</p><p>redis-server：redis服务进程</p><h1 id="Redis的配置"><a href="#Redis的配置" class="headerlink" title="Redis的配置"></a>Redis的配置</h1><p>daemonize：如需要在后台运行，把该项的值改为yes</p><p>　　pdifile：把pid文件放在/var/run/redis.pid，可以配置到其他地址</p><p>　　bind：指定redis只接收来自该IP的请求，如果不设置，那么将处理所有请求，在生产环节中最好设置该项</p><p>　　port：监听端口，默认为6379</p><p>　　timeout：设置客户端连接时的超时时间，单位为秒</p><p>　　loglevel：等级分为4级，debug，revbose，notice和warning。生产环境下一般开启notice</p><p>　　logfile：配置log文件地址，默认使用标准输出，即打印在命令行终端的端口上</p><p>　　database：设置数据库的个数，默认使用的数据库是0</p><p>　　save：设置redis进行数据库镜像的频率</p><p>　　rdbcompression：在进行镜像备份时，是否进行压缩</p><p>　　dbfilename：镜像备份文件的文件名</p><p>　　dir：数据库镜像备份的文件放置的路径</p><p>　　slaveof：设置该数据库为其他数据库的从数据库</p><p>　　masterauth：当主数据库连接需要密码验证时，在这里设定</p><p>　　requirepass：设置客户端连接后进行任何其他指定前需要使用的密码</p><p>　　maxclients：限制同时连接的客户端数量</p><p>　　maxmemory：设置redis能够使用的最大内存</p><p>　　appendonly：开启appendonly模式后，redis会把每一次所接收到的写操作都追加到appendonly.aof文件中，当redis重新启动时，会从该文件恢复出之前的状态</p><p>　　appendfsync：设置appendonly.aof文件进行同步的频率</p><p>　　vm_enabled：是否开启虚拟内存支持</p><p>　　vm_swap_file：设置虚拟内存的交换文件的路径</p><p>　　vm_max_momery：设置开启虚拟内存后，redis将使用的最大物理内存的大小，默认为0</p><p>　　vm_page_size：设置虚拟内存页的大小</p><p>　　vm_pages：设置交换文件的总的page数量</p><p>　　vm_max_thrrads：设置vm IO同时使用的线程数量</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;基本知识&quot;&gt;&lt;a href=&quot;#基本知识&quot; class=&quot;headerlink&quot; title=&quot;基本知识&quot;&gt;&lt;/a&gt;基本知识&lt;/h1&gt;&lt;p&gt;1、 Redis的数据类型：&lt;br&gt;字符串、列表（lists）、集合（sets）、有序集合（sorts sets）、哈希表（
       
     
     </summary>
