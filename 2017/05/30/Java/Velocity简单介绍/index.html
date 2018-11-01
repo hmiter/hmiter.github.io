@@ -225,19 +225,20 @@
         <h3 class="title is-5 has-text-weight-normal">评论</h3>
         
 <div id="comment-container"></div>
-<link rel="stylesheet" href="/css/default.css">
-<script src="/js/gitment.browser.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 <script>
-	var gitment = new Gitment({
-		id: '2017/05/30/Java/Velocity简单介绍/',
-		owner: 'huang-min',
-		repo: 'Gitment',
-		oauth: {
-			client_id: 'f3cedbc73c19570bee41',
-			client_secret: 'dff532b2bd6b11456d7de56b07f0db9bac8d599a',
-		},
-	})
-	gitment.render('comment-container')
+	const gitalk = new Gitalk({
+            clientID: 'f3cedbc73c19570bee41',
+            clientSecret: 'dff532b2bd6b11456d7de56b07f0db9bac8d599a',
+            repo: 'blog-comments',
+            owner: 'huang-min',
+            admin: ['huang-min'],
+            id: '2017/05/30/Java/Velocity简单介绍/',
+            distractionFreeMode: false
+        });
+
+    gitalk.render('gitalk-container');
 </script>
 
     </div>
