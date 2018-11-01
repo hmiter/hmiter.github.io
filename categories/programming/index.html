@@ -49,6 +49,10 @@
     
     
     
+    <style>body{opacity: 0}</style>
+    
+
+    
     
     
     
@@ -139,7 +143,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分钟 读完 (大约 130 个字)
+                    1 分钟 读完 (大约 129 个字)
                 </span>
                 
             </div>
@@ -151,7 +155,16 @@
             
         </h1>
         <div class="content">
-            <p>CPU总核数 = 物理CPU个数 <em> 每颗物理CPU的核数<br>总逻辑CPU数 = 物理CPU个数 </em> 每颗物理CPU的核数 * 超线程数<br></p>
+            
+                
+                    
+                        
+                        CPU总核数=物理CPU个数每颗物理CPU的核数总逻辑CPU数=物理CPU个数每颗物理CPU的核数*超线程数
+查看CPU信息（型号）1234567891011121314[root@AAA~]#cat/proc/cpuinfo|grepname|cut-f2-d:|uniq-c24Intel(R)Xeon(R)CPUE5-26300@2.30GHz#查看物理CPU个数[root@AAA~]#cat
+                        ...
+                    
+                
+            
         </div>
         
         
@@ -191,7 +204,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 1105 个字)
+                    7 分钟 读完 (大约 1104 个字)
                 </span>
                 
             </div>
@@ -203,11 +216,18 @@
             
         </h1>
         <div class="content">
-            <h1 id="主流证书格式介绍"><a href="#主流证书格式介绍" class="headerlink" title="主流证书格式介绍"></a>主流证书格式介绍</h1><p>一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。</p>
-<p>Tomcat、Weblogic、JBoss等，使用Java提供的密码库。通过Java的Keytool工具，生成Java Keystore（JKS）格式的证书文件。</p>
-<p>Apache、Nginx等，使用OpenSSL提供的密码库，生成PEM、KEY、CRT等格式的证书文件。</p>
-<p>BM的产品，如Websphere、IBM Http Server（IHS）等，使用IBM产品自带的iKeyman工具，生成KDB格式的证书文件。</p>
-<p>微软Windows Server中的Internet Information Services（IIS），使用Windows自带的证书库生成PFX格式的证书文件。<br></p>
+            
+                
+                    
+                        
+                        主流证书格式介绍一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。
+Tomcat、Weblogic、JBoss等，使用Java提供的密码库。通过Java的Keytool工具，生成JavaKeystore（JKS）格式的证书文件。
+Apache、Nginx等，使用OpenSSL提供的密码库，生成PEM、KEY、CRT等格式的证书文件。
+BM的产品，如Webspher
+                        ...
+                    
+                
+            
         </div>
         
         
@@ -247,7 +267,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分钟 读完 (大约 338 个字)
+                    2 分钟 读完 (大约 337 个字)
                 </span>
                 
             </div>
@@ -259,7 +279,16 @@
             
         </h1>
         <div class="content">
-            <p>如果你的 Linux 系统时区配置不正确，必需要手动调整到正确的当地时区。<br>NTP 对时间的同步处理只计算当地时间与 UTC 时间的偏移量，因此配置一个 NTP 对时间进行同步并不能解决时区不正确的问题。<br>所以大家在用了国外云计算服务商如 Microsoft Azure 或其它 VPS、虚拟机时，需要注意是否与中国大陆的时区一致。<br></p>
+            
+                
+                    
+                        
+                        如果你的Linux系统时区配置不正确，必需要手动调整到正确的当地时区。NTP对时间的同步处理只计算当地时间与UTC时间的偏移量，因此配置一个NTP对时间进行同步并不能解决时区不正确的问题。所以大家在用了国外云计算服务商如MicrosoftAzure或其它VPS、虚拟机时，需要注意是否与中国大陆的时区一致。
+时间123456#查询时间date#修改时间date-s"2018-01-0315:36:2
+                        ...
+                    
+                
+            
         </div>
         
         
@@ -299,7 +328,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 664 个字)
+                    4 分钟 读完 (大约 663 个字)
                 </span>
                 
             </div>
@@ -311,7 +340,15 @@
             
         </h1>
         <div class="content">
-            <h1 id="firewall防火墙"><a href="#firewall防火墙" class="headerlink" title="firewall防火墙"></a>firewall防火墙</h1><p>1、查看firewall服务状态<br><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">查看状态： systemctl status firewalld </span><br><span class="line">启动： systemctl <span class="hljs-keyword">start</span> firewalld</span><br><span class="line">停止： systemctl <span class="hljs-keyword">stop</span> firewalld</span><br><span class="line">禁用： systemctl <span class="hljs-keyword">enable</span> firewalld</span><br><span class="line">启用： systemctl <span class="hljs-keyword">disable</span> firewalld</span><br><span class="line"></span><br><span class="line">启动一个服务：systemctl <span class="hljs-keyword">start</span> firewalld.service</span><br><span class="line">关闭一个服务：systemctl <span class="hljs-keyword">stop</span> firewalld.service</span><br><span class="line">重启一个服务：systemctl restart firewalld.service</span><br><span class="line">显示一个服务的状态：systemctl <span class="hljs-keyword">status</span> firewalld.service</span><br><span class="line">在开机时启用一个服务：systemctl <span class="hljs-keyword">enable</span> firewalld.service</span><br><span class="line">在开机时禁用一个服务：systemctl <span class="hljs-keyword">disable</span> firewalld.service</span><br><span class="line">查看服务是否开机启动：systemctl <span class="hljs-keyword">is</span>-enabled firewalld.service</span><br><span class="line">查看已启动的服务列表：systemctl <span class="hljs-keyword">list</span>-unit-files|grep enabled</span><br><span class="line">查看启动失败的服务列表：systemctl <span class="hljs-comment">--failed</span></span><br></pre></td></tr></table></figure></p>
+            
+                
+                    
+                        
+                        firewall防火墙1、查看firewall服务状态123456789101112131415查看状态：systemctlstatusfirewalld启动：systemctlstartfirewalld停止：systemctlstopfirewalld禁用：systemctlenablefirewalld启用：systemctldisablefirewalld启动一个服务：systemctls
+                        ...
+                    
+                
+            
         </div>
         
         
@@ -351,7 +388,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    20 分钟 读完 (大约 2987 个字)
+                    20 分钟 读完 (大约 2986 个字)
                 </span>
                 
             </div>
@@ -363,7 +400,16 @@
             
         </h1>
         <div class="content">
-            <h1 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h1><p>Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。<br></p>
+            
+                
+                    
+                        
+                        一、介绍Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务器、NT的事件记录器、UNIXSyslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。
+Log4j由三个重要的组件构成：日志信息的优先级（Loggers），日志信息的输出目的地（App
+                        ...
+                    
+                
+            
         </div>
         
         
@@ -415,16 +461,26 @@
             
         </h1>
         <div class="content">
-            <p>不管是什么NIO框架。本身其实都是对Java底层的一种在封装。封装一套更简便，更易于扩展的一套东西以方便开发者使用。所以性能上也许会有所差异，但是绝对没有java和C++之间这么多。(代码写的太烂的除外，不过想要使用java写出很烂的代码也比较困难。)这些框架在性能方面差别不会超过1%。</p>
-<p>Mina和Netty开始。因为这两个NIO框架的创作者是同一个人Trustin Lee （韩国人）。GitHub主页地址 ：<a href="https://github.com/trustin。尽管创作者现在已经不专注与开发了。但是框架的后续开发和继承，可以说都是符合最开始的设定的。两个框架的架构设计思路基本一致。" target="_blank" rel="noopener">https://github.com/trustin。尽管创作者现在已经不专注与开发了。但是框架的后续开发和继承，可以说都是符合最开始的设定的。两个框架的架构设计思路基本一致。</a></p>
-<p>Netty从某种程度上讲是Mina的延伸和扩展。解决了一些Mina上的设计缺陷，也优化了一下Mina上面的设计理念。</p>
-<p>另一方面Netty相比较Mina更容易学习。API更简单。详细的范例源码和API文档。更活跃的论坛和社区。更高的代码更新维护速度。</p>
-<p>我想不出什么理由来不选择Netty。</p>
-<p>xSocket：是一个轻量级的基于nio的服务器框架用于开发高性能、可扩展、多线程的服务器。该框架封装了线程处理、异步读/写等方面。（只是对Java的NIO做了最简单的封装，以便于开发使用。）</p>
-<p>Grizzly ： 是一种应用程序框架，专门解决编写成千上万用户访问服务器时候产生的各种问题。使用JAVA NIO作为基础，并隐藏其编程的复杂性。容易使用的高性能的API。带来非阻塞socketd到协议处理层。利用高性能的缓冲和缓冲管理使用高性能的线程池。</p>
-
+            
+                
+                    
+                        
+                        不管是什么NIO框架。本身其实都是对Java底层的一种在封装。封装一套更简便，更易于扩展的一套东西以方便开发者使用。所以性能上也许会有所差异，但是绝对没有java和C++之间这么多。(代码写的太烂的除外，不过想要使用java写出很烂的代码也比较困难。)这些框架在性能方面差别不会超过1%。
+Mina和Netty开始。因为这两个NIO框架的创作者是同一个人TrustinLee（韩国人）。GitHub主
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/12/27/Java/NIO框架的一点想法/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -454,7 +510,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    27 分钟 读完 (大约 4041 个字)
+                    27 分钟 读完 (大约 4040 个字)
                 </span>
                 
             </div>
@@ -466,7 +522,16 @@
             
         </h1>
         <div class="content">
-            <p>Nginx配置文件nginx.conf中文详解<br></p>
+            
+                
+                    
+                        
+                        Nginx配置文件nginx.conf中文详解
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929
+                        ...
+                    
+                
+            
         </div>
         
         
@@ -518,27 +583,28 @@
             
         </h1>
         <div class="content">
-            <p>系统平台：CentOS release 6.6 (Final) 64位。</p>
-<h1 id="安装编译工具及库文件"><a href="#安装编译工具及库文件" class="headerlink" title="安装编译工具及库文件"></a>安装编译工具及库文件</h1><figure class="highlight nsis hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install make <span class="hljs-literal">zlib</span> <span class="hljs-literal">zlib</span>-devel gcc-c++ libtool  openssl openssl-devel</span><br></pre></td></tr></table></figure>
-<h1 id="首先要安装-PCRE"><a href="#首先要安装-PCRE" class="headerlink" title="首先要安装 PCRE"></a>首先要安装 PCRE</h1><p>PCRE 作用是让 Nginx 支持 Rewrite 功能。</p>
-<p>1、下载 PCRE 安装包，下载地址： <a href="http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz" target="_blank" rel="noopener">http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz</a><br><figure class="highlight 1c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ngnix src]<span class="hljs-meta"># wget http:<span class="hljs-comment">//downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz</span></span></span><br></pre></td></tr></table></figure></p>
-<p>2、解压安装包:<br><figure class="highlight css hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-selector-attr">[root@ngnix src]</span># <span class="hljs-selector-tag">tar</span> <span class="hljs-selector-tag">zxvf</span> <span class="hljs-selector-tag">pcre-8</span><span class="hljs-selector-class">.35</span><span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.gz</span></span><br></pre></td></tr></table></figure></p>
-<p>3、进入安装包目录<br><figure class="highlight autoit hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="hljs-symbol">@ngnix</span> src]<span class="hljs-meta"># cd pcre-8.35</span></span><br></pre></td></tr></table></figure></p>
-<p>4、编译安装<br><figure class="highlight autoit hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="hljs-symbol">@ngnix</span> pcre<span class="hljs-number">-8.35</span>]<span class="hljs-meta"># ./configure</span></span><br><span class="line">[root<span class="hljs-symbol">@ngnix</span> pcre<span class="hljs-number">-8.35</span>]<span class="hljs-meta"># make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure></p>
-<p>5、查看pcre版本<br><figure class="highlight autoit hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="hljs-symbol">@ngnix</span> pcre<span class="hljs-number">-8.35</span>]<span class="hljs-meta"># pcre-config --version</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h1><p>1、下载 Nginx，下载地址：<a href="http://nginx.org/download/nginx-1.6.2.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.6.2.tar.gz</a><br><figure class="highlight 1c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ngnix src]<span class="hljs-meta"># wget http:<span class="hljs-comment">//nginx.org/download/nginx-1.6.2.tar.gz</span></span></span><br></pre></td></tr></table></figure></p>
-<p>2、解压安装包<br><figure class="highlight css hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-selector-attr">[root@ngnix src]</span># <span class="hljs-selector-tag">tar</span> <span class="hljs-selector-tag">zxvf</span> <span class="hljs-selector-tag">nginx-1</span><span class="hljs-selector-class">.6</span><span class="hljs-selector-class">.2</span><span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.gz</span></span><br></pre></td></tr></table></figure></p>
-<p>3、进入安装包目录<br><figure class="highlight css hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-selector-attr">[root@ngnix src]</span># <span class="hljs-selector-tag">cd</span> <span class="hljs-selector-tag">nginx-1</span><span class="hljs-selector-class">.6</span><span class="hljs-selector-class">.2</span></span><br></pre></td></tr></table></figure></p>
-<p>4、编译安装<br><figure class="highlight typescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="hljs-meta">@ngnix</span> nginx<span class="hljs-number">-1.6</span><span class="hljs-number">.2</span>]# ./configure --prefix=<span class="hljs-regexp">/usr/</span>local/webserver/nginx --<span class="hljs-keyword">with</span>-http_stub_status_module --<span class="hljs-keyword">with</span>-http_ssl_module --<span class="hljs-keyword">with</span>-pcre=<span class="hljs-regexp">/usr/</span>local/src/pcre<span class="hljs-number">-8.35</span></span><br><span class="line">[root<span class="hljs-meta">@ngnix</span> nginx<span class="hljs-number">-1.6</span><span class="hljs-number">.2</span>]# make</span><br><span class="line">[root<span class="hljs-meta">@ngnix</span> nginx<span class="hljs-number">-1.6</span><span class="hljs-number">.2</span>]# make install</span><br></pre></td></tr></table></figure></p>
-<p>5、查看nginx版本<br><figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ngnix nginx-<span class="hljs-number">1.6</span>.<span class="hljs-number">2</span>]# <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/webserver/</span>nginx<span class="hljs-regexp">/sbin/</span>nginx -v</span><br></pre></td></tr></table></figure></p>
-<p>到此，nginx安装完成。</p>
-<h1 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h1><p>创建 Nginx 运行使用的用户 www：<br><figure class="highlight autoit hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="hljs-symbol">@ngnix</span> conf]<span class="hljs-meta"># /usr/sbin/groupadd www </span></span><br><span class="line">[root<span class="hljs-symbol">@ngnix</span> conf]<span class="hljs-meta"># /usr/sbin/useradd -g www www</span></span><br></pre></td></tr></table></figure></p>
-<p>配置nginx.conf ，将/usr/local/webserver/nginx/conf/nginx.conf替换为以下内容<br><figure class="highlight stata hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ngnix <span class="hljs-keyword">conf</span>]#  <span class="hljs-keyword">cat</span> /usr/<span class="hljs-keyword">local</span>/webserver/nginx/<span class="hljs-keyword">conf</span>/nginx.<span class="hljs-keyword">conf</span></span><br></pre></td></tr></table></figure></p>
-<p>显示如下：<br><figure class="highlight nginx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attribute">user</span> www www;</span><br><span class="line"><span class="hljs-attribute">worker_processes</span> <span class="hljs-number">2</span>; <span class="hljs-comment">#设置值和CPU核心数一致</span></span><br><span class="line"><span class="hljs-attribute">error_log</span> /usr/local/webserver/nginx/logs/nginx_error.log <span class="hljs-literal">crit</span>; <span class="hljs-comment">#日志位置和日志级别</span></span><br><span class="line"><span class="hljs-attribute">pid</span> /usr/local/webserver/nginx/nginx.pid;</span><br><span class="line"><span class="hljs-comment">#Specifies the value for maximum file descriptors that can be opened by this process.</span></span><br><span class="line"><span class="hljs-attribute">worker_rlimit_nofile</span> <span class="hljs-number">65535</span>;</span><br><span class="line">events</span><br><span class="line">&#123;</span><br><span class="line">  <span class="hljs-attribute">use</span> <span class="hljs-literal">epoll</span>;</span><br><span class="line">  <span class="hljs-attribute">worker_connections</span> <span class="hljs-number">65535</span>;</span><br><span class="line">&#125;</span><br><span class="line">http</span><br><span class="line">&#123;</span><br><span class="line">  <span class="hljs-attribute">include</span> mime.types;</span><br><span class="line">  <span class="hljs-attribute">default_type</span> application/octet-stream;</span><br><span class="line">  <span class="hljs-attribute">log_format</span> main  <span class="hljs-string">'<span class="hljs-variable">$remote_addr</span> - <span class="hljs-variable">$remote_user</span> [<span class="hljs-variable">$time_local</span>] "<span class="hljs-variable">$request</span>" '</span></span><br><span class="line">               <span class="hljs-string">'<span class="hljs-variable">$status</span> <span class="hljs-variable">$body_bytes_sent</span> "<span class="hljs-variable">$http_referer</span>" '</span></span><br><span class="line">               <span class="hljs-string">'"<span class="hljs-variable">$http_user_agent</span>" <span class="hljs-variable">$http_x_forwarded_for</span>'</span>;</span><br><span class="line">  </span><br><span class="line"><span class="hljs-comment">#charset gb2312;</span></span><br><span class="line">     </span><br><span class="line">  <span class="hljs-attribute">server_names_hash_bucket_size</span> <span class="hljs-number">128</span>;</span><br><span class="line">  <span class="hljs-attribute">client_header_buffer_size</span> <span class="hljs-number">32k</span>;</span><br><span class="line">  <span class="hljs-attribute">large_client_header_buffers</span> <span class="hljs-number">4</span> <span class="hljs-number">32k</span>;</span><br><span class="line">  <span class="hljs-attribute">client_max_body_size</span> <span class="hljs-number">8m</span>;</span><br><span class="line">     </span><br><span class="line">  <span class="hljs-attribute">sendfile</span> <span class="hljs-literal">on</span>;</span><br><span class="line">  <span class="hljs-attribute">tcp_nopush</span> <span class="hljs-literal">on</span>;</span><br><span class="line">  <span class="hljs-attribute">keepalive_timeout</span> <span class="hljs-number">60</span>;</span><br><span class="line">  <span class="hljs-attribute">tcp_nodelay</span> <span class="hljs-literal">on</span>;</span><br><span class="line">  <span class="hljs-attribute">fastcgi_connect_timeout</span> <span class="hljs-number">300</span>;</span><br><span class="line">  <span class="hljs-attribute">fastcgi_send_timeout</span> <span class="hljs-number">300</span>;</span><br><span class="line">  <span class="hljs-attribute">fastcgi_read_timeout</span> <span class="hljs-number">300</span>;</span><br><span class="line">  <span class="hljs-attribute">fastcgi_buffer_size</span> <span class="hljs-number">64k</span>;</span><br><span class="line">  <span class="hljs-attribute">fastcgi_buffers</span> <span class="hljs-number">4</span> <span class="hljs-number">64k</span>;</span><br><span class="line">  <span class="hljs-attribute">fastcgi_busy_buffers_size</span> <span class="hljs-number">128k</span>;</span><br><span class="line">  <span class="hljs-attribute">fastcgi_temp_file_write_size</span> <span class="hljs-number">128k</span>;</span><br><span class="line">  <span class="hljs-attribute">gzip</span> <span class="hljs-literal">on</span>; </span><br><span class="line">  <span class="hljs-attribute">gzip_min_length</span> <span class="hljs-number">1k</span>;</span><br><span class="line">  <span class="hljs-attribute">gzip_buffers</span> <span class="hljs-number">4</span> <span class="hljs-number">16k</span>;</span><br><span class="line">  <span class="hljs-attribute">gzip_http_version</span> <span class="hljs-number">1</span>.<span class="hljs-number">0</span>;</span><br><span class="line">  <span class="hljs-attribute">gzip_comp_level</span> <span class="hljs-number">2</span>;</span><br><span class="line">  <span class="hljs-attribute">gzip_types</span> text/html text/xml text/javascript application/x-javascript application/javascript text/css text/plain image/png image/jpeg image/gif;</span><br><span class="line">  <span class="hljs-attribute">gzip_vary</span> <span class="hljs-literal">on</span>;</span><br><span class="line"> </span><br><span class="line">  <span class="hljs-comment">#limit_zone crawler $binary_remote_addr 10m;</span></span><br><span class="line"> <span class="hljs-comment">#下面是server虚拟主机的配置</span></span><br><span class="line"> server</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;<span class="hljs-comment">#监听端口</span></span><br><span class="line">    <span class="hljs-attribute">server_name</span> localhost;<span class="hljs-comment">#域名</span></span><br><span class="line">    <span class="hljs-attribute">index</span> index.html index.htm index.php;</span><br><span class="line">    <span class="hljs-attribute">root</span> /usr/local/webserver/nginx/html;<span class="hljs-comment">#站点目录</span></span><br><span class="line">      <span class="hljs-attribute">location</span> <span class="hljs-regexp">~ .*\.(php|php5)?$</span></span><br><span class="line"><span class="hljs-regexp"></span>    &#123;</span><br><span class="line">      <span class="hljs-comment">#fastcgi_pass unix:/tmp/php-cgi.sock;</span></span><br><span class="line">      <span class="hljs-attribute">fastcgi_pass</span> <span class="hljs-number">127.0.0.1:9000</span>;</span><br><span class="line">      <span class="hljs-attribute">fastcgi_index</span> index.php;</span><br><span class="line">      <span class="hljs-attribute">include</span> fastcgi.conf;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-attribute">location</span> <span class="hljs-regexp">~ .*\.(gif|jpg|jpeg|png|bmp|swf|ico)$</span></span><br><span class="line"><span class="hljs-regexp"></span>    &#123;</span><br><span class="line">      <span class="hljs-attribute">expires</span> <span class="hljs-number">30d</span>;</span><br><span class="line">  <span class="hljs-comment"># access_log off;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-attribute">location</span> <span class="hljs-regexp">~ .*\.(js|css)?$</span></span><br><span class="line"><span class="hljs-regexp"></span>    &#123;</span><br><span class="line">      <span class="hljs-attribute">expires</span> <span class="hljs-number">15d</span>;</span><br><span class="line">   <span class="hljs-comment"># access_log off;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-attribute">access_log</span> <span class="hljs-literal">off</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>检查配置文件ngnix.conf的正确性命令：<br><figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ngnix conf]# <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/webserver/</span>nginx<span class="hljs-regexp">/sbin/</span>nginx -t</span><br></pre></td></tr></table></figure></p>
-<h1 id="Nginx命令"><a href="#Nginx命令" class="headerlink" title="Nginx命令"></a>Nginx命令</h1><figure class="highlight awk hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/webserver/</span>nginx<span class="hljs-regexp">/sbin/</span>nginx                      <span class="hljs-comment"># 启动 Nginx</span></span><br><span class="line"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/webserver/</span>nginx<span class="hljs-regexp">/sbin/</span>nginx -s reload            <span class="hljs-comment"># 重新载入配置文件</span></span><br><span class="line"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/webserver/</span>nginx<span class="hljs-regexp">/sbin/</span>nginx -s reopen            <span class="hljs-comment"># 重启 Nginx</span></span><br><span class="line"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/webserver/</span>nginx<span class="hljs-regexp">/sbin/</span>nginx -s stop              <span class="hljs-comment"># 停止 Nginx</span></span><br></pre></td></tr></table></figure>
+            
+                
+                    
+                        
+                        系统平台：CentOSrelease6.6(Final)64位。
+安装编译工具及库文件1yum-yinstallmakezlibzlib-develgcc-c++libtoolopensslopenssl-devel
+首先要安装PCREPCRE作用是让Nginx支持Rewrite功能。
+1、下载PCRE安装包，下载地址：http://downloads.sourceforge.net/projec
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/12/15/server/Nginx安装/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -580,24 +646,26 @@
             
         </h1>
         <div class="content">
-            <h1 id="1-修改对应的配置信息-缓存-地址"><a href="#1-修改对应的配置信息-缓存-地址" class="headerlink" title="1 修改对应的配置信息(缓存)地址"></a>1 修改对应的配置信息(缓存)地址</h1><p>由于我家里的电脑C盘被我设置得超级小,然后Idea默认的各种系统配置,最主要是缓存的地址,修改 ${idea.home}/bin/idea.properties 修改下面几个值.</p>
-<figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">15. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">16. <span class="hljs-comment"># Uncomment this option if you want to customize path to IDE config folder. Make sure you're using forward slashes  </span></span><br><span class="line">17. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">18. idea.config.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/config</span>  </span><br><span class="line">19.   </span><br><span class="line">20. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">21. <span class="hljs-comment"># Uncomment this option if you want to customize path to IDE system folder. Make sure you're using forward slashes  </span></span><br><span class="line">22. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">23. idea.system.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/system</span>  </span><br><span class="line">24.   </span><br><span class="line">25. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">26. <span class="hljs-comment"># Uncomment this option if you want to customize path to user installed plugins folder. Make sure you're using forward slashes  </span></span><br><span class="line">27. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">28. idea.plugins.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/config/plugins</span></span><br></pre></td></tr></table></figure>
-<h1 id="2-修改快捷键"><a href="#2-修改快捷键" class="headerlink" title="2 修改快捷键"></a>2 修改快捷键</h1><p>  key/map 选择eclipse ,选择copy成自定义 (我还是习惯用eclipse的快捷键)</p>
-<h1 id="3-配置修改"><a href="#3-配置修改" class="headerlink" title="3 配置修改"></a>3 配置修改</h1><p>1、修改主题 File | Settings | Appearance &amp; Behavior | Appearance ： Theme选择 Darcula<br>2、显示行号：Settings-&gt;Editor-&gt;Appearance标签项，勾选Show line numbers<br>3、选择字体大小：File | Settings | Editor | Font 15<br>4、Tab换成字符串 ：File | Settings | Editor | Code Style | Java –&gt; Use tab charactor<br>3、生成Serializable ID  ，setting–&gt;Editor–&gt;Inspactions–&gt;Java | Serialization issues | Serializable class without ‘serialVersionUID’ 打上勾<br>4、maven 工程 unable to read the metadata file for artifact 问题 :setting-&gt;maven-&gt;always update snapshot 打开,然后重新import change就搞定了.</p>
-<h1 id="4、代码Templates"><a href="#4、代码Templates" class="headerlink" title="4、代码Templates"></a>4、代码Templates</h1><p>File | Settings | Editor | File and Code Templates –&gt; Includes–&gt;File Header<br>/**</p>
-<ul>
-<li>Company：MGTV</li>
-<li>User: huangmin</li>
-<li>DateTime: ${DATE} ${TIME}<br>*/</li>
-</ul>
-<p>File | Settings | Editor | Live Templates<br>添加Templates group ，再添加 Live Template。<br>private static final Logger LOGGER = LoggerFactory.getLogger($CLASS$.class);<br>点击$CLASS$  ，点击edit variables，选择getClassName()</p>
-<h1 id="5、常用插件"><a href="#5、常用插件" class="headerlink" title="5、常用插件"></a>5、常用插件</h1><p>Mybatis<br>自动转换对象插件 generateO2O  快捷键 alt+insert<br> 快捷键提示插件Key Promoter<br>大小写转换插件  UpperLowerCapitalize  :  安装后快捷键alt+P全部大写     alt+L全部小写      alt+C开头字母大写<br>查看maven的依赖树 Maven Helper </p>
-<h1 id="6、常用快捷键"><a href="#6、常用快捷键" class="headerlink" title="6、常用快捷键"></a>6、常用快捷键</h1><p>fori/sout/psvm+Tab<br>.for+Tab<br>.var+Tab</p>
-<p>Top #10切来切去：Ctrl+Tab<br>Top #9选你所想：Ctrl+W<br>Top #8代码生成：Template/Postfix +Tab<br>Top #7发号施令：Ctrl+Shift+A<br>Top #6无处藏身：Shift+Shift<br>Top #5自动完成：Ctrl+Shift+Enter<br>Top #4创造万物：Alt+Insert</p>
-<p>太难割舍，前三名并列吧！<br>Top #1智能补全：Ctrl+Shift+Space<br>Top #1自我修复：Alt+Enter<br>Top #1重构一切：Ctrl+Shift+Alt+T</p>
-
+            
+                
+                    
+                        
+                        1修改对应的配置信息(缓存)地址由于我家里的电脑C盘被我设置得超级小,然后Idea默认的各种系统配置,最主要是缓存的地址,修改${idea.home}/bin/idea.properties修改下面几个值.
+123456789101112131415.#---------------------------------------------------------------------16.#
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/12/05/Java/idea的使用/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -639,9 +707,25 @@
             
         </h1>
         <div class="content">
-            <h1 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h1><figure class="highlight coq hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"></span><br><span class="line">-- <span class="hljs-number">1</span>、设置 全局变量event_scheduler开启，使用event必须开启</span><br><span class="line">-- SET GLOBAL event_scheduler = ON$$     -- required <span class="hljs-keyword">for</span> event to execute but not create    </span><br><span class="line"></span><br><span class="line">CREATE	/*[DEFINER = &#123; user | <span class="hljs-type">CURRENT_USER</span> &#125;]*/	EVENT `start_distribution`.`event_account_checking`</span><br><span class="line"></span><br><span class="line">	ON SCHEDULE EVERY <span class="hljs-number">1</span> DAY STARTS '<span class="hljs-number">2017</span><span class="hljs-number">-09</span><span class="hljs-number">-04</span> <span class="hljs-number">06</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span>' </span><br><span class="line">	ON COMPLETION NOT PRESERVE</span><br><span class="line">	ENABLE</span><br><span class="line">	COMMENT '每天自动统计对账数据'</span><br><span class="line"></span><br><span class="line">	 /* uncomment the example below you want to use */</span><br><span class="line"></span><br><span class="line">	-- scheduleexample <span class="hljs-number">1</span>: run <span class="hljs-built_in">once</span>  执行一次</span><br><span class="line"></span><br><span class="line">	   --  AT 'YYYY-MM-DD HH:MM.SS'/CURRENT_TIMESTAMP &#123; + INTERVAL <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125;</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	-- scheduleexample</span> <span class="hljs-number">2</span>: run <span class="hljs-built_in">at</span> intervals forever <span class="hljs-built_in">after</span> creation  创建后每多久执行一次</span><br><span class="line"></span><br><span class="line">	   -- EVERY <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...]</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	-- scheduleexample</span> <span class="hljs-number">3</span>: specified start <span class="hljs-built_in">time</span>, <span class="hljs-keyword">end</span> <span class="hljs-built_in">time</span> and interval <span class="hljs-keyword">for</span> execution 指定开始开始、结束时间和间隔时间执行任务。</span><br><span class="line">	   /*EVERY <span class="hljs-number">1</span>  [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...]</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	   STARTS</span> CURRENT_TIMESTAMP/'YYYY-MM-DD HH:MM.SS' &#123; + INTERVAL <span class="hljs-number">1</span>[HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125;</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	   ENDS</span> CURRENT_TIMESTAMP/'YYYY-MM-DD HH:MM.SS' &#123; + INTERVAL <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125; */</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	/*[ON</span> COMPLETION [NOT] PRESERVE]  -- 执行后删除(NOT)还是保留</span><br><span class="line">	[ENABLE | <span class="hljs-type">DISABLE</span>]  -- 创建时，event的章台</span><br><span class="line">	[COMMENT 'comment']*/  -- 注释</span><br><span class="line"></span><br><span class="line">DO</span><br><span class="line">	BEGIN</span><br><span class="line">	    call pro_account_checking();</span><br><span class="line">	END$$</span><br><span class="line"></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+            
+                
+                    
+                        
+                        例子：123456789101112131415161718192021222324252627282930313233343536373839DELIMITER$$--1、设置全局变量event_scheduler开启，使用event必须开启--SETGLOBALevent_scheduler=ON$$--requiredforeventtoexecutebutnotcreateCREATE	/
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/09/04/Database/mysql事件（计划任务）/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -726,7 +810,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        4
                     </p>
                 </div>
             </div>
@@ -736,7 +820,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        18
                     </p>
                 </div>
             </div>
@@ -812,9 +896,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -833,7 +925,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -847,7 +939,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -941,9 +1033,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -962,7 +1062,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -976,7 +1076,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -1111,6 +1211,46 @@ Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == do
 
     
     
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
     
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>

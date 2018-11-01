@@ -8,7 +8,7 @@
 
 
     <meta name="description" content="主流证书格式介绍一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。 Tomcat、Weblogic、JBoss等，使用Java提供的密码库。通过Java的Keytool工具，生成Java Keystore（JKS）格式的证书文件。 Apache、Nginx等，使用OpenSSL提供的密码库，生成PEM、KEY、CRT等格式的证书文件。 BM的产品，如Websphe">
-<meta name="keywords" content="Server">
+<meta name="keywords" content="ssl,https">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSL-https配置">
 <meta property="og:url" content="http://mindasoft.com/2018/01/08/server/SSL-https配置/index.html">
@@ -16,7 +16,7 @@
 <meta property="og:description" content="主流证书格式介绍一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。 Tomcat、Weblogic、JBoss等，使用Java提供的密码库。通过Java的Keytool工具，生成Java Keystore（JKS）格式的证书文件。 Apache、Nginx等，使用OpenSSL提供的密码库，生成PEM、KEY、CRT等格式的证书文件。 BM的产品，如Websphe">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://mindasoft.com/images/zhengshu.jpg">
-<meta property="og:updated_time" content="2018-11-01T02:19:14.345Z">
+<meta property="og:updated_time" content="2018-11-01T09:48:10.179Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSL-https配置">
 <meta name="twitter:description" content="主流证书格式介绍一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。 Tomcat、Weblogic、JBoss等，使用Java提供的密码库。通过Java的Keytool工具，生成Java Keystore（JKS）格式的证书文件。 Apache、Nginx等，使用OpenSSL提供的密码库，生成PEM、KEY、CRT等格式的证书文件。 BM的产品，如Websphe">
@@ -52,6 +52,10 @@
 
     
     
+    
+    <style>body{opacity: 0}</style>
+    
+
     
     
     
@@ -131,7 +135,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 1105 个字)
+                    7 分钟 读完 (大约 1104 个字)
                 </span>
                 
             </div>
@@ -143,11 +147,13 @@
             
         </h1>
         <div class="content">
-            <h1 id="主流证书格式介绍"><a href="#主流证书格式介绍" class="headerlink" title="主流证书格式介绍"></a>主流证书格式介绍</h1><p>一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。</p>
+            
+                <h1 id="主流证书格式介绍"><a href="#主流证书格式介绍" class="headerlink" title="主流证书格式介绍"></a>主流证书格式介绍</h1><p>一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。</p>
 <p>Tomcat、Weblogic、JBoss等，使用Java提供的密码库。通过Java的Keytool工具，生成Java Keystore（JKS）格式的证书文件。</p>
 <p>Apache、Nginx等，使用OpenSSL提供的密码库，生成PEM、KEY、CRT等格式的证书文件。</p>
 <p>BM的产品，如Websphere、IBM Http Server（IHS）等，使用IBM产品自带的iKeyman工具，生成KDB格式的证书文件。</p>
-<p>微软Windows Server中的Internet Information Services（IIS），使用Windows自带的证书库生成PFX格式的证书文件。<br><a id="more"></a><br>如果您在工作中遇到带有后缀扩展名的证书文件，可以简单用如下方法区分：</p>
+<p>微软Windows Server中的Internet Information Services（IIS），使用Windows自带的证书库生成PFX格式的证书文件。</p>
+<p>如果您在工作中遇到带有后缀扩展名的证书文件，可以简单用如下方法区分：</p>
 <p><em>.DER </em>.CER : 这样的证书文件是二进制格式，只含有证书信息，不包含私钥。</p>
 <p><em>.CRT : 这样的文件可以是二进制格式，也可以是文本格式，一般均为文本格式，功能与</em>.DER/*.CER相同。</p>
 <p><em>.PEM : 一般是文本格式，可以放证书或私钥，或者两者都包含。 </em>.PEM如果只包含私钥，那一般用 *.KEY代替。</p>
@@ -185,13 +191,14 @@
 <p>第二步：.pfx 转为 .jks<br><figure class="highlight stylus hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -importkeystore -srckeystore server<span class="hljs-selector-class">.pfx</span> -destkeystore server<span class="hljs-selector-class">.jks</span> -srcstoretype PKCS12 -deststoretype JKS</span><br></pre></td></tr></table></figure></p>
 <h1 id="tomcat配置"><a href="#tomcat配置" class="headerlink" title="tomcat配置"></a>tomcat配置</h1><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector <span class="hljs-attribute">protocol</span>=<span class="hljs-string">"org.apache.coyote.http11.Http11NioProtocol"</span></span><br><span class="line">                  <span class="hljs-attribute">port</span>=<span class="hljs-string">"443"</span> <span class="hljs-attribute">SSLEnabled</span>=<span class="hljs-string">"true"</span></span><br><span class="line">                   <span class="hljs-attribute">maxThreads</span>=<span class="hljs-string">"150"</span> <span class="hljs-attribute">scheme</span>=<span class="hljs-string">"https"</span> <span class="hljs-attribute">secure</span>=<span class="hljs-string">"true"</span></span><br><span class="line">               <span class="hljs-attribute">keystoreFile</span>=<span class="hljs-string">"/home/websoft/key/server.jks"</span> <span class="hljs-attribute">keystorePass</span>=<span class="hljs-string">"123456"</span></span><br><span class="line">               <span class="hljs-attribute">clientAuth</span>=<span class="hljs-string">"false"</span> <span class="hljs-attribute">sslProtocol</span>=<span class="hljs-string">"TLS"</span></span><br><span class="line"> <span class="hljs-attribute">ciphers</span>=<span class="hljs-string">"TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,</span></span><br><span class="line"><span class="hljs-string">TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA256"</span>  /&gt;</span><br></pre></td></tr></table></figure>
 <h1 id="ngnix配置"><a href="#ngnix配置" class="headerlink" title="ngnix配置"></a>ngnix配置</h1><figure class="highlight nginx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-section">server</span> &#123;</span><br><span class="line">  <span class="hljs-attribute">listen</span>    <span class="hljs-number">80</span>;</span><br><span class="line">  <span class="hljs-attribute">listen</span>    <span class="hljs-number">443</span> ssl;</span><br><span class="line">  <span class="hljs-comment"># ssl on; #在同一个server&#123;&#125;里配置同时开启http和https时，不需要开启此项！</span></span><br><span class="line">  <span class="hljs-attribute">server_name</span> dev.cmop.mgtv.com;</span><br><span class="line">  <span class="hljs-attribute">root</span>     /home/websoft/nginx/html;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attribute">ssl_certificate</span> <span class="hljs-string">"/home/websoft/key/dev/full_chain.pem"</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_certificate_key</span> <span class="hljs-string">"/home/websoft/key/dev/private.key"</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_session_timeout</span>  <span class="hljs-number">5m</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_protocols</span>  SSLv2 SSLv3 TLSv1;<span class="hljs-comment">#指定密码为openssl支持的格式</span></span><br><span class="line">  <span class="hljs-attribute">ssl_ciphers</span>  HIGH:!aNULL:!MD5;<span class="hljs-comment">#密码加密方式</span></span><br><span class="line">  <span class="hljs-attribute">ssl_prefer_server_ciphers</span>   <span class="hljs-literal">on</span>; </span><br><span class="line">  </span><br><span class="line">  <span class="hljs-attribute">location</span> / &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-attribute">error_page</span> <span class="hljs-number">404</span> /<span class="hljs-number">404</span>.html;</span><br><span class="line">    <span class="hljs-attribute">location</span> = /40x.html &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-attribute">error_page</span> <span class="hljs-number">500</span> <span class="hljs-number">502</span> <span class="hljs-number">503</span> <span class="hljs-number">504</span> /50x.html;</span><br><span class="line">    <span class="hljs-attribute">location</span> = /50x.html &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-section">server</span> &#123;</span><br><span class="line">  <span class="hljs-attribute">listen</span>    <span class="hljs-number">80</span>;</span><br><span class="line">  <span class="hljs-attribute">listen</span>    <span class="hljs-number">443</span> ssl;</span><br><span class="line">  <span class="hljs-comment"># ssl on;  #在同一个server&#123;&#125;里配置同时开启http和https时，不需要开启此项！</span></span><br><span class="line">  <span class="hljs-attribute">server_name</span> book.cmop.mgtv.com;</span><br><span class="line">  <span class="hljs-attribute">root</span>     /home/websoft/nginx/html;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attribute">ssl_certificate</span> <span class="hljs-string">"/home/websoft/key/book/full_chain.pem"</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_certificate_key</span> <span class="hljs-string">"/home/websoft/key/book/private.key"</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_session_timeout</span>  <span class="hljs-number">5m</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_protocols</span>  SSLv2 SSLv3 TLSv1;<span class="hljs-comment">#指定密码为openssl支持的格式</span></span><br><span class="line">  <span class="hljs-attribute">ssl_ciphers</span>  HIGH:!aNULL:!MD5;<span class="hljs-comment">#密码加密方式</span></span><br><span class="line">  <span class="hljs-attribute">ssl_prefer_server_ciphers</span>   <span class="hljs-literal">on</span>; </span><br><span class="line">  </span><br><span class="line">  <span class="hljs-attribute">location</span> / &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-attribute">error_page</span> <span class="hljs-number">404</span> /<span class="hljs-number">404</span>.html;</span><br><span class="line">    <span class="hljs-attribute">location</span> = /40x.html &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-attribute">error_page</span> <span class="hljs-number">500</span> <span class="hljs-number">502</span> <span class="hljs-number">503</span> <span class="hljs-number">504</span> /50x.html;</span><br><span class="line">    <span class="hljs-attribute">location</span> = /50x.html &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            
         </div>
         
         <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/Server/">Server</a>
+                    <a class="has-link-grey -link" href="/tags/https/">https</a>, <a class="has-link-grey -link" href="/tags/ssl/">ssl</a>
                 </div>
             </div>
         </div>
@@ -336,7 +343,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        4
                     </p>
                 </div>
             </div>
@@ -346,7 +353,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        18
                     </p>
                 </div>
             </div>
@@ -449,9 +456,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -470,7 +485,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -484,7 +499,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -578,9 +593,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -599,7 +622,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -613,7 +636,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -748,6 +771,46 @@ Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == do
 
     
     
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
     
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>

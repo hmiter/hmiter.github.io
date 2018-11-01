@@ -8,14 +8,14 @@
 
 
     <meta name="description" content="查看表空间使用率12345678910111213select a.tablespace_name,       a.bytes / 1024 / 1024 &quot;Sum MB&quot;,       (a.bytes - b.bytes) / 1024 / 1024 &quot;used MB&quot;,       b.bytes / 1024 / 1024 &quot;free MB&quot;,       round(((a.bytes">
-<meta name="keywords" content="Database">
+<meta name="keywords" content="Database,Oracle">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Oracle查看表空间常用语句">
 <meta property="og:url" content="http://mindasoft.com/2017/05/30/Database/Oracle查看表空间常用语句/index.html">
 <meta property="og:site_name" content="黄敏">
 <meta property="og:description" content="查看表空间使用率12345678910111213select a.tablespace_name,       a.bytes / 1024 / 1024 &quot;Sum MB&quot;,       (a.bytes - b.bytes) / 1024 / 1024 &quot;used MB&quot;,       b.bytes / 1024 / 1024 &quot;free MB&quot;,       round(((a.bytes">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-12-05T02:41:49.291Z">
+<meta property="og:updated_time" content="2018-11-01T09:28:42.380Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Oracle查看表空间常用语句">
 <meta name="twitter:description" content="查看表空间使用率12345678910111213select a.tablespace_name,       a.bytes / 1024 / 1024 &quot;Sum MB&quot;,       (a.bytes - b.bytes) / 1024 / 1024 &quot;used MB&quot;,       b.bytes / 1024 / 1024 &quot;free MB&quot;,       round(((a.bytes">
@@ -50,6 +50,10 @@
 
     
     
+    
+    <style>body{opacity: 0}</style>
+    
+
     
     
     
@@ -141,17 +145,19 @@
             
         </h1>
         <div class="content">
-            <h1 id="查看表空间使用率"><a href="#查看表空间使用率" class="headerlink" title="查看表空间使用率"></a>查看表空间使用率</h1><figure class="highlight livecodeserver hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">select <span class="hljs-keyword">a</span>.tablespace_name,</span><br><span class="line">       <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"Sum MB"</span>,</span><br><span class="line">       (<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"used MB"</span>,</span><br><span class="line">       b.<span class="hljs-keyword">bytes</span> / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"free MB"</span>,</span><br><span class="line">       <span class="hljs-built_in">round</span>(((<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span>) * <span class="hljs-number">100</span>, <span class="hljs-number">2</span>) <span class="hljs-string">"percent_used"</span></span><br><span class="line">  <span class="hljs-built_in">from</span> (select tablespace_name, <span class="hljs-built_in">sum</span>(<span class="hljs-keyword">bytes</span>) <span class="hljs-keyword">bytes</span></span><br><span class="line">          <span class="hljs-built_in">from</span> dba_data_files</span><br><span class="line">         group <span class="hljs-keyword">by</span> tablespace_name) <span class="hljs-keyword">a</span>,</span><br><span class="line">       (select tablespace_name, <span class="hljs-built_in">sum</span>(<span class="hljs-keyword">bytes</span>) <span class="hljs-keyword">bytes</span>, <span class="hljs-built_in">max</span>(<span class="hljs-keyword">bytes</span>) largest</span><br><span class="line">          <span class="hljs-built_in">from</span> dba_free_space</span><br><span class="line">         group <span class="hljs-keyword">by</span> tablespace_name) b</span><br><span class="line"> where <span class="hljs-keyword">a</span>.tablespace_name = b.tablespace_name</span><br><span class="line"> order <span class="hljs-keyword">by</span> ((<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span>) desc</span><br></pre></td></tr></table></figure>
+            
+                <h1 id="查看表空间使用率"><a href="#查看表空间使用率" class="headerlink" title="查看表空间使用率"></a>查看表空间使用率</h1><figure class="highlight livecodeserver hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">select <span class="hljs-keyword">a</span>.tablespace_name,</span><br><span class="line">       <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"Sum MB"</span>,</span><br><span class="line">       (<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"used MB"</span>,</span><br><span class="line">       b.<span class="hljs-keyword">bytes</span> / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"free MB"</span>,</span><br><span class="line">       <span class="hljs-built_in">round</span>(((<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span>) * <span class="hljs-number">100</span>, <span class="hljs-number">2</span>) <span class="hljs-string">"percent_used"</span></span><br><span class="line">  <span class="hljs-built_in">from</span> (select tablespace_name, <span class="hljs-built_in">sum</span>(<span class="hljs-keyword">bytes</span>) <span class="hljs-keyword">bytes</span></span><br><span class="line">          <span class="hljs-built_in">from</span> dba_data_files</span><br><span class="line">         group <span class="hljs-keyword">by</span> tablespace_name) <span class="hljs-keyword">a</span>,</span><br><span class="line">       (select tablespace_name, <span class="hljs-built_in">sum</span>(<span class="hljs-keyword">bytes</span>) <span class="hljs-keyword">bytes</span>, <span class="hljs-built_in">max</span>(<span class="hljs-keyword">bytes</span>) largest</span><br><span class="line">          <span class="hljs-built_in">from</span> dba_free_space</span><br><span class="line">         group <span class="hljs-keyword">by</span> tablespace_name) b</span><br><span class="line"> where <span class="hljs-keyword">a</span>.tablespace_name = b.tablespace_name</span><br><span class="line"> order <span class="hljs-keyword">by</span> ((<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span>) desc</span><br></pre></td></tr></table></figure>
 <h1 id="查看用户、表空间使用率"><a href="#查看用户、表空间使用率" class="headerlink" title="查看用户、表空间使用率"></a>查看用户、表空间使用率</h1><figure class="highlight livecodeserver hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">select <span class="hljs-keyword">a</span>.username,b.* <span class="hljs-built_in">from</span> dba_users <span class="hljs-keyword">a</span> left join (select <span class="hljs-keyword">a</span>.tablespace_name,</span><br><span class="line">       <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"Sum MB"</span>,</span><br><span class="line">       (<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"used MB"</span>,</span><br><span class="line">       b.<span class="hljs-keyword">bytes</span> / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"free MB"</span>,</span><br><span class="line">       <span class="hljs-built_in">round</span>(((<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span>) * <span class="hljs-number">100</span>, <span class="hljs-number">2</span>) <span class="hljs-string">"percent_used"</span></span><br><span class="line">  <span class="hljs-built_in">from</span> (select tablespace_name, <span class="hljs-built_in">sum</span>(<span class="hljs-keyword">bytes</span>) <span class="hljs-keyword">bytes</span></span><br><span class="line">          <span class="hljs-built_in">from</span> dba_data_files</span><br><span class="line">         group <span class="hljs-keyword">by</span> tablespace_name) <span class="hljs-keyword">a</span>,</span><br><span class="line">       (select tablespace_name, <span class="hljs-built_in">sum</span>(<span class="hljs-keyword">bytes</span>) <span class="hljs-keyword">bytes</span>, <span class="hljs-built_in">max</span>(<span class="hljs-keyword">bytes</span>) largest</span><br><span class="line">          <span class="hljs-built_in">from</span> dba_free_space</span><br><span class="line">         group <span class="hljs-keyword">by</span> tablespace_name) b</span><br><span class="line"> where <span class="hljs-keyword">a</span>.tablespace_name = b.tablespace_name) b <span class="hljs-keyword">on</span> <span class="hljs-title">a</span>.<span class="hljs-title">default_tablespace</span> = <span class="hljs-title">b</span>.<span class="hljs-title">tablespace_name</span>;</span><br></pre></td></tr></table></figure>
 <h1 id="删除用户和数据文件"><a href="#删除用户和数据文件" class="headerlink" title="删除用户和数据文件"></a>删除用户和数据文件</h1><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">--步骤一：  删除user</span></span><br><span class="line"><span class="hljs-keyword">drop</span> <span class="hljs-keyword">user</span> ×× <span class="hljs-keyword">cascade</span></span><br><span class="line"><span class="hljs-comment">--说明： 删除了user，只是删除了该user下的schema objects，是不会删除相应的tablespace的。</span></span><br><span class="line"><span class="hljs-comment">--步骤二： 删除tablespace</span></span><br><span class="line"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLESPACE</span> tablespace_name <span class="hljs-keyword">INCLUDING</span> <span class="hljs-keyword">CONTENTS</span> <span class="hljs-keyword">AND</span> <span class="hljs-keyword">DATAFILES</span>;</span><br></pre></td></tr></table></figure>
 <h1 id="改变数据文件大小"><a href="#改变数据文件大小" class="headerlink" title="改变数据文件大小"></a>改变数据文件大小</h1><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">alter</span> <span class="hljs-keyword">database</span> <span class="hljs-keyword">datafile</span> <span class="hljs-string">'/u01/oracle/oradata/aeye/sysaux01.dbf'</span> <span class="hljs-keyword">resize</span> <span class="hljs-number">2</span>G;</span><br></pre></td></tr></table></figure>
+            
         </div>
         
         <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/database/">Database</a>
+                    <a class="has-link-grey -link" href="/tags/Database/">Database</a>, <a class="has-link-grey -link" href="/tags/Oracle/">Oracle</a>
                 </div>
             </div>
         </div>
@@ -204,15 +210,15 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/05/30/Java/Velocity简单介绍/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/05/30/Java/FreeMarker简单介绍/">
                 <i class="level-item material-icons">keyboard_arrow_left</i>
-                <span class="level-item">Velocity简单介绍</span>
+                <span class="level-item">FreeMarker简单介绍</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2017/04/20/Spring常用注解/">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2017/04/20/Spring/Spring常用注解/">
                 <span class="level-item">Spring常用注解</span>
                 <i class="level-item material-icons">keyboard_arrow_right</i>
             </a>
@@ -296,7 +302,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        4
                     </p>
                 </div>
             </div>
@@ -306,7 +312,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        18
                     </p>
                 </div>
             </div>
@@ -382,9 +388,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -403,7 +417,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -417,7 +431,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -511,9 +525,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -532,7 +554,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -546,7 +568,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -681,6 +703,46 @@ Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == do
 
     
     
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
     
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>

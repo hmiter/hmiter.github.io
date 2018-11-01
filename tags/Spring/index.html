@@ -49,6 +49,10 @@
     
     
     
+    <style>body{opacity: 0}</style>
+    
+
+    
     
     
     
@@ -131,7 +135,7 @@
                 <time class="level-item has-text-grey" datetime="2017-04-20T14:29:37.000Z">2017-04-20</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/programming/">programming</a>
+                <a class="has-link-grey -link" href="/categories/Spring基础/">Spring基础</a>
                 </div>
                 
                 
@@ -146,33 +150,29 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2017/04/20/Spring常用注解/">Spring常用注解</a>
+                <a class="has-link-black-ter" href="/2017/04/20/Spring/Spring常用注解/">Spring常用注解</a>
             
         </h1>
         <div class="content">
-            <h1 id="Java原生注解"><a href="#Java原生注解" class="headerlink" title="Java原生注解"></a>Java原生注解</h1><p>@Retention：注解说明,这种类型的注解会被保留到那个阶段<br>1.RetentionPolicy.SOURCE —— 这种类型的Annotations只在源代码级别保留,编译时就会被忽略<br>2.RetentionPolicy.CLASS —— 这种类型的Annotations编译时被保留,在class文件中存在,但JVM将会忽略<br>3.RetentionPolicy.RUNTIME —— 这种类型的Annotations将被JVM保留,所以他们能在运行时被JVM或其他使用反射机制的代码所读取和使用.</p>
-<p>@Documented：作用是在生成javadoc文档的时候将该注解也写入到文档中。javadoc默认是不会将注解写到文档中的。</p>
-<p>@Target:注解的使用的目标<br>　@Target(ElementType.TYPE)   //接口、类、枚举、注解<br>　@Target(ElementType.FIELD) //字段、枚举的常量<br>　@Target(ElementType.METHOD) //方法<br>　@Target(ElementType.PARAMETER) //方法参数<br>　@Target(ElementType.CONSTRUCTOR)  //构造函数<br>　@Target(ElementType.LOCAL_VARIABLE)//局部变量<br>　@Target(ElementType.ANNOTATION_TYPE)//注解<br>　@Target(ElementType.PACKAGE) ///包 </p>
-<p>@Inherited：它指明被注解的类的所有属性将会自动继承到它的子类中.</p>
-<p>#java EE规范<br>@Resource：为目标bean指定协作者Bean<br>@Inject：为目标bean指定协作者Bean<br>@Named：为目标bean指定协作者Bean<br>@Qualifier：<br>@PostConstruct：在构造函数执行完成之后执行。<br>@PreDestory：bean销毁之前的执行方法。</p>
-<h1 id="Spring注解"><a href="#Spring注解" class="headerlink" title="Spring注解"></a>Spring注解</h1><p>@Component   :标注一个普通的spring Bean类<br>@Service :标注一个业务逻辑组件类。<br>@Repository :标注一个DAO组件类。<br>@Controller:标注一个控制器组件类。</p>
-<p>@EnableWebMvc：开启MVC</p>
-<p><strong>方法级别</strong><br>@ResetController：组合注解，组合了@Controller和@RequestBody<br>@RequestMapping：配置URI和方法之间的映射<br>  @GetMapping<br>  @PostMapping<br>  @PutMapping<br>@RequestHeader 注解，可以把Request请求header部分的值绑定到方法的参数上。如：@RequestHeader(“Accept-Encoding”) String encoding<br>@CookieValue 可以把Request header中关于cookie的值绑定到方法的参数上。如：@CookieValue(“JSESSIONID”) String cookie</p>
-<p>@CrossOrigin:实现跨域访问。</p>
-<p><strong>参数</strong><br>@PathVariable：接受路径参数，如someUrl/{paramId}, 这时的paramId可通过 @Pathvariable注解绑定它传过来的值到方法的参数上。<br>@RequestParam：<br>A） 常用来处理简单类型的绑定，通过Request.getParameter() 获取的String可直接转换为简单类型的情况（ String–&gt; 简单类型的转换操作由ConversionService配置的转换器来完成）；因为使用request.getParameter()方式获取参数，所以可以处理get 方式中queryString的值，也可以处理post方式中 body data的值；<br>B）用来处理Content-Type: 为 application/x-www-form-urlencoded编码的内容，提交方式GET、POST；<br>C) 该注解有两个属性： value、required； value用来指定要传入值的id名称，required用来指示参数是否必须绑定；<br>@RequestBody：<br>该注解常用来处理Content-Type: 不是application/x-www-form-urlencoded编码的内容，例如application/json, application/xml等；<br>它是通过使用HandlerAdapter 配置的HttpMessageConverters来解析post data body，然后绑定到相应的bean上的。<br>因为配置有FormHttpMessageConverter，所以也可以用来处理 application/x-www-form-urlencoded的内容，处理完的结果放在一个MultiValueMap<string, string="">里，这种情况在某些特殊需求下使用</string,></p>
-<p>@InitBinder：用来设置WebDataBinder，WebDataBinder用来自动绑定前台请求的参数到Model中。<br>@ExceptionHandler：用于全局处理控制器里的异常。<br>@ModelAttribute<br>该注解有两个用法，一个是用于方法上，一个是用于参数上；<br>用于方法上时：  通常用来在处理@RequestMapping之前，为请求绑定需要从后台查询的model；<br>用于参数上时： 用来通过名称对应，把相应名称的值绑定到注解的参数bean上；要绑定的值来源于：</p>
-<p>@SessionAttribute:该注解用来绑定HttpSession中的attribute对象的值，便于在方法中的参数里使用。<br>@RequestAttribute：可以被用于访问由过滤器或拦截器创建的、预先存在的请求属性</p>
-<p>@ResponseBody：支持将返回值放在response的body体内</p>
-<p>@Scope：注解也可以指定Bean实例的作用域。取值：Singleton(默认)|Prototype|Request|Session|GlobalSession<br>@Autowired：为目标bean指定协作者Bean<br>@Value：为属性注入值</p>
-<p>@Aspect：声明一个切面<br>@PointCut：定义拦截规则<br>@After：标注一个之后建言<br>@Before：标注一个之前建言<br>@Around：标注一个运行时建言</p>
-<p>@Transcational：事物<br>@Cacheable：数据缓存</p>
-<p>@EnableScheduling：开启计划任务<br>@Scheduled：声明这是一个计划任务</p>
-<p>@Import：since4.2。导入普通的java类,并将其声明成一个bean<br>@Configuration：声明一个配置类<br>@ComponentScan：制定Spring扫描包路径。<br>@Bean 注解在方法上，声明当前方法的返回<br>@Profile：可以注解在类或方法上。 在不同环境下使用不同配置提供支持。<br>@Conditional：根据满足某一个特定条件创建一个特定的Bean。</p>
-<h1 id="Spring-boot"><a href="#Spring-boot" class="headerlink" title="Spring boot"></a>Spring boot</h1><p>@SpringBootApplication ：会根据类路径中jar包自动进行相关配置。<br>@EnableAutoConfiguration<br>@ConfigurationProperties：加载一个properties文件。</p>
-<p>@ConditionalOnBean:当容器里有指定的Bean的条件下<br>@ConditionalOnClass:当类路径下有指定的类的条件下。<br>@ConditionalOnExpression：基于SPEl表达式作为判断条件。<br>@ConditionalOnJava：基于JVM版本作为判断条件。<br>@ConditionalOnJndi:在JNDI存在的条件下查找指定的位置。<br>@ConditionalOnMissingBean：当容器里没有指定Bean的条件下。<br>@ConditionalOnMissingClass:当类路径下没有指定的类的条件下。<br>@ConditionalOnWebApplication:当前项目是web项目的条件下。<br>@ConditionalOnNotWebApplication:当前项目部是WEb项目的条件下。<br>@ConditionalOnProperty:指定的属性是否有指定的值。<br>@ConditionalOnResource：类路径是否有指定的值。<br>@ConditionalOnSingleCandidate:当指定首选的Bean。</p>
-
+            
+                
+                    
+                        
+                        Java原生注解@Retention：注解说明,这种类型的注解会被保留到那个阶段1.RetentionPolicy.SOURCE——这种类型的Annotations只在源代码级别保留,编译时就会被忽略2.RetentionPolicy.CLASS——这种类型的Annotations编译时被保留,在class文件中存在,但JVM将会忽略3.RetentionPolicy.RUNTIME——这种类型的
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/04/20/Spring/Spring常用注解/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -195,7 +195,7 @@
                 <time class="level-item has-text-grey" datetime="2017-03-19T15:40:59.000Z">2017-03-19</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/programming/">programming</a>
+                <a class="has-link-grey -link" href="/categories/Spring基础/">Spring基础</a>
                 </div>
                 
                 
@@ -210,23 +210,30 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2017/03/19/spring声明式事务配置/">spring声明式事务配置</a>
+                <a class="has-link-black-ter" href="/2017/03/19/Spring/spring声明式事务配置/">spring声明式事务配置</a>
             
         </h1>
         <div class="content">
-            <p>上周要一个同事开发一个模块，他说事物死活不起作用。我看了一下，大致主要配置如下：</p>
-<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">&lt;!-- 配置事务管理 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"transactionManager"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"dataSource"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"businessDataSource"</span> /&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">&lt;!-- 事务相关控制配置：例如配置事务的传播机制 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">tx:advice</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"fortressAdvice"</span> <span class="hljs-attr">transaction-manager</span>=<span class="hljs-string">"transactionManager"</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"get*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"query*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"count*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"save*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"remove*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"modify*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"true"</span> /&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;/<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">tx:advice</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">&lt;!-- 事务控制切入点在service层</span></span><br><span class="line"><span class="hljs-comment">|第一个 *  —— 通配 任意返回值类型|</span></span><br><span class="line"><span class="hljs-comment">|第二个 *  —— 通配包com.mindasoft.fortress.service下的任意class|</span></span><br><span class="line"><span class="hljs-comment">|第三个 *  —— 通配包com.mindasoft.fortress.service下的任意class的任意方法|</span></span><br><span class="line"><span class="hljs-comment">|第四个 .. —— 通配 办法可以有0个或多个参数</span></span><br><span class="line"><span class="hljs-comment">--&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">aop:config</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">aop:pointcut</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"allFortressMethod"</span>  <span class="hljs-attr">expression</span>=<span class="hljs-string">"execution(* com.mindasoft.fortress.service.*.*(..))"</span> /&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">aop:advisor</span> <span class="hljs-attr">advice-ref</span>=<span class="hljs-string">"fortressAdvice"</span>  <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">"allFortressMethod"</span> /&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>配置是这样没错，他的配置也问题，但是为什么会不起作用呢？<br>Debug进行，发现根本就没有进入事物处理。为什么会这样？<br>看配置web.xml<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">&lt;!-- Spring MVC 子Context配置 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>classpath*:/config/servlet.web.xml<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">load-on-startup</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">load-on-startup</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>*.html<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">&lt;!-- Spring root Context监听配置 --&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">listener</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="hljs-tag">&lt;/<span class="hljs-name">listener-class</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">listener</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">context-param</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>classpath*:/config/**/*.bean.xml<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">context-param</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>Spring和SpringMVC一起使用时，ContextLoaderListener会初始化一个Context，这个Context是RootContext，而DispatcherServlet也会初始化一个Context，简称WebContext。WebContext是RootContext的子集。当mvc有自己的bean时便不再去向父context要bean。</p>
-<p>所以，在servlet.web.xml 和*.bean.xml 当中，各自的component-scan配置要指定相应位置，否则会导致bean混乱，从导致声明事务无效。<br>如下：<br>servlet.web.xml<br><figure class="highlight vhdl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan base-<span class="hljs-keyword">package</span>=<span class="hljs-string">"com.mindasoft.*.controllers"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>*.bean.xml<br><figure class="highlight vhdl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan base-<span class="hljs-keyword">package</span>=<span class="hljs-string">"com.mindasoft.*.dao"</span>  /&gt;</span><br><span class="line">&lt;<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan base-<span class="hljs-keyword">package</span>=<span class="hljs-string">"com.mindasoft.*.service"</span>  /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>当然你也可以使用DispatcherServlet加载全部的配置文件或者将AOP配置复制到servlet.web.xml中。</p>
-<p>这个修改了之后还是不行？？<br>看了下他的代码，他是自己写了一个Exception。然后断点跟踪源代码TransactionAspectSupport：<br><figure class="highlight aspectj hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * Handle a throwable, completing the transaction.</span></span><br><span class="line"><span class="hljs-comment"> * We may commit or roll back, depending on the configuration.</span></span><br><span class="line"><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> txInfo information about the current transaction</span></span><br><span class="line"><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> ex throwable encountered</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"><span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">completeTransactionAfterThrowing</span><span class="hljs-params">(TransactionInfo txInfo, Throwable ex)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (txInfo != <span class="hljs-keyword">null</span> &amp;&amp; txInfo.hasTransaction()) &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (logger.isTraceEnabled()) &#123;</span><br><span class="line">            logger.trace(<span class="hljs-string">"Completing transaction for ["</span> + txInfo.getJoinpointIdentification() +</span><br><span class="line">                    <span class="hljs-string">"] after exception: "</span> + ex);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (txInfo.transactionAttribute.rollbackOn(ex)) &#123;</span><br><span class="line">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                txInfo.getTransactionManager().rollback(txInfo.getTransactionStatus());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (TransactionSystemException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by rollback exception"</span>, ex);</span><br><span class="line">                ex2.initApplicationException(ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (RuntimeException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by rollback exception"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (Error err) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by rollback error"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> err;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-comment">// We don't roll back on this exception.</span></span><br><span class="line">            <span class="hljs-comment">// Will still roll back if TransactionStatus.isRollbackOnly() is true.</span></span><br><span class="line">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                txInfo.getTransactionManager().commit(txInfo.getTransactionStatus());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (TransactionSystemException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by commit exception"</span>, ex);</span><br><span class="line">                ex2.initApplicationException(ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (RuntimeException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by commit exception"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (Error err) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by commit error"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> err;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面的方法中有这么一段txInfo.transactionAttribute.rollbackOn(ex)，这里是判断是否需要执行回滚操作的，跟踪rollbackOn方法最后会执行到DefaultTransactionAttribute中的rollbackOn方法。<br><figure class="highlight applescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * The default behavior <span class="hljs-keyword">is</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">with</span> EJB: rollback <span class="hljs-keyword">on</span> unchecked exception.</span><br><span class="line"> * Additionally attempt <span class="hljs-keyword">to</span> rollback <span class="hljs-keyword">on</span> Error.</span><br><span class="line"> * &lt;p&gt;This <span class="hljs-keyword">is</span> consistent <span class="hljs-keyword">with</span> TransactionTemplate's default behavior.</span><br><span class="line"> */</span><br><span class="line">public <span class="hljs-built_in">boolean</span> rollbackOn(Throwable ex) &#123;</span><br><span class="line"><span class="hljs-built_in">    return</span> (ex instanceof RuntimeException || ex instanceof Error);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>到这里，应该都清楚了。。。自己主动抛异常Exception是不对的。这里只捕获运行时异常RuntimeException 及Error，所以我们测试时不可以直接抛Exception，而应该换成RuntimeException 。当然。也可在xml中指定rollback-for。<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">&lt;!-- 事务相关控制配置：例如配置事务的传播机制 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">tx:advice</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"fortressAdvice"</span> <span class="hljs-attr">transaction-manager</span>=<span class="hljs-string">"transactionManager"</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"get*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"query*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"count*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"save*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">"Exception"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"remove*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">"Exception"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"modify*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">"Exception"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"true"</span> /&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;/<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">tx:advice</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-
+            
+                
+                    
+                        
+                        上周要一个同事开发一个模块，他说事物死活不起作用。我看了一下，大致主要配置如下：
+12345678910111213141516171819202122232425262728&lt;!--配置事务管理--&gt;&lt;beanid="transactionManager"class="org.springframework.jdbc.datasource.DataSourceTransacti
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/03/19/Spring/spring声明式事务配置/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -290,7 +297,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        4
                     </p>
                 </div>
             </div>
@@ -300,7 +307,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        18
                     </p>
                 </div>
             </div>
@@ -376,9 +383,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -397,7 +412,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -411,7 +426,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -505,9 +520,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -526,7 +549,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -540,7 +563,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -675,6 +698,46 @@ Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == do
 
     
     
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
     
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>

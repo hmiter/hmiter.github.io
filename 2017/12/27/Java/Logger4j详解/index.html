@@ -7,18 +7,18 @@
 
 
 
-    <meta name="description" content="一、介绍Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。">
+    <meta name="description" content="一、介绍Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。 Log4j由三个重要的组件构成：日志信息的优先级（Loggers），日志信息的输出目的地（A">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Logger4j详解">
 <meta property="og:url" content="http://mindasoft.com/2017/12/27/Java/Logger4j详解/index.html">
 <meta property="og:site_name" content="黄敏">
-<meta property="og:description" content="一、介绍Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。">
+<meta property="og:description" content="一、介绍Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。 Log4j由三个重要的组件构成：日志信息的优先级（Loggers），日志信息的输出目的地（A">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-01T02:59:05.914Z">
+<meta property="og:updated_time" content="2018-11-01T11:19:23.431Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Logger4j详解">
-<meta name="twitter:description" content="一、介绍Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。">
+<meta name="twitter:description" content="一、介绍Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。 Log4j由三个重要的组件构成：日志信息的优先级（Loggers），日志信息的输出目的地（A">
 
 
 
@@ -50,6 +50,10 @@
 
     
     
+    
+    <style>body{opacity: 0}</style>
+    
+
     
     
     
@@ -129,7 +133,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    20 分钟 读完 (大约 2987 个字)
+                    20 分钟 读完 (大约 2986 个字)
                 </span>
                 
             </div>
@@ -141,7 +145,9 @@
             
         </h1>
         <div class="content">
-            <h1 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h1><p>Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。<br><a id="more"></a><br>Log4j由三个重要的组件构成：日志信息的优先级（Loggers），日志信息的输出目的地（Appenders），日志信息的输出格式（Layouts）。日志信息的优先级从高到低有ERROR、WARN、 INFO、DEBUG，分别用来指定这条日志信息的重要程度；日志信息的输出目的地指定了日志将打印到控制台还是文件中；而输出格式则控制了日志信息的显示内容。</p>
+            
+                <h1 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h1><p>Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。</p>
+<p>Log4j由三个重要的组件构成：日志信息的优先级（Loggers），日志信息的输出目的地（Appenders），日志信息的输出格式（Layouts）。日志信息的优先级从高到低有ERROR、WARN、 INFO、DEBUG，分别用来指定这条日志信息的重要程度；日志信息的输出目的地指定了日志将打印到控制台还是文件中；而输出格式则控制了日志信息的显示内容。</p>
 <h1 id="二、配置文件"><a href="#二、配置文件" class="headerlink" title="二、配置文件"></a>二、配置文件</h1><p>其实您也可以完全不使用配置文件，而是在代码中配置Log4j环境。但是，使用配置文件将使您的应用程序更加灵活。<br>Log4j支持两种配置文件格式，一种是XML格式的文件，一种是properties格式的文件。下面我们介绍使用properties格式做为配置文件的方法：<br>示例：<br>log4j.rootLogger=INFO, A1<br>log4j.appender.A1=org.apache.log4j.ConsoleAppender<br>log4j.appender.A1.layout=org.apache.log4j.PatternLayout<br>log4j.appender.A1.layout.ConversionPattern=%-4r %-5p [%t] %37c %3x - %m%n</p>
 <h2 id="1-配置根Logger，其语法为："><a href="#1-配置根Logger，其语法为：" class="headerlink" title="1. 配置根Logger，其语法为："></a>1. 配置根Logger，其语法为：</h2><p>log4j.rootLogger = [ level ] , appenderName, appenderName, …<br>其中，level 是日志记录的优先级，分为OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL或者您定义的级别。Log4j建议只使用四个级别，优先级从高到低分别是ERROR、WARN、INFO、DEBUG。通过在这里定义的级别，您可以控制到应用程序中相应级别的日志信息的开关。比如在这里定义了INFO级别，则应用程序中所有DEBUG级别的日志信息将不被打印出来。</p>
 <p>appenderName就是指定日志信息输出到哪个地方。您可以同时指定多个输出目的地。</p>
@@ -169,6 +175,7 @@
 <h2 id="1-得到记录器"><a href="#1-得到记录器" class="headerlink" title="1.得到记录器"></a>1.得到记录器</h2><p>使用Log4j，第一步就是获取日志记录器，这个记录器将负责控制日志信息。其语法为：<br>public static Logger getLogger( String name)，<br>通过指定的名字获得记录器，如果必要的话，则为这个名字创建一个新的记录器。Name一般取本类的名字，比如：<br>static Logger logger = Logger.getLogger ( ServerWithLog4j.class.getName () ) ; </p>
 <h2 id="2-插入记录信息（格式化日志信息）"><a href="#2-插入记录信息（格式化日志信息）" class="headerlink" title="2.插入记录信息（格式化日志信息）"></a>2.插入记录信息（格式化日志信息）</h2><p>当上两个必要步骤执行完毕，您就可以轻松地使用不同优先级别的日志记录语句插入到您想记录日志的任何地方，其语法如下：<br>logger.debug ( Object message ) ;<br>logger.info ( Object message ) ;<br>logger.warn ( Object message ) ;<br>logger.error ( Object message ) ;</p>
 
+            
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -320,7 +327,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        4
                     </p>
                 </div>
             </div>
@@ -330,7 +337,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        18
                     </p>
                 </div>
             </div>
@@ -406,9 +413,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -427,7 +442,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -441,7 +456,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -535,9 +550,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -556,7 +579,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -570,7 +593,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -705,6 +728,46 @@ Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == do
 
     
     
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
     
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>

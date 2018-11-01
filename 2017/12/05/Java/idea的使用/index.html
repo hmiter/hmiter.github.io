@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="黄敏">
 <meta property="og:description" content="1 修改对应的配置信息(缓存)地址由于我家里的电脑C盘被我设置得超级小,然后Idea默认的各种系统配置,最主要是缓存的地址,修改 ${idea.home}/bin/idea.properties 修改下面几个值. 123456789101112131415. #---------------------------------------------------------------------">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-02T02:14:06.443Z">
+<meta property="og:updated_time" content="2018-11-01T11:19:23.614Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="idea的使用">
 <meta name="twitter:description" content="1 修改对应的配置信息(缓存)地址由于我家里的电脑C盘被我设置得超级小,然后Idea默认的各种系统配置,最主要是缓存的地址,修改 ${idea.home}/bin/idea.properties 修改下面几个值. 123456789101112131415. #---------------------------------------------------------------------">
@@ -50,6 +50,10 @@
 
     
     
+    
+    <style>body{opacity: 0}</style>
+    
+
     
     
     
@@ -141,7 +145,8 @@
             
         </h1>
         <div class="content">
-            <h1 id="1-修改对应的配置信息-缓存-地址"><a href="#1-修改对应的配置信息-缓存-地址" class="headerlink" title="1 修改对应的配置信息(缓存)地址"></a>1 修改对应的配置信息(缓存)地址</h1><p>由于我家里的电脑C盘被我设置得超级小,然后Idea默认的各种系统配置,最主要是缓存的地址,修改 ${idea.home}/bin/idea.properties 修改下面几个值.</p>
+            
+                <h1 id="1-修改对应的配置信息-缓存-地址"><a href="#1-修改对应的配置信息-缓存-地址" class="headerlink" title="1 修改对应的配置信息(缓存)地址"></a>1 修改对应的配置信息(缓存)地址</h1><p>由于我家里的电脑C盘被我设置得超级小,然后Idea默认的各种系统配置,最主要是缓存的地址,修改 ${idea.home}/bin/idea.properties 修改下面几个值.</p>
 <figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">15. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">16. <span class="hljs-comment"># Uncomment this option if you want to customize path to IDE config folder. Make sure you're using forward slashes  </span></span><br><span class="line">17. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">18. idea.config.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/config</span>  </span><br><span class="line">19.   </span><br><span class="line">20. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">21. <span class="hljs-comment"># Uncomment this option if you want to customize path to IDE system folder. Make sure you're using forward slashes  </span></span><br><span class="line">22. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">23. idea.system.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/system</span>  </span><br><span class="line">24.   </span><br><span class="line">25. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">26. <span class="hljs-comment"># Uncomment this option if you want to customize path to user installed plugins folder. Make sure you're using forward slashes  </span></span><br><span class="line">27. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">28. idea.plugins.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/config/plugins</span></span><br></pre></td></tr></table></figure>
 <h1 id="2-修改快捷键"><a href="#2-修改快捷键" class="headerlink" title="2 修改快捷键"></a>2 修改快捷键</h1><p>  key/map 选择eclipse ,选择copy成自定义 (我还是习惯用eclipse的快捷键)</p>
 <h1 id="3-配置修改"><a href="#3-配置修改" class="headerlink" title="3 配置修改"></a>3 配置修改</h1><p>1、修改主题 File | Settings | Appearance &amp; Behavior | Appearance ： Theme选择 Darcula<br>2、显示行号：Settings-&gt;Editor-&gt;Appearance标签项，勾选Show line numbers<br>3、选择字体大小：File | Settings | Editor | Font 15<br>4、Tab换成字符串 ：File | Settings | Editor | Code Style | Java –&gt; Use tab charactor<br>3、生成Serializable ID  ，setting–&gt;Editor–&gt;Inspactions–&gt;Java | Serialization issues | Serializable class without ‘serialVersionUID’ 打上勾<br>4、maven 工程 unable to read the metadata file for artifact 问题 :setting-&gt;maven-&gt;always update snapshot 打开,然后重新import change就搞定了.</p>
@@ -157,6 +162,7 @@
 <p>Top #10切来切去：Ctrl+Tab<br>Top #9选你所想：Ctrl+W<br>Top #8代码生成：Template/Postfix +Tab<br>Top #7发号施令：Ctrl+Shift+A<br>Top #6无处藏身：Shift+Shift<br>Top #5自动完成：Ctrl+Shift+Enter<br>Top #4创造万物：Alt+Insert</p>
 <p>太难割舍，前三名并列吧！<br>Top #1智能补全：Ctrl+Shift+Space<br>Top #1自我修复：Alt+Enter<br>Top #1重构一切：Ctrl+Shift+Alt+T</p>
 
+            
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -308,7 +314,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        4
                     </p>
                 </div>
             </div>
@@ -318,7 +324,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        18
                     </p>
                 </div>
             </div>
@@ -429,9 +435,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -450,7 +464,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -464,7 +478,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -558,9 +572,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -579,7 +601,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -593,7 +615,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -728,6 +750,46 @@ Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == do
 
     
     
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
     
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>

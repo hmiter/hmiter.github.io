@@ -8,14 +8,14 @@
 
 
     <meta name="description" content="例子：123456789101112131415161718192021222324252627282930313233343536373839DELIMITER $$-- 1、设置 全局变量event_scheduler开启，使用event必须开启-- SET GLOBAL event_scheduler = ON$$     -- required for event to execute b">
-<meta name="keywords" content="Database">
+<meta name="keywords" content="Database,mysql,计划任务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql事件（计划任务）">
 <meta property="og:url" content="http://mindasoft.com/2017/09/04/Database/mysql事件（计划任务）/index.html">
 <meta property="og:site_name" content="黄敏">
 <meta property="og:description" content="例子：123456789101112131415161718192021222324252627282930313233343536373839DELIMITER $$-- 1、设置 全局变量event_scheduler开启，使用event必须开启-- SET GLOBAL event_scheduler = ON$$     -- required for event to execute b">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-12-05T02:41:49.295Z">
+<meta property="og:updated_time" content="2018-11-01T09:28:19.759Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql事件（计划任务）">
 <meta name="twitter:description" content="例子：123456789101112131415161718192021222324252627282930313233343536373839DELIMITER $$-- 1、设置 全局变量event_scheduler开启，使用event必须开启-- SET GLOBAL event_scheduler = ON$$     -- required for event to execute b">
@@ -50,6 +50,10 @@
 
     
     
+    
+    <style>body{opacity: 0}</style>
+    
+
     
     
     
@@ -141,14 +145,16 @@
             
         </h1>
         <div class="content">
-            <h1 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h1><figure class="highlight coq hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"></span><br><span class="line">-- <span class="hljs-number">1</span>、设置 全局变量event_scheduler开启，使用event必须开启</span><br><span class="line">-- SET GLOBAL event_scheduler = ON$$     -- required <span class="hljs-keyword">for</span> event to execute but not create    </span><br><span class="line"></span><br><span class="line">CREATE	/*[DEFINER = &#123; user | <span class="hljs-type">CURRENT_USER</span> &#125;]*/	EVENT `start_distribution`.`event_account_checking`</span><br><span class="line"></span><br><span class="line">	ON SCHEDULE EVERY <span class="hljs-number">1</span> DAY STARTS '<span class="hljs-number">2017</span><span class="hljs-number">-09</span><span class="hljs-number">-04</span> <span class="hljs-number">06</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span>' </span><br><span class="line">	ON COMPLETION NOT PRESERVE</span><br><span class="line">	ENABLE</span><br><span class="line">	COMMENT '每天自动统计对账数据'</span><br><span class="line"></span><br><span class="line">	 /* uncomment the example below you want to use */</span><br><span class="line"></span><br><span class="line">	-- scheduleexample <span class="hljs-number">1</span>: run <span class="hljs-built_in">once</span>  执行一次</span><br><span class="line"></span><br><span class="line">	   --  AT 'YYYY-MM-DD HH:MM.SS'/CURRENT_TIMESTAMP &#123; + INTERVAL <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125;</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	-- scheduleexample</span> <span class="hljs-number">2</span>: run <span class="hljs-built_in">at</span> intervals forever <span class="hljs-built_in">after</span> creation  创建后每多久执行一次</span><br><span class="line"></span><br><span class="line">	   -- EVERY <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...]</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	-- scheduleexample</span> <span class="hljs-number">3</span>: specified start <span class="hljs-built_in">time</span>, <span class="hljs-keyword">end</span> <span class="hljs-built_in">time</span> and interval <span class="hljs-keyword">for</span> execution 指定开始开始、结束时间和间隔时间执行任务。</span><br><span class="line">	   /*EVERY <span class="hljs-number">1</span>  [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...]</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	   STARTS</span> CURRENT_TIMESTAMP/'YYYY-MM-DD HH:MM.SS' &#123; + INTERVAL <span class="hljs-number">1</span>[HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125;</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	   ENDS</span> CURRENT_TIMESTAMP/'YYYY-MM-DD HH:MM.SS' &#123; + INTERVAL <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125; */</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	/*[ON</span> COMPLETION [NOT] PRESERVE]  -- 执行后删除(NOT)还是保留</span><br><span class="line">	[ENABLE | <span class="hljs-type">DISABLE</span>]  -- 创建时，event的章台</span><br><span class="line">	[COMMENT 'comment']*/  -- 注释</span><br><span class="line"></span><br><span class="line">DO</span><br><span class="line">	BEGIN</span><br><span class="line">	    call pro_account_checking();</span><br><span class="line">	END$$</span><br><span class="line"></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+            
+                <h1 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h1><figure class="highlight coq hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"></span><br><span class="line">-- <span class="hljs-number">1</span>、设置 全局变量event_scheduler开启，使用event必须开启</span><br><span class="line">-- SET GLOBAL event_scheduler = ON$$     -- required <span class="hljs-keyword">for</span> event to execute but not create    </span><br><span class="line"></span><br><span class="line">CREATE	/*[DEFINER = &#123; user | <span class="hljs-type">CURRENT_USER</span> &#125;]*/	EVENT `start_distribution`.`event_account_checking`</span><br><span class="line"></span><br><span class="line">	ON SCHEDULE EVERY <span class="hljs-number">1</span> DAY STARTS '<span class="hljs-number">2017</span><span class="hljs-number">-09</span><span class="hljs-number">-04</span> <span class="hljs-number">06</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span>' </span><br><span class="line">	ON COMPLETION NOT PRESERVE</span><br><span class="line">	ENABLE</span><br><span class="line">	COMMENT '每天自动统计对账数据'</span><br><span class="line"></span><br><span class="line">	 /* uncomment the example below you want to use */</span><br><span class="line"></span><br><span class="line">	-- scheduleexample <span class="hljs-number">1</span>: run <span class="hljs-built_in">once</span>  执行一次</span><br><span class="line"></span><br><span class="line">	   --  AT 'YYYY-MM-DD HH:MM.SS'/CURRENT_TIMESTAMP &#123; + INTERVAL <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125;</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	-- scheduleexample</span> <span class="hljs-number">2</span>: run <span class="hljs-built_in">at</span> intervals forever <span class="hljs-built_in">after</span> creation  创建后每多久执行一次</span><br><span class="line"></span><br><span class="line">	   -- EVERY <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...]</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	-- scheduleexample</span> <span class="hljs-number">3</span>: specified start <span class="hljs-built_in">time</span>, <span class="hljs-keyword">end</span> <span class="hljs-built_in">time</span> and interval <span class="hljs-keyword">for</span> execution 指定开始开始、结束时间和间隔时间执行任务。</span><br><span class="line">	   /*EVERY <span class="hljs-number">1</span>  [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...]</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	   STARTS</span> CURRENT_TIMESTAMP/'YYYY-MM-DD HH:MM.SS' &#123; + INTERVAL <span class="hljs-number">1</span>[HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125;</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	   ENDS</span> CURRENT_TIMESTAMP/'YYYY-MM-DD HH:MM.SS' &#123; + INTERVAL <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125; */</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	/*[ON</span> COMPLETION [NOT] PRESERVE]  -- 执行后删除(NOT)还是保留</span><br><span class="line">	[ENABLE | <span class="hljs-type">DISABLE</span>]  -- 创建时，event的章台</span><br><span class="line">	[COMMENT 'comment']*/  -- 注释</span><br><span class="line"></span><br><span class="line">DO</span><br><span class="line">	BEGIN</span><br><span class="line">	    call pro_account_checking();</span><br><span class="line">	END$$</span><br><span class="line"></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+            
         </div>
         
         <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/database/">Database</a>
+                    <a class="has-link-grey -link" href="/tags/Database/">Database</a>, <a class="has-link-grey -link" href="/tags/mysql/">mysql</a>, <a class="has-link-grey -link" href="/tags/计划任务/">计划任务</a>
                 </div>
             </div>
         </div>
@@ -293,7 +299,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        4
                     </p>
                 </div>
             </div>
@@ -303,7 +309,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        18
                     </p>
                 </div>
             </div>
@@ -394,9 +400,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -415,7 +429,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -429,7 +443,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -523,9 +537,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -544,7 +566,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -558,7 +580,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -693,6 +715,46 @@ Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == do
 
     
     
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
     
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>

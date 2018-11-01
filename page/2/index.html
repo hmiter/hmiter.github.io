@@ -49,6 +49,10 @@
     
     
     
+    <style>body{opacity: 0}</style>
+    
+
+    
     
     
     
@@ -140,9 +144,25 @@
             
         </h1>
         <div class="content">
-            <h1 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h1><figure class="highlight coq hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"></span><br><span class="line">-- <span class="hljs-number">1</span>、设置 全局变量event_scheduler开启，使用event必须开启</span><br><span class="line">-- SET GLOBAL event_scheduler = ON$$     -- required <span class="hljs-keyword">for</span> event to execute but not create    </span><br><span class="line"></span><br><span class="line">CREATE	/*[DEFINER = &#123; user | <span class="hljs-type">CURRENT_USER</span> &#125;]*/	EVENT `start_distribution`.`event_account_checking`</span><br><span class="line"></span><br><span class="line">	ON SCHEDULE EVERY <span class="hljs-number">1</span> DAY STARTS '<span class="hljs-number">2017</span><span class="hljs-number">-09</span><span class="hljs-number">-04</span> <span class="hljs-number">06</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span>' </span><br><span class="line">	ON COMPLETION NOT PRESERVE</span><br><span class="line">	ENABLE</span><br><span class="line">	COMMENT '每天自动统计对账数据'</span><br><span class="line"></span><br><span class="line">	 /* uncomment the example below you want to use */</span><br><span class="line"></span><br><span class="line">	-- scheduleexample <span class="hljs-number">1</span>: run <span class="hljs-built_in">once</span>  执行一次</span><br><span class="line"></span><br><span class="line">	   --  AT 'YYYY-MM-DD HH:MM.SS'/CURRENT_TIMESTAMP &#123; + INTERVAL <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125;</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	-- scheduleexample</span> <span class="hljs-number">2</span>: run <span class="hljs-built_in">at</span> intervals forever <span class="hljs-built_in">after</span> creation  创建后每多久执行一次</span><br><span class="line"></span><br><span class="line">	   -- EVERY <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...]</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	-- scheduleexample</span> <span class="hljs-number">3</span>: specified start <span class="hljs-built_in">time</span>, <span class="hljs-keyword">end</span> <span class="hljs-built_in">time</span> and interval <span class="hljs-keyword">for</span> execution 指定开始开始、结束时间和间隔时间执行任务。</span><br><span class="line">	   /*EVERY <span class="hljs-number">1</span>  [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...]</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	   STARTS</span> CURRENT_TIMESTAMP/'YYYY-MM-DD HH:MM.SS' &#123; + INTERVAL <span class="hljs-number">1</span>[HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125;</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	   ENDS</span> CURRENT_TIMESTAMP/'YYYY-MM-DD HH:MM.SS' &#123; + INTERVAL <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125; */</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	/*[ON</span> COMPLETION [NOT] PRESERVE]  -- 执行后删除(NOT)还是保留</span><br><span class="line">	[ENABLE | <span class="hljs-type">DISABLE</span>]  -- 创建时，event的章台</span><br><span class="line">	[COMMENT 'comment']*/  -- 注释</span><br><span class="line"></span><br><span class="line">DO</span><br><span class="line">	BEGIN</span><br><span class="line">	    call pro_account_checking();</span><br><span class="line">	END$$</span><br><span class="line"></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+            
+                
+                    
+                        
+                        例子：123456789101112131415161718192021222324252627282930313233343536373839DELIMITER$$--1、设置全局变量event_scheduler开启，使用event必须开启--SETGLOBALevent_scheduler=ON$$--requiredforeventtoexecutebutnotcreateCREATE	/
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/09/04/Database/mysql事件（计划任务）/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -184,32 +204,26 @@
             
         </h1>
         <div class="content">
-            <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p><strong>存储过程</strong>是可编程的函数，在数据库中创建并保存，可以由SQL语句和控制结构组成。当想要在不同的应用程序或平台上执行相同的函数，或者封装特定功能时，存储过程是非常有用的。数据库中的存储过程可以看做是对编程中面向对象方法的模拟，它允许控制数据的访问方式。</p>
-<p>存储过程是数据库的一个重要的功能，MySQL 5.0以前并不支持存储过程，这使得MySQL在应用上大打折扣。好在MySQL 5.0开始支持存储过程，这样即可以大大提高数据库的处理速度，同时也可以提高数据库编程的灵活性。</p>
-<h1 id="存储过程的优点"><a href="#存储过程的优点" class="headerlink" title="存储过程的优点"></a>存储过程的优点</h1><p>(1).增强SQL语言的功能和灵活性：存储过程可以用控制语句编写，有很强的灵活性，可以完成复杂的判断和较复杂的运算。</p>
-<p>(2).标准组件式编程：存储过程被创建后，可以在程序中被多次调用，而不必重新编写该存储过程的SQL语句。而且数据库专业人员可以随时对存储过程进行修改，对应用程序源代码毫无影响。</p>
-<p>(3).较快的执行速度：如果某一操作包含大量的Transaction-SQL代码或分别被多次执行，那么存储过程要比批处理的执行速度快很多。因为存储过程是预编译的。在首次运行一个存储过程时查询，优化器对其进行分析优化，并且给出最终被存储在系统表中的执行计划。而批处理的Transaction-SQL语句在每次运行时都要进行编译和优化，速度相对要慢一些。</p>
-<p>(4).减少网络流量：针对同一个数据库对象的操作（如查询、修改），如果这一操作所涉及的Transaction-SQL语句被组织进存储过程，那么当在客户计算机上调用该存储过程时，网络中传送的只是该调用语句，从而大大减少网络流量并降低了网络负载。</p>
-<p>(5).作为一种安全机制来充分利用：通过对执行某一存储过程的权限进行限制，能够实现对相应的数据的访问权限的限制，避免了非授权用户对数据的访问，保证了数据的安全。</p>
-<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><figure class="highlight n1ql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"></span><br><span class="line">	USE `start_user`$$</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">PROCEDURE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-symbol">`rob_test`</span>$$</span><br><span class="line">	<span class="hljs-keyword">CREATE</span></span><br><span class="line">	    <span class="hljs-comment">/*[DEFINER = &#123; user | CURRENT_USER &#125;]*/</span></span><br><span class="line"></span><br><span class="line">		-- <span class="hljs-number">0</span>、定义存储过程名称和参数、返回值</span><br><span class="line">		-- <span class="hljs-keyword">in</span> 为输入参数；out 为返回值，inout 即是参数也是返回值 </span><br><span class="line">	    <span class="hljs-keyword">PROCEDURE</span> <span class="hljs-symbol">`start_user`</span>.<span class="hljs-symbol">`rob_test`</span>( out msg VARCHAR(<span class="hljs-number">50</span>) )</span><br><span class="line"></span><br><span class="line">	    <span class="hljs-comment">/* LANGUAGE SQL</span></span><br><span class="line"><span class="hljs-comment">	    | [NOT] DETERMINISTIC</span></span><br><span class="line"><span class="hljs-comment">	    | &#123; CONTAINS SQL | NO SQL | READS SQL DATA | MODIFIES SQL DATA &#125;</span></span><br><span class="line"><span class="hljs-comment">	    | SQL SECURITY &#123; DEFINER | INVOKER &#125;</span></span><br><span class="line"><span class="hljs-comment">	    | COMMENT 'string'</span></span><br><span class="line"><span class="hljs-comment">		*/</span></span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">BEGIN</span></span><br><span class="line">		-- <span class="hljs-number">1</span>、声明变量</span><br><span class="line">		<span class="hljs-keyword">DECLARE</span> userId int;</span><br><span class="line">		DECLARE i int;</span><br><span class="line">		DECLARE phoneId BIGint;</span><br><span class="line">	</span><br><span class="line">		-- 2、赋值，也可以用DEFAULT，如：DECLARE i int DEFAULT 0;</span><br><span class="line">		SET i=0;</span><br><span class="line">		SET phoneId= 11010000002;</span><br><span class="line">		</span><br><span class="line">		-- 3、业务逻辑，此处用循环插入数据</span><br><span class="line">		while i&lt;5 do</span><br><span class="line">			<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-symbol">`start_user`</span>.<span class="hljs-symbol">`user`</span> (<span class="hljs-symbol">`nickName`</span>, <span class="hljs-symbol">`gender`</span>, <span class="hljs-symbol">`mobile`</span>, <span class="hljs-symbol">`signatureText`</span>, <span class="hljs-symbol">`avatarUrl`</span>, <span class="hljs-symbol">`userType`</span>, <span class="hljs-symbol">`isUserGroup`</span>, <span class="hljs-symbol">`status`</span>, <span class="hljs-symbol">`channel`</span>, <span class="hljs-symbol">`inviteGuestPermission`</span>, <span class="hljs-symbol">`reported`</span>, <span class="hljs-symbol">`flag`</span>, <span class="hljs-symbol">`appId`</span>, <span class="hljs-symbol">`loginBundleId`</span>) <span class="hljs-keyword">VALUES</span>(CONCAT(<span class="hljs-string">'机器人'</span>,i),<span class="hljs-string">'MALE'</span>,CONCAT(phoneId,<span class="hljs-string">''</span>),<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-string">'NORMAL'</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-string">'1'</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>);</span><br><span class="line">			<span class="hljs-keyword">SELECT</span> LAST_INSERT_ID() <span class="hljs-keyword">INTO</span> userId ; </span><br><span class="line">			<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> <span class="hljs-symbol">`start_distribution`</span>.<span class="hljs-symbol">`dis_org_startuser`</span> ( <span class="hljs-symbol">`orgId`</span>, <span class="hljs-symbol">`agentId`</span>, <span class="hljs-symbol">`cooperatorId`</span>, <span class="hljs-symbol">`opcenterId`</span>, <span class="hljs-symbol">`startUserId`</span>, <span class="hljs-symbol">`startUserType`</span>, <span class="hljs-symbol">`inviteUserId`</span>) <span class="hljs-keyword">values</span>(<span class="hljs-string">'999992348'</span>,<span class="hljs-string">'999992347'</span>,<span class="hljs-string">'999992346'</span>,<span class="hljs-string">'999992345'</span>,userId,<span class="hljs-string">'ANCHOR'</span>,<span class="hljs-literal">NULL</span>);</span><br><span class="line">	</span><br><span class="line">			set i=i+1;</span><br><span class="line">			set phoneId= phoneId+1;</span><br><span class="line">		end while;</span><br><span class="line"></span><br><span class="line">		-- 4、结束循环，设定返回值</span><br><span class="line">		set msg ='执行成功';</span><br><span class="line">    END$$</span><br><span class="line"></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
-<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p>CREATE PROCEDURE 过程名([[IN|OUT|INOUT] 参数名 数据类型[,[IN|OUT|INOUT] 参数名 数据类型…]]) [特性 …] 过程体</p>
-<h2 id="结束符"><a href="#结束符" class="headerlink" title="结束符"></a>结束符</h2><p>DELIMITER 定义语句结束符。首先将结束符变为“$$”,在完成存储过程之后再将结束符改为默认的“;”。</p>
-<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p>存储过程根据需要可能会有输入、输出、输入输出参数，如果有多个参数用”,”分割开。MySQL存储过程的参数用在存储过程的定义，共有三种参数类型,IN,OUT,INOUT:</p>
-<p><strong>IN</strong>：参数的值必须在调用存储过程时指定，在存储过程中修改该参数的值不能被返回，为默认值<br><strong>OUT</strong>:该值可在存储过程内部被改变，并可返回<br><strong>INOUT</strong>:调用时指定，并且可被改变和返回</p>
-<h2 id="过程体"><a href="#过程体" class="headerlink" title="过程体"></a>过程体</h2><p>过程体的开始与结束使用BEGIN与END进行标识。</p>
-<h2 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h2><p>语法：SET 变量名 = 变量值 [,变量名= 变量值 …]</p>
-<h2 id="用户变量"><a href="#用户变量" class="headerlink" title="用户变量"></a>用户变量</h2><p>用户变量一般以@开头<br>注意：滥用用户变量会导致程序难以理解及管理</p>
-<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>MySQL存储过程可使用两种风格的注释：<br>双杠：–，该风格一般用于单行注释<br>C风格： 一般用于多行注释</p>
-<h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><p>用call和你过程名以及一个括号，括号里面根据需要，加入参数，参数包括输入参数、输出参数、输入输出参数。</p>
-<h2 id="控制语句"><a href="#控制语句" class="headerlink" title="控制语句"></a>控制语句</h2><h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><h4 id="IF-THEN-ELSE语句"><a href="#IF-THEN-ELSE语句" class="headerlink" title="IF-THEN-ELSE语句"></a>IF-THEN-ELSE语句</h4><figure class="highlight oxygene hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DROP <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">IF</span> <span class="hljs-title">EXISTS</span> <span class="hljs-title">proc3</span>;</span></span><br><span class="line">DELIMITER <span class="hljs-comment">//</span></span><br><span class="line"><span class="hljs-keyword">CREATE</span> <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">proc3</span><span class="hljs-params">(<span class="hljs-keyword">IN</span> parameter int)</span></span></span><br><span class="line"><span class="hljs-function">  <span class="hljs-title">BEGIN</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">DECLARE</span> <span class="hljs-title">var</span> <span class="hljs-title">int</span>;</span></span><br><span class="line">    <span class="hljs-keyword">SET</span> <span class="hljs-keyword">var</span>=parameter+<span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">IF</span> <span class="hljs-keyword">var</span>=<span class="hljs-number">0</span> <span class="hljs-keyword">THEN</span></span><br><span class="line">      INSERT <span class="hljs-keyword">INTO</span> t VALUES (<span class="hljs-number">17</span>);</span><br><span class="line">    <span class="hljs-keyword">END</span> <span class="hljs-keyword">IF</span> ;</span><br><span class="line">    <span class="hljs-keyword">IF</span> parameter=<span class="hljs-number">0</span> <span class="hljs-keyword">THEN</span></span><br><span class="line">      UPDATE t <span class="hljs-keyword">SET</span> s1=s1+<span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">ELSE</span></span><br><span class="line">      UPDATE t <span class="hljs-keyword">SET</span> s1=s1+<span class="hljs-number">2</span>;</span><br><span class="line">    <span class="hljs-keyword">END</span> <span class="hljs-keyword">IF</span> ;</span><br><span class="line">  <span class="hljs-keyword">END</span> ;</span><br><span class="line">  <span class="hljs-comment">//</span></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
-<h4 id="CASE-WHEN-THEN-ELSE语句"><a href="#CASE-WHEN-THEN-ELSE语句" class="headerlink" title="CASE-WHEN-THEN-ELSE语句"></a>CASE-WHEN-THEN-ELSE语句</h4><figure class="highlight oxygene hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER <span class="hljs-comment">//</span></span><br><span class="line">  <span class="hljs-keyword">CREATE</span> <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">proc4</span> <span class="hljs-params">(<span class="hljs-keyword">IN</span> parameter INT)</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">BEGIN</span></span></span><br><span class="line"><span class="hljs-function">      <span class="hljs-title">DECLARE</span> <span class="hljs-title">var</span> <span class="hljs-title">INT</span>;</span></span><br><span class="line">      <span class="hljs-keyword">SET</span> <span class="hljs-keyword">var</span>=parameter+<span class="hljs-number">1</span>;</span><br><span class="line">      <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">var</span></span><br><span class="line">        WHEN <span class="hljs-number">0</span> <span class="hljs-keyword">THEN</span></span><br><span class="line">          INSERT <span class="hljs-keyword">INTO</span> t VALUES (<span class="hljs-number">17</span>);</span><br><span class="line">        WHEN <span class="hljs-number">1</span> <span class="hljs-keyword">THEN</span></span><br><span class="line">          INSERT <span class="hljs-keyword">INTO</span> t VALUES (<span class="hljs-number">18</span>);</span><br><span class="line">        <span class="hljs-keyword">ELSE</span></span><br><span class="line">          INSERT <span class="hljs-keyword">INTO</span> t VALUES (<span class="hljs-number">19</span>);</span><br><span class="line">      <span class="hljs-keyword">END</span> <span class="hljs-keyword">CASE</span> ;</span><br><span class="line">    <span class="hljs-keyword">END</span> ;</span><br><span class="line">  <span class="hljs-comment">//</span></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
-<h3 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h3><h4 id="WHILE-DO…END-WHILE"><a href="#WHILE-DO…END-WHILE" class="headerlink" title="WHILE-DO…END-WHILE"></a>WHILE-DO…END-WHILE</h4><figure class="highlight oxygene hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER <span class="hljs-comment">//</span></span><br><span class="line">  <span class="hljs-keyword">CREATE</span> <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">proc5</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">BEGIN</span></span></span><br><span class="line"><span class="hljs-function">      <span class="hljs-title">DECLARE</span> <span class="hljs-title">var</span> <span class="hljs-title">INT</span>;</span></span><br><span class="line">      <span class="hljs-keyword">SET</span> <span class="hljs-keyword">var</span>=<span class="hljs-number">0</span>;</span><br><span class="line">      <span class="hljs-keyword">WHILE</span> <span class="hljs-keyword">var</span>&lt;<span class="hljs-number">6</span> <span class="hljs-keyword">DO</span></span><br><span class="line">        INSERT <span class="hljs-keyword">INTO</span> t VALUES (<span class="hljs-keyword">var</span>);</span><br><span class="line">        <span class="hljs-keyword">SET</span> <span class="hljs-keyword">var</span>=<span class="hljs-keyword">var</span>+<span class="hljs-number">1</span>;</span><br><span class="line">      <span class="hljs-keyword">END</span> <span class="hljs-keyword">WHILE</span> ;</span><br><span class="line">    <span class="hljs-keyword">END</span>;</span><br><span class="line">  <span class="hljs-comment">//</span></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
-<h4 id="REPEAT…END-REPEAT"><a href="#REPEAT…END-REPEAT" class="headerlink" title="REPEAT…END REPEAT"></a>REPEAT…END REPEAT</h4><p>此语句的特点是执行操作后检查结果<br><figure class="highlight oxygene hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER <span class="hljs-comment">//</span></span><br><span class="line">  <span class="hljs-keyword">CREATE</span> <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">proc6</span> <span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">BEGIN</span></span></span><br><span class="line"><span class="hljs-function">      <span class="hljs-title">DECLARE</span> <span class="hljs-title">v</span> <span class="hljs-title">INT</span>;</span></span><br><span class="line">      <span class="hljs-keyword">SET</span> v=<span class="hljs-number">0</span>;</span><br><span class="line">      <span class="hljs-keyword">REPEAT</span></span><br><span class="line">        INSERT <span class="hljs-keyword">INTO</span> t VALUES(v);</span><br><span class="line">        <span class="hljs-keyword">SET</span> v=v+<span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">UNTIL</span> v&gt;=<span class="hljs-number">5</span></span><br><span class="line">      <span class="hljs-keyword">END</span> <span class="hljs-keyword">REPEAT</span>;</span><br><span class="line">    <span class="hljs-keyword">END</span>;</span><br><span class="line">  <span class="hljs-comment">//</span></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure></p>
-<h4 id="LOOP…END-LOOP"><a href="#LOOP…END-LOOP" class="headerlink" title="LOOP…END LOOP"></a>LOOP…END LOOP</h4><figure class="highlight oxygene hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER <span class="hljs-comment">//</span></span><br><span class="line">  <span class="hljs-keyword">CREATE</span> <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">proc7</span> <span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">BEGIN</span></span></span><br><span class="line"><span class="hljs-function">      <span class="hljs-title">DECLARE</span> <span class="hljs-title">v</span> <span class="hljs-title">INT</span>;</span></span><br><span class="line">      <span class="hljs-keyword">SET</span> v=<span class="hljs-number">0</span>;</span><br><span class="line">      LOOP_LABLE:<span class="hljs-keyword">LOOP</span></span><br><span class="line">        INSERT <span class="hljs-keyword">INTO</span> t VALUES(v);</span><br><span class="line">        <span class="hljs-keyword">SET</span> v=v+<span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">IF</span> v &gt;=<span class="hljs-number">5</span> <span class="hljs-keyword">THEN</span></span><br><span class="line">          LEAVE LOOP_LABLE;</span><br><span class="line">        <span class="hljs-keyword">END</span> <span class="hljs-keyword">IF</span>;</span><br><span class="line">      <span class="hljs-keyword">END</span> <span class="hljs-keyword">LOOP</span>;</span><br><span class="line">    <span class="hljs-keyword">END</span>;</span><br><span class="line">  <span class="hljs-comment">//</span></span><br><span class="line">DELIMITER ;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">#### LABLES标号</span><br><span class="line">标号可以用在<span class="hljs-keyword">begin</span> <span class="hljs-keyword">repeat</span> <span class="hljs-keyword">while</span> 或者<span class="hljs-keyword">loop</span> 语句前，语句标号只能在合法的语句前面使用。可以跳出循环，使运行指令达到复合语句的最后一步。</span><br><span class="line"></span><br><span class="line">#### ITERATE迭代</span><br><span class="line"></span><br><span class="line">通过引用复合语句的标号,来从新开始复合语句</span><br><span class="line"></span><br><span class="line">### ITERATE</span><br></pre></td></tr></table></figure>
-<p>DELIMITER //<br>  CREATE PROCEDURE proc8()<br>  BEGIN<br>    DECLARE v INT;<br>    SET v=0;<br>    LOOP_LABLE:LOOP<br>      IF v=3 THEN<br>        SET v=v+1;<br>        ITERATE LOOP_LABLE;<br>      END IF;<br>      INSERT INTO t VALUES(v);<br>      SET v=v+1;<br>      IF v&gt;=5 THEN<br>        LEAVE LOOP_LABLE;<br>      END IF;<br>    END LOOP;<br>  END;<br>  //<br>DELIMITER ;<br>```</p>
-
+            
+                
+                    
+                        
+                        简介存储过程是可编程的函数，在数据库中创建并保存，可以由SQL语句和控制结构组成。当想要在不同的应用程序或平台上执行相同的函数，或者封装特定功能时，存储过程是非常有用的。数据库中的存储过程可以看做是对编程中面向对象方法的模拟，它允许控制数据的访问方式。
+存储过程是数据库的一个重要的功能，MySQL5.0以前并不支持存储过程，这使得MySQL在应用上大打折扣。好在MySQL5.0开始支持存储过程，这
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/08/18/Database/mysql存储过程/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -251,10 +265,76 @@
             
         </h1>
         <div class="content">
-            <p>阿里：Diamond<br><a href="https://github.com/hengyunabc/xdiamond" target="_blank" rel="noopener">https://github.com/hengyunabc/xdiamond</a><br><a href="https://yq.aliyun.com/articles/6058" target="_blank" rel="noopener">https://yq.aliyun.com/articles/6058</a></p>
-<p>携程：Apollo<br><a href="https://github.com/ctripcorp/apollo/wiki/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener">https://github.com/ctripcorp/apollo/wiki/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E4%BB%8B%E7%BB%8D</a><br><a href="https://github.com/ctripcorp/apollo/wiki/Quick-Start" target="_blank" rel="noopener">https://github.com/ctripcorp/apollo/wiki/Quick-Start</a></p>
-<p>Spring: Spring Cload Config<br><a href="https://github.com/spring-cloud/spring-cloud-config" target="_blank" rel="noopener">https://github.com/spring-cloud/spring-cloud-config</a></p>
+            
+                
+                    
+                        
+                        阿里：Diamondhttps://github.com/hengyunabc/xdiamondhttps://yq.aliyun.com/articles/6058
+携程：Apollohttps://github.com/ctripcorp/apollo/wiki/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E4%BB%8B%E7%BB%8Dhttps:
+                        ...
+                    
+                
+            
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/08/08/Java/Java配置中心/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
 
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-05-30T12:13:44.000Z">2017-05-30</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/programming/">programming</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    几秒 读完 (大约 0 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/05/30/Java/Velocity简单介绍/">Velocity简单介绍</a>
+            
+        </h1>
+        <div class="content">
+            
+                
+                    
+                        
+                        
+                        
+                    
+                
+            
         </div>
         
         
@@ -299,49 +379,13 @@
         </h1>
         <div class="content">
             
-        </div>
-        
-        
-        
-
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-05-30T12:13:44.000Z">2017-05-30</time>
                 
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/programming/">programming</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
                     
+                        
+                        
+                        
                     
-                    几秒 读完 (大约 0 个字)
-                </span>
                 
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2017/05/30/Java/Velocity简单介绍/">Velocity简单介绍</a>
-            
-        </h1>
-        <div class="content">
             
         </div>
         
@@ -386,12 +430,25 @@
             
         </h1>
         <div class="content">
-            <h1 id="查看表空间使用率"><a href="#查看表空间使用率" class="headerlink" title="查看表空间使用率"></a>查看表空间使用率</h1><figure class="highlight livecodeserver hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">select <span class="hljs-keyword">a</span>.tablespace_name,</span><br><span class="line">       <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"Sum MB"</span>,</span><br><span class="line">       (<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"used MB"</span>,</span><br><span class="line">       b.<span class="hljs-keyword">bytes</span> / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"free MB"</span>,</span><br><span class="line">       <span class="hljs-built_in">round</span>(((<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span>) * <span class="hljs-number">100</span>, <span class="hljs-number">2</span>) <span class="hljs-string">"percent_used"</span></span><br><span class="line">  <span class="hljs-built_in">from</span> (select tablespace_name, <span class="hljs-built_in">sum</span>(<span class="hljs-keyword">bytes</span>) <span class="hljs-keyword">bytes</span></span><br><span class="line">          <span class="hljs-built_in">from</span> dba_data_files</span><br><span class="line">         group <span class="hljs-keyword">by</span> tablespace_name) <span class="hljs-keyword">a</span>,</span><br><span class="line">       (select tablespace_name, <span class="hljs-built_in">sum</span>(<span class="hljs-keyword">bytes</span>) <span class="hljs-keyword">bytes</span>, <span class="hljs-built_in">max</span>(<span class="hljs-keyword">bytes</span>) largest</span><br><span class="line">          <span class="hljs-built_in">from</span> dba_free_space</span><br><span class="line">         group <span class="hljs-keyword">by</span> tablespace_name) b</span><br><span class="line"> where <span class="hljs-keyword">a</span>.tablespace_name = b.tablespace_name</span><br><span class="line"> order <span class="hljs-keyword">by</span> ((<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span>) desc</span><br></pre></td></tr></table></figure>
-<h1 id="查看用户、表空间使用率"><a href="#查看用户、表空间使用率" class="headerlink" title="查看用户、表空间使用率"></a>查看用户、表空间使用率</h1><figure class="highlight livecodeserver hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">select <span class="hljs-keyword">a</span>.username,b.* <span class="hljs-built_in">from</span> dba_users <span class="hljs-keyword">a</span> left join (select <span class="hljs-keyword">a</span>.tablespace_name,</span><br><span class="line">       <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"Sum MB"</span>,</span><br><span class="line">       (<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"used MB"</span>,</span><br><span class="line">       b.<span class="hljs-keyword">bytes</span> / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span> <span class="hljs-string">"free MB"</span>,</span><br><span class="line">       <span class="hljs-built_in">round</span>(((<span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span> - b.<span class="hljs-keyword">bytes</span>) / <span class="hljs-keyword">a</span>.<span class="hljs-keyword">bytes</span>) * <span class="hljs-number">100</span>, <span class="hljs-number">2</span>) <span class="hljs-string">"percent_used"</span></span><br><span class="line">  <span class="hljs-built_in">from</span> (select tablespace_name, <span class="hljs-built_in">sum</span>(<span class="hljs-keyword">bytes</span>) <span class="hljs-keyword">bytes</span></span><br><span class="line">          <span class="hljs-built_in">from</span> dba_data_files</span><br><span class="line">         group <span class="hljs-keyword">by</span> tablespace_name) <span class="hljs-keyword">a</span>,</span><br><span class="line">       (select tablespace_name, <span class="hljs-built_in">sum</span>(<span class="hljs-keyword">bytes</span>) <span class="hljs-keyword">bytes</span>, <span class="hljs-built_in">max</span>(<span class="hljs-keyword">bytes</span>) largest</span><br><span class="line">          <span class="hljs-built_in">from</span> dba_free_space</span><br><span class="line">         group <span class="hljs-keyword">by</span> tablespace_name) b</span><br><span class="line"> where <span class="hljs-keyword">a</span>.tablespace_name = b.tablespace_name) b <span class="hljs-keyword">on</span> <span class="hljs-title">a</span>.<span class="hljs-title">default_tablespace</span> = <span class="hljs-title">b</span>.<span class="hljs-title">tablespace_name</span>;</span><br></pre></td></tr></table></figure>
-<h1 id="删除用户和数据文件"><a href="#删除用户和数据文件" class="headerlink" title="删除用户和数据文件"></a>删除用户和数据文件</h1><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">--步骤一：  删除user</span></span><br><span class="line"><span class="hljs-keyword">drop</span> <span class="hljs-keyword">user</span> ×× <span class="hljs-keyword">cascade</span></span><br><span class="line"><span class="hljs-comment">--说明： 删除了user，只是删除了该user下的schema objects，是不会删除相应的tablespace的。</span></span><br><span class="line"><span class="hljs-comment">--步骤二： 删除tablespace</span></span><br><span class="line"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLESPACE</span> tablespace_name <span class="hljs-keyword">INCLUDING</span> <span class="hljs-keyword">CONTENTS</span> <span class="hljs-keyword">AND</span> <span class="hljs-keyword">DATAFILES</span>;</span><br></pre></td></tr></table></figure>
-<h1 id="改变数据文件大小"><a href="#改变数据文件大小" class="headerlink" title="改变数据文件大小"></a>改变数据文件大小</h1><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">alter</span> <span class="hljs-keyword">database</span> <span class="hljs-keyword">datafile</span> <span class="hljs-string">'/u01/oracle/oradata/aeye/sysaux01.dbf'</span> <span class="hljs-keyword">resize</span> <span class="hljs-number">2</span>G;</span><br></pre></td></tr></table></figure>
+            
+                
+                    
+                        
+                        查看表空间使用率12345678910111213selecta.tablespace_name,a.bytes/1024/1024"SumMB",(a.bytes-b.bytes)/1024/1024"usedMB",b.bytes/1024/1024"freeMB",round(((a.bytes-b.bytes)/a.bytes)*100,2)"percent_used"from(selec
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/05/30/Database/Oracle查看表空间常用语句/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -414,7 +471,7 @@
                 <time class="level-item has-text-grey" datetime="2017-04-20T14:29:37.000Z">2017-04-20</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/programming/">programming</a>
+                <a class="has-link-grey -link" href="/categories/Spring基础/">Spring基础</a>
                 </div>
                 
                 
@@ -429,33 +486,29 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2017/04/20/Spring常用注解/">Spring常用注解</a>
+                <a class="has-link-black-ter" href="/2017/04/20/Spring/Spring常用注解/">Spring常用注解</a>
             
         </h1>
         <div class="content">
-            <h1 id="Java原生注解"><a href="#Java原生注解" class="headerlink" title="Java原生注解"></a>Java原生注解</h1><p>@Retention：注解说明,这种类型的注解会被保留到那个阶段<br>1.RetentionPolicy.SOURCE —— 这种类型的Annotations只在源代码级别保留,编译时就会被忽略<br>2.RetentionPolicy.CLASS —— 这种类型的Annotations编译时被保留,在class文件中存在,但JVM将会忽略<br>3.RetentionPolicy.RUNTIME —— 这种类型的Annotations将被JVM保留,所以他们能在运行时被JVM或其他使用反射机制的代码所读取和使用.</p>
-<p>@Documented：作用是在生成javadoc文档的时候将该注解也写入到文档中。javadoc默认是不会将注解写到文档中的。</p>
-<p>@Target:注解的使用的目标<br>　@Target(ElementType.TYPE)   //接口、类、枚举、注解<br>　@Target(ElementType.FIELD) //字段、枚举的常量<br>　@Target(ElementType.METHOD) //方法<br>　@Target(ElementType.PARAMETER) //方法参数<br>　@Target(ElementType.CONSTRUCTOR)  //构造函数<br>　@Target(ElementType.LOCAL_VARIABLE)//局部变量<br>　@Target(ElementType.ANNOTATION_TYPE)//注解<br>　@Target(ElementType.PACKAGE) ///包 </p>
-<p>@Inherited：它指明被注解的类的所有属性将会自动继承到它的子类中.</p>
-<p>#java EE规范<br>@Resource：为目标bean指定协作者Bean<br>@Inject：为目标bean指定协作者Bean<br>@Named：为目标bean指定协作者Bean<br>@Qualifier：<br>@PostConstruct：在构造函数执行完成之后执行。<br>@PreDestory：bean销毁之前的执行方法。</p>
-<h1 id="Spring注解"><a href="#Spring注解" class="headerlink" title="Spring注解"></a>Spring注解</h1><p>@Component   :标注一个普通的spring Bean类<br>@Service :标注一个业务逻辑组件类。<br>@Repository :标注一个DAO组件类。<br>@Controller:标注一个控制器组件类。</p>
-<p>@EnableWebMvc：开启MVC</p>
-<p><strong>方法级别</strong><br>@ResetController：组合注解，组合了@Controller和@RequestBody<br>@RequestMapping：配置URI和方法之间的映射<br>  @GetMapping<br>  @PostMapping<br>  @PutMapping<br>@RequestHeader 注解，可以把Request请求header部分的值绑定到方法的参数上。如：@RequestHeader(“Accept-Encoding”) String encoding<br>@CookieValue 可以把Request header中关于cookie的值绑定到方法的参数上。如：@CookieValue(“JSESSIONID”) String cookie</p>
-<p>@CrossOrigin:实现跨域访问。</p>
-<p><strong>参数</strong><br>@PathVariable：接受路径参数，如someUrl/{paramId}, 这时的paramId可通过 @Pathvariable注解绑定它传过来的值到方法的参数上。<br>@RequestParam：<br>A） 常用来处理简单类型的绑定，通过Request.getParameter() 获取的String可直接转换为简单类型的情况（ String–&gt; 简单类型的转换操作由ConversionService配置的转换器来完成）；因为使用request.getParameter()方式获取参数，所以可以处理get 方式中queryString的值，也可以处理post方式中 body data的值；<br>B）用来处理Content-Type: 为 application/x-www-form-urlencoded编码的内容，提交方式GET、POST；<br>C) 该注解有两个属性： value、required； value用来指定要传入值的id名称，required用来指示参数是否必须绑定；<br>@RequestBody：<br>该注解常用来处理Content-Type: 不是application/x-www-form-urlencoded编码的内容，例如application/json, application/xml等；<br>它是通过使用HandlerAdapter 配置的HttpMessageConverters来解析post data body，然后绑定到相应的bean上的。<br>因为配置有FormHttpMessageConverter，所以也可以用来处理 application/x-www-form-urlencoded的内容，处理完的结果放在一个MultiValueMap<string, string="">里，这种情况在某些特殊需求下使用</string,></p>
-<p>@InitBinder：用来设置WebDataBinder，WebDataBinder用来自动绑定前台请求的参数到Model中。<br>@ExceptionHandler：用于全局处理控制器里的异常。<br>@ModelAttribute<br>该注解有两个用法，一个是用于方法上，一个是用于参数上；<br>用于方法上时：  通常用来在处理@RequestMapping之前，为请求绑定需要从后台查询的model；<br>用于参数上时： 用来通过名称对应，把相应名称的值绑定到注解的参数bean上；要绑定的值来源于：</p>
-<p>@SessionAttribute:该注解用来绑定HttpSession中的attribute对象的值，便于在方法中的参数里使用。<br>@RequestAttribute：可以被用于访问由过滤器或拦截器创建的、预先存在的请求属性</p>
-<p>@ResponseBody：支持将返回值放在response的body体内</p>
-<p>@Scope：注解也可以指定Bean实例的作用域。取值：Singleton(默认)|Prototype|Request|Session|GlobalSession<br>@Autowired：为目标bean指定协作者Bean<br>@Value：为属性注入值</p>
-<p>@Aspect：声明一个切面<br>@PointCut：定义拦截规则<br>@After：标注一个之后建言<br>@Before：标注一个之前建言<br>@Around：标注一个运行时建言</p>
-<p>@Transcational：事物<br>@Cacheable：数据缓存</p>
-<p>@EnableScheduling：开启计划任务<br>@Scheduled：声明这是一个计划任务</p>
-<p>@Import：since4.2。导入普通的java类,并将其声明成一个bean<br>@Configuration：声明一个配置类<br>@ComponentScan：制定Spring扫描包路径。<br>@Bean 注解在方法上，声明当前方法的返回<br>@Profile：可以注解在类或方法上。 在不同环境下使用不同配置提供支持。<br>@Conditional：根据满足某一个特定条件创建一个特定的Bean。</p>
-<h1 id="Spring-boot"><a href="#Spring-boot" class="headerlink" title="Spring boot"></a>Spring boot</h1><p>@SpringBootApplication ：会根据类路径中jar包自动进行相关配置。<br>@EnableAutoConfiguration<br>@ConfigurationProperties：加载一个properties文件。</p>
-<p>@ConditionalOnBean:当容器里有指定的Bean的条件下<br>@ConditionalOnClass:当类路径下有指定的类的条件下。<br>@ConditionalOnExpression：基于SPEl表达式作为判断条件。<br>@ConditionalOnJava：基于JVM版本作为判断条件。<br>@ConditionalOnJndi:在JNDI存在的条件下查找指定的位置。<br>@ConditionalOnMissingBean：当容器里没有指定Bean的条件下。<br>@ConditionalOnMissingClass:当类路径下没有指定的类的条件下。<br>@ConditionalOnWebApplication:当前项目是web项目的条件下。<br>@ConditionalOnNotWebApplication:当前项目部是WEb项目的条件下。<br>@ConditionalOnProperty:指定的属性是否有指定的值。<br>@ConditionalOnResource：类路径是否有指定的值。<br>@ConditionalOnSingleCandidate:当指定首选的Bean。</p>
-
+            
+                
+                    
+                        
+                        Java原生注解@Retention：注解说明,这种类型的注解会被保留到那个阶段1.RetentionPolicy.SOURCE——这种类型的Annotations只在源代码级别保留,编译时就会被忽略2.RetentionPolicy.CLASS——这种类型的Annotations编译时被保留,在class文件中存在,但JVM将会忽略3.RetentionPolicy.RUNTIME——这种类型的
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/04/20/Spring/Spring常用注解/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -493,23 +546,32 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2017/04/20/tomcat安装成服务及自启动/">mysql安装成服务及自启动</a>
+                <a class="has-link-black-ter" href="/2017/04/20/server/tomcat安装成服务及自启动/">mysql安装成服务及自启动</a>
             
         </h1>
         <div class="content">
-            <h1 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h1><p>1、解压该压缩包，生成3分tomcat 分别命名为 tomcat1,tomcat2,tomcat3</p>
-<p>2、进入tomcat1/conf/目录，修改server.xml的端口。</p>
-<p>3、进入tomcat1/bin目录，修改 service.bat</p>
-<p>4、修改SERVICE_NAME，如下<br><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rem <span class="hljs-builtin-name">Set</span><span class="hljs-built_in"> default Service </span>name</span><br><span class="line"><span class="hljs-builtin-name">set</span> <span class="hljs-attribute">SERVICE_NAME</span>=Tomcat7</span><br><span class="line"><span class="hljs-builtin-name">set</span> <span class="hljs-attribute">DISPLAYNAME</span>=Apache Tomcat 7.0 %SERVICE_NAME%</span><br></pre></td></tr></table></figure></p>
-<p>5、打开CMD命令控制台，进入tomcat1/bin目录，执行服务安装命令<br><figure class="highlight stylus hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service<span class="hljs-selector-class">.bat</span> install</span><br></pre></td></tr></table></figure></p>
-<p>注意：不要在环境变量设置CATALINA_HOME和CATALINA_HOME，否则无法生效！</p>
-<p>同理安装其他Tomcat。</p>
-<p>PS：删除服务<br><figure class="highlight stylus hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service<span class="hljs-selector-class">.bat</span> uninstall</span><br></pre></td></tr></table></figure></p>
-<h1 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h1><p>简单自启动：<br><figure class="highlight applescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.<span class="hljs-keyword">local</span></span><br></pre></td></tr></table></figure></p>
-<p>在  exit 0  之前添加启动命令：<br><figure class="highlight awk hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-regexp">/home/</span>tomcat<span class="hljs-regexp">/bin/</span>startup.sh</span><br></pre></td></tr></table></figure></p>
-
+            
+                
+                    
+                        
+                        windows1、解压该压缩包，生成3分tomcat分别命名为tomcat1,tomcat2,tomcat3
+2、进入tomcat1/conf/目录，修改server.xml的端口。
+3、进入tomcat1/bin目录，修改service.bat
+4、修改SERVICE_NAME，如下123remSetdefaultServicenamesetSERVICE_NAME=Tomcat7setDISP
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/04/20/server/tomcat安装成服务及自启动/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -532,7 +594,7 @@
                 <time class="level-item has-text-grey" datetime="2017-03-19T15:40:59.000Z">2017-03-19</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/programming/">programming</a>
+                <a class="has-link-grey -link" href="/categories/Spring基础/">Spring基础</a>
                 </div>
                 
                 
@@ -547,23 +609,30 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2017/03/19/spring声明式事务配置/">spring声明式事务配置</a>
+                <a class="has-link-black-ter" href="/2017/03/19/Spring/spring声明式事务配置/">spring声明式事务配置</a>
             
         </h1>
         <div class="content">
-            <p>上周要一个同事开发一个模块，他说事物死活不起作用。我看了一下，大致主要配置如下：</p>
-<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">&lt;!-- 配置事务管理 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"transactionManager"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"dataSource"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"businessDataSource"</span> /&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">&lt;!-- 事务相关控制配置：例如配置事务的传播机制 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">tx:advice</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"fortressAdvice"</span> <span class="hljs-attr">transaction-manager</span>=<span class="hljs-string">"transactionManager"</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"get*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"query*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"count*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"save*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"remove*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"modify*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"true"</span> /&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;/<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">tx:advice</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">&lt;!-- 事务控制切入点在service层</span></span><br><span class="line"><span class="hljs-comment">|第一个 *  —— 通配 任意返回值类型|</span></span><br><span class="line"><span class="hljs-comment">|第二个 *  —— 通配包com.mindasoft.fortress.service下的任意class|</span></span><br><span class="line"><span class="hljs-comment">|第三个 *  —— 通配包com.mindasoft.fortress.service下的任意class的任意方法|</span></span><br><span class="line"><span class="hljs-comment">|第四个 .. —— 通配 办法可以有0个或多个参数</span></span><br><span class="line"><span class="hljs-comment">--&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">aop:config</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">aop:pointcut</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"allFortressMethod"</span>  <span class="hljs-attr">expression</span>=<span class="hljs-string">"execution(* com.mindasoft.fortress.service.*.*(..))"</span> /&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">aop:advisor</span> <span class="hljs-attr">advice-ref</span>=<span class="hljs-string">"fortressAdvice"</span>  <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">"allFortressMethod"</span> /&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>配置是这样没错，他的配置也问题，但是为什么会不起作用呢？<br>Debug进行，发现根本就没有进入事物处理。为什么会这样？<br>看配置web.xml<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">&lt;!-- Spring MVC 子Context配置 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>classpath*:/config/servlet.web.xml<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">load-on-startup</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">load-on-startup</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>*.html<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">&lt;!-- Spring root Context监听配置 --&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">listener</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="hljs-tag">&lt;/<span class="hljs-name">listener-class</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">listener</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">context-param</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>classpath*:/config/**/*.bean.xml<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">context-param</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>Spring和SpringMVC一起使用时，ContextLoaderListener会初始化一个Context，这个Context是RootContext，而DispatcherServlet也会初始化一个Context，简称WebContext。WebContext是RootContext的子集。当mvc有自己的bean时便不再去向父context要bean。</p>
-<p>所以，在servlet.web.xml 和*.bean.xml 当中，各自的component-scan配置要指定相应位置，否则会导致bean混乱，从导致声明事务无效。<br>如下：<br>servlet.web.xml<br><figure class="highlight vhdl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan base-<span class="hljs-keyword">package</span>=<span class="hljs-string">"com.mindasoft.*.controllers"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>*.bean.xml<br><figure class="highlight vhdl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan base-<span class="hljs-keyword">package</span>=<span class="hljs-string">"com.mindasoft.*.dao"</span>  /&gt;</span><br><span class="line">&lt;<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan base-<span class="hljs-keyword">package</span>=<span class="hljs-string">"com.mindasoft.*.service"</span>  /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>当然你也可以使用DispatcherServlet加载全部的配置文件或者将AOP配置复制到servlet.web.xml中。</p>
-<p>这个修改了之后还是不行？？<br>看了下他的代码，他是自己写了一个Exception。然后断点跟踪源代码TransactionAspectSupport：<br><figure class="highlight aspectj hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * Handle a throwable, completing the transaction.</span></span><br><span class="line"><span class="hljs-comment"> * We may commit or roll back, depending on the configuration.</span></span><br><span class="line"><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> txInfo information about the current transaction</span></span><br><span class="line"><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> ex throwable encountered</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"><span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">completeTransactionAfterThrowing</span><span class="hljs-params">(TransactionInfo txInfo, Throwable ex)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (txInfo != <span class="hljs-keyword">null</span> &amp;&amp; txInfo.hasTransaction()) &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (logger.isTraceEnabled()) &#123;</span><br><span class="line">            logger.trace(<span class="hljs-string">"Completing transaction for ["</span> + txInfo.getJoinpointIdentification() +</span><br><span class="line">                    <span class="hljs-string">"] after exception: "</span> + ex);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (txInfo.transactionAttribute.rollbackOn(ex)) &#123;</span><br><span class="line">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                txInfo.getTransactionManager().rollback(txInfo.getTransactionStatus());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (TransactionSystemException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by rollback exception"</span>, ex);</span><br><span class="line">                ex2.initApplicationException(ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (RuntimeException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by rollback exception"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (Error err) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by rollback error"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> err;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-comment">// We don't roll back on this exception.</span></span><br><span class="line">            <span class="hljs-comment">// Will still roll back if TransactionStatus.isRollbackOnly() is true.</span></span><br><span class="line">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                txInfo.getTransactionManager().commit(txInfo.getTransactionStatus());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (TransactionSystemException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by commit exception"</span>, ex);</span><br><span class="line">                ex2.initApplicationException(ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (RuntimeException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by commit exception"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (Error err) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by commit error"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> err;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面的方法中有这么一段txInfo.transactionAttribute.rollbackOn(ex)，这里是判断是否需要执行回滚操作的，跟踪rollbackOn方法最后会执行到DefaultTransactionAttribute中的rollbackOn方法。<br><figure class="highlight applescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * The default behavior <span class="hljs-keyword">is</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">with</span> EJB: rollback <span class="hljs-keyword">on</span> unchecked exception.</span><br><span class="line"> * Additionally attempt <span class="hljs-keyword">to</span> rollback <span class="hljs-keyword">on</span> Error.</span><br><span class="line"> * &lt;p&gt;This <span class="hljs-keyword">is</span> consistent <span class="hljs-keyword">with</span> TransactionTemplate's default behavior.</span><br><span class="line"> */</span><br><span class="line">public <span class="hljs-built_in">boolean</span> rollbackOn(Throwable ex) &#123;</span><br><span class="line"><span class="hljs-built_in">    return</span> (ex instanceof RuntimeException || ex instanceof Error);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>到这里，应该都清楚了。。。自己主动抛异常Exception是不对的。这里只捕获运行时异常RuntimeException 及Error，所以我们测试时不可以直接抛Exception，而应该换成RuntimeException 。当然。也可在xml中指定rollback-for。<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">&lt;!-- 事务相关控制配置：例如配置事务的传播机制 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">tx:advice</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"fortressAdvice"</span> <span class="hljs-attr">transaction-manager</span>=<span class="hljs-string">"transactionManager"</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"get*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"query*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"count*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"save*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">"Exception"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"remove*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">"Exception"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"modify*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">"Exception"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"true"</span> /&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;/<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">tx:advice</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-
+            
+                
+                    
+                        
+                        上周要一个同事开发一个模块，他说事物死活不起作用。我看了一下，大致主要配置如下：
+12345678910111213141516171819202122232425262728&lt;!--配置事务管理--&gt;&lt;beanid="transactionManager"class="org.springframework.jdbc.datasource.DataSourceTransacti
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/03/19/Spring/spring声明式事务配置/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -605,22 +674,29 @@
             
         </h1>
         <div class="content">
-            <p><strong>安装环境：系统是 centos6.5</strong></p>
-<h1 id="libevent安装"><a href="#libevent安装" class="headerlink" title="libevent安装"></a>libevent安装</h1><p>打开memcached官网的下载界面<a href="http://memcached.org/downloads，看到有如下提示：" target="_blank" rel="noopener">http://memcached.org/downloads，看到有如下提示：</a></p>
-<p>Debian/Ubuntu: apt-get install libevent-dev Redhat/Centos: yum install libevent-devel</p>
-<p>说明memcached依赖于libevent 。</p>
-<h2 id="yum安装"><a href="#yum安装" class="headerlink" title="yum安装"></a>yum安装</h2><figure class="highlight cmake hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="hljs-keyword">install</span> libevent-devel</span><br></pre></td></tr></table></figure>
-<h2 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h2><p>下载网址：<a href="http://libevent.org/" target="_blank" rel="noopener">http://libevent.org/</a><br><figure class="highlight gauss hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#解压 </span></span><br><span class="line">tar -zxvf libevent<span class="hljs-number">-2.0</span><span class="hljs-number">.22</span>-stable.tar.gz </span><br><span class="line"><span class="hljs-meta">#配置 </span></span><br><span class="line">./configure –prefix=/usr/<span class="hljs-keyword">local</span>/libevent </span><br><span class="line"><span class="hljs-meta">#安装 </span></span><br><span class="line"><span class="hljs-built_in">make</span> &amp;&amp; <span class="hljs-built_in">make</span> install</span><br></pre></td></tr></table></figure></p>
-<h1 id="下载memcached"><a href="#下载memcached" class="headerlink" title="下载memcached"></a>下载memcached</h1><p>memcached下载网址： <a href="http://memcached.org/downloads" target="_blank" rel="noopener">http://memcached.org/downloads</a></p>
-<p>或者</p>
-<p>wget <a href="http://memcached.org/latest" target="_blank" rel="noopener">http://memcached.org/latest</a></p>
-<h1 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h1><p>该版本的memcached没有使用gzip压缩，所以不能加-g<br><figure class="highlight css hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-selector-tag">tar</span> <span class="hljs-selector-tag">-xvf</span> <span class="hljs-selector-tag">memcached-1</span><span class="hljs-selector-class">.4</span><span class="hljs-selector-class">.25</span><span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.gz</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><p>通过 ./configure –help可以参考编译参数，可以看出，我们可以通过 –with-libevent来指定libevent安装目录。 编译命令如下：<br><figure class="highlight awk hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.<span class="hljs-regexp">/configure --prefix=/u</span>sr<span class="hljs-regexp">/local/m</span>emcached  --with-libevent=<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/libevent/</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>执行如下命令<br><figure class="highlight gauss hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">make</span> &amp;&amp; <span class="hljs-built_in">make</span> install</span><br></pre></td></tr></table></figure></p>
-<p>安装完成后，可以看到/usr/local目录下多了一个memcached目录。</p>
-<h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-string">./memcached</span> -vv -u nobody</span><br></pre></td></tr></table></figure>
+            
+                
+                    
+                        
+                        安装环境：系统是centos6.5
+libevent安装打开memcached官网的下载界面http://memcached.org/downloads，看到有如下提示：
+Debian/Ubuntu:apt-getinstalllibevent-devRedhat/Centos:yuminstalllibevent-devel
+说明memcached依赖于libevent。
+yum安装1yumin
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/03/18/Database/memcached在Linux下的安装/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -705,7 +781,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        4
                     </p>
                 </div>
             </div>
@@ -715,7 +791,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        18
                     </p>
                 </div>
             </div>
@@ -791,9 +867,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -812,7 +896,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -826,7 +910,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -920,9 +1004,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -941,7 +1033,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -955,7 +1047,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -1090,6 +1182,46 @@ Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == do
 
     
     
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
     
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>

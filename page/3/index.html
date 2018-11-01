@@ -49,6 +49,10 @@
     
     
     
+    <style>body{opacity: 0}</style>
+    
+
+    
     
     
     
@@ -140,52 +144,77 @@
             
         </h1>
         <div class="content">
-            <h1 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h1><p>1、 Redis的数据类型：<br>字符串、列表（lists）、集合（sets）、有序集合（sorts sets）、哈希表（hashs）</p>
-<p>2、 Redis和memcache相比的独特之处：<br>（1）redis可以用来做存储（storge）、而memcache是来做缓存（cache）。这个特点主要是因为其有“持久化”功能<br>（2）存储的数据有“结构”，对于memcache来说，存储的数据，只有一种类型——“字符串”，而redis则可以存储字符串、链表、集合、有序集合、哈序结构</p>
-<p>3、 持久化的两种方式：<br>Redis将数据存储于内存中，或被配置为使用虚拟内存。<br>实现数据持久化的两种方式：<br>（1）使用截图的方式，将内存中的数据不断写入磁盘（性能高，但可能会引起一定程度的数据丢失）<br>（2）使用类似mysql的方式，记录每次更新的日志</p>
-<p>4、 Redis的主从同步：对提高读取性能非常有益</p>
-<p>5、Redis服务端的默认端口是6379</p>
-<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p><strong>安装环境：系统是 centos6.5</strong></p>
-<p>下载地址：<a href="http://download.redis.io/releases/redis-3.2.1.tar.gz" target="_blank" rel="noopener">http://download.redis.io/releases/redis-3.2.1.tar.gz</a><br>上传到Linux。</p>
-<h1 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h1><figure class="highlight css hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-selector-tag">tar</span> <span class="hljs-selector-tag">-zxvf</span> <span class="hljs-selector-tag">redis-3</span><span class="hljs-selector-class">.2</span><span class="hljs-selector-class">.1</span><span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.gz</span></span><br></pre></td></tr></table></figure>
-<h1 id="编译源程序"><a href="#编译源程序" class="headerlink" title="编译源程序"></a>编译源程序</h1><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">cd</span> redis-3.2.1</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">#编译完成之后</span></span><br><span class="line"><span class="hljs-built_in">cd</span> src</span><br><span class="line">make install PREFIX=/usr/<span class="hljs-built_in">local</span>/redis</span><br></pre></td></tr></table></figure>
-<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><figure class="highlight awk hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp redis.conf <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin<span class="hljs-regexp">/</span></span><br></pre></td></tr></table></figure>
-<h1 id="服务启动和停止"><a href="#服务启动和停止" class="headerlink" title="服务启动和停止"></a>服务启动和停止</h1><figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">cd</span> <span class="hljs-string">/usr/local/redis/bin/</span></span><br><span class="line"><span class="hljs-string">./redis-server</span> redis.conf</span><br></pre></td></tr></table></figure>
-<p>默认情况，Redis不是在后台运行，我们需要把redis放在后台运行<br><figure class="highlight nginx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attribute">vim</span> redis.conf</span><br><span class="line"><span class="hljs-comment">#将daemonize的值改为yes</span></span><br><span class="line">daemonize <span class="hljs-literal">yes</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>客户端连接</strong><br><figure class="highlight avrasm hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./redis-<span class="hljs-keyword">cli</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>停止服务</strong><br><figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-string">./redis-cli</span> <span class="hljs-keyword">shutdown</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="redis开机自启"><a href="#redis开机自启" class="headerlink" title="redis开机自启"></a>redis开机自启</h1><figure class="highlight awk hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="hljs-regexp">/etc/</span>rc.local</span><br><span class="line"><span class="hljs-comment">#加入redis启动脚本</span></span><br><span class="line"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin<span class="hljs-regexp">/redis-server /u</span>sr<span class="hljs-regexp">/local/</span>redis<span class="hljs-regexp">/bin/</span>redis.conf</span><br></pre></td></tr></table></figure>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>redis-benchmark：redis性能测试工具</p>
-<p>redis-check-aof：检查aof日志的工具</p>
-<p>redis-check-dump：检查rdb日志的工具</p>
-<p>redis-cli：连接用的客户端</p>
-<p>redis-server：redis服务进程</p>
-<h1 id="Redis的配置"><a href="#Redis的配置" class="headerlink" title="Redis的配置"></a>Redis的配置</h1><p>daemonize：如需要在后台运行，把该项的值改为yes</p>
-<p>　　pdifile：把pid文件放在/var/run/redis.pid，可以配置到其他地址</p>
-<p>　　bind：指定redis只接收来自该IP的请求，如果不设置，那么将处理所有请求，在生产环节中最好设置该项</p>
-<p>　　port：监听端口，默认为6379</p>
-<p>　　timeout：设置客户端连接时的超时时间，单位为秒</p>
-<p>　　loglevel：等级分为4级，debug，revbose，notice和warning。生产环境下一般开启notice</p>
-<p>　　logfile：配置log文件地址，默认使用标准输出，即打印在命令行终端的端口上</p>
-<p>　　database：设置数据库的个数，默认使用的数据库是0</p>
-<p>　　save：设置redis进行数据库镜像的频率</p>
-<p>　　rdbcompression：在进行镜像备份时，是否进行压缩</p>
-<p>　　dbfilename：镜像备份文件的文件名</p>
-<p>　　dir：数据库镜像备份的文件放置的路径</p>
-<p>　　slaveof：设置该数据库为其他数据库的从数据库</p>
-<p>　　masterauth：当主数据库连接需要密码验证时，在这里设定</p>
-<p>　　requirepass：设置客户端连接后进行任何其他指定前需要使用的密码</p>
-<p>　　maxclients：限制同时连接的客户端数量</p>
-<p>　　maxmemory：设置redis能够使用的最大内存</p>
-<p>　　appendonly：开启appendonly模式后，redis会把每一次所接收到的写操作都追加到appendonly.aof文件中，当redis重新启动时，会从该文件恢复出之前的状态</p>
-<p>　　appendfsync：设置appendonly.aof文件进行同步的频率</p>
-<p>　　vm_enabled：是否开启虚拟内存支持</p>
-<p>　　vm_swap_file：设置虚拟内存的交换文件的路径</p>
-<p>　　vm_max_momery：设置开启虚拟内存后，redis将使用的最大物理内存的大小，默认为0</p>
-<p>　　vm_page_size：设置虚拟内存页的大小</p>
-<p>　　vm_pages：设置交换文件的总的page数量</p>
-<p>　　vm_max_thrrads：设置vm IO同时使用的线程数量</p>
+            
+                
+                    
+                        
+                        基本知识1、Redis的数据类型：字符串、列表（lists）、集合（sets）、有序集合（sortssets）、哈希表（hashs）
+2、Redis和memcache相比的独特之处：（1）redis可以用来做存储（storge）、而memcache是来做缓存（cache）。这个特点主要是因为其有“持久化”功能（2）存储的数据有“结构”，对于memcache来说，存储的数据，只有一种类型——“字符串
+                        ...
+                    
+                
+            
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/03/18/Database/Redis在Linux下的安装/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
 
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-03-18T07:16:08.000Z">2017-03-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/programming/">programming</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    几秒 读完 (大约 9 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/03/18/Database/Oracle在Linux下的安装/">Oracle在Linux下的安装</a>
+            
+        </h1>
+        <div class="content">
+            
+                
+                    
+                        
+                        安装环境：系统是centos6.5
+
+                        
+                    
+                
+            
         </div>
         
         
@@ -229,68 +258,27 @@
             
         </h1>
         <div class="content">
-            <p><strong>安装环境：系统是 centos6.5</strong></p>
-<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>下载地址：<a href="http://dev.mysql.com/downloads/mysql/5.6.html#downloads" target="_blank" rel="noopener">http://dev.mysql.com/downloads/mysql/5.6.html#downloads</a><br>下载版本：我这里选择的5.6.33，通用版，linux下64位</p>
-<p>也可以直接复制64位的下载地址，通过命令下载：wget <a href="http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.33-linux-glibc2.5-x86_64.tar.gz" target="_blank" rel="noopener">http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.33-linux-glibc2.5-x86_64.tar.gz</a></p>
-<h1 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h1><figure class="highlight lsl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#解压</span><br><span class="line">tar -zxvf mysql<span class="hljs-number">-5.6</span><span class="hljs-number">.33</span>-linux-glibc2<span class="hljs-number">.5</span>-x86_64.tar.gz</span><br><span class="line">#复制解压后的mysql目录</span><br><span class="line">cp -r mysql<span class="hljs-number">-5.6</span><span class="hljs-number">.33</span>-linux-glibc2<span class="hljs-number">.5</span>-x86_64 /usr/local/mysql</span><br></pre></td></tr></table></figure>
-<h1 id="添加用户组和用户"><a href="#添加用户组和用户" class="headerlink" title="添加用户组和用户"></a>添加用户组和用户</h1><figure class="highlight vala hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#添加用户组</span></span><br><span class="line">groupadd mysql</span><br><span class="line"><span class="hljs-meta">#添加用户mysql 到用户组mysql</span></span><br><span class="line">useradd -g mysql mysql</span><br></pre></td></tr></table></figure>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/mysql/</span><br><span class="line">mkdir ./data/mysql</span><br><span class="line">chown -R mysql:mysql ./</span><br><span class="line">./scripts/mysql_install_db <span class="hljs-attribute">--user</span>=mysql <span class="hljs-attribute">--datadir</span>=/usr/local/mysql/data/mysql</span><br><span class="line">cp support-files/mysql.server /etc/init.d/mysqld</span><br><span class="line">chmod 755 /etc/init.d/mysqld</span><br><span class="line">cp support-files/my-default.cnf /etc/my.cnf</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">#修改启动脚本</span></span><br><span class="line">vi /etc/init.d/mysqld</span><br><span class="line"> </span><br><span class="line"><span class="hljs-comment">#修改项：</span></span><br><span class="line"><span class="hljs-attribute">basedir</span>=/usr/local/mysql/</span><br><span class="line"><span class="hljs-attribute">datadir</span>=/usr/local/mysql/data/mysql</span><br><span class="line"> </span><br><span class="line"><span class="hljs-comment">#启动服务</span></span><br><span class="line">service mysqld start</span><br><span class="line"> </span><br><span class="line"><span class="hljs-comment">#测试连接</span></span><br><span class="line">./mysql/bin/mysql -uroot</span><br><span class="line"> </span><br><span class="line"><span class="hljs-comment">#加入环境变量，编辑 /etc/profile，这样可以在任何地方用mysql命令了</span></span><br><span class="line"><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">PATH</span>=<span class="hljs-variable">$PATH</span>:/usr/local/mysql//bin</span><br><span class="line">source /etc/profile</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="hljs-comment">#启动mysql</span></span><br><span class="line">service mysqld start</span><br><span class="line"><span class="hljs-comment">#关闭mysql</span></span><br><span class="line">service mysqld stop</span><br><span class="line"><span class="hljs-comment">#查看运行状态</span></span><br><span class="line">service mysqld status</span><br></pre></td></tr></table></figure>
-<h1 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h1><h2 id="sqlyog连接时，报1130错误"><a href="#sqlyog连接时，报1130错误" class="headerlink" title="sqlyog连接时，报1130错误."></a>sqlyog连接时，报1130错误.</h2><p>是由于没有给远程连接的用户权限问题<br>解决1:更改 ‘mysql’数据库‘user’表‘host’项，从‘localhost’改成‘%’。<br><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">use</span> mysql;</span><br><span class="line"><span class="hljs-keyword">select</span> <span class="hljs-string">'host'</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> <span class="hljs-keyword">user</span>=<span class="hljs-string">'root'</span>; </span><br><span class="line"><span class="hljs-keyword">update</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">set</span> host = <span class="hljs-string">'%'</span> <span class="hljs-keyword">where</span> <span class="hljs-keyword">user</span> =<span class="hljs-string">'root'</span>;</span><br><span class="line"><span class="hljs-keyword">flush</span> <span class="hljs-keyword">privileges</span>;</span><br></pre></td></tr></table></figure></p>
-<p>解决2：直接授权<br><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">GRANT</span> ALL <span class="hljs-keyword">PRIVILEGES</span> <span class="hljs-keyword">ON</span> *.* <span class="hljs-keyword">TO</span> ‘root’@<span class="hljs-string">'%’ IDENTIFIED BY ‘youpassword’ WITH GRANT OPTION;</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="安装时的一些错误"><a href="#安装时的一些错误" class="headerlink" title="安装时的一些错误"></a>安装时的一些错误</h2><p>-bash: ./scripts/mysql_install_db: /usr/bin/perl: bad interpreter: 没有那个文件或目录<br><figure class="highlight vim hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">解决： yum -<span class="hljs-keyword">y</span> install <span class="hljs-keyword">perl</span> <span class="hljs-keyword">perl</span>-devel</span><br></pre></td></tr></table></figure></p>
-<p>Installing MySQL system tables…./bin/mysqld: error while loading shared libraries: libaio.so.1: cannot open shared object file: No such file or directory<br><figure class="highlight cmake hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">解决：yum -y <span class="hljs-keyword">install</span> libaio-devel</span><br></pre></td></tr></table></figure></p>
-<p>#其他</p>
-<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi + /etc/profile</span><br><span class="line"><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">PATH</span>=....:/usr/local/mysql/bin</span><br></pre></td></tr></table></figure>
-<h2 id="Linux表名大小写问题"><a href="#Linux表名大小写问题" class="headerlink" title="Linux表名大小写问题"></a>Linux表名大小写问题</h2><p>编辑/etc/my.cnf,在[mysqld]下面添加如下：<br><figure class="highlight ini hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-section">[mysqld]</span></span><br><span class="line"><span class="hljs-attr">lower_case_table_names</span>=<span class="hljs-number">1</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="乱码问题"><a href="#乱码问题" class="headerlink" title="乱码问题"></a>乱码问题</h2><p>编辑/etc/my.cnf,在[mysqld]下面添加如下：<br><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"><span class="hljs-built_in">..</span>.</span><br><span class="line"><span class="hljs-attribute">character-set-server</span>=utf8</span><br></pre></td></tr></table></figure></p>
-
+            
+                
+                    
+                        
+                        安装环境：系统是centos6.5
+下载下载地址：http://dev.mysql.com/downloads/mysql/5.6.html#downloads下载版本：我这里选择的5.6.33，通用版，linux下64位
+也可以直接复制64位的下载地址，通过命令下载：wgethttp://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.33-lin
+                        ...
+                    
+                
+            
         </div>
         
         
-        
-
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-03-18T07:16:08.000Z">2017-03-18</time>
-                
+        <div class="level is-mobile">
+            <div class="level-start">
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/programming/">programming</a>
+                <a class="button is-size-7 is-light" href="/2017/03/18/Database/mysql在Linux下的安装/#more">阅读更多</a>
                 </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    几秒 读完 (大约 9 个字)
-                </span>
-                
             </div>
         </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2017/03/18/Database/Oracle在Linux下的安装/">Oracle在Linux下的安装</a>
-            
-        </h1>
-        <div class="content">
-            <p><strong>安装环境：系统是 centos6.5</strong></p>
-
-        </div>
-        
         
         
 
@@ -328,16 +316,29 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2017/03/18/Android常用部署属性/">Android常用部署属性</a>
+                <a class="has-link-black-ter" href="/2017/03/18/Android/Android常用部署属性/">Android常用部署属性</a>
             
         </h1>
         <div class="content">
-            <h1 id="第一类：通用属性"><a href="#第一类：通用属性" class="headerlink" title="第一类：通用属性"></a>第一类：通用属性</h1><figure class="highlight coq hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">android:id   设置ID</span><br><span class="line">android:layout_width 该组件的宽度,wrap_content|<span class="hljs-type">fill_parent</span>|<span class="hljs-type">match_parent</span></span><br><span class="line">android:layout_height  该组件的高度，wrap_content|<span class="hljs-type">fill_parent</span>|<span class="hljs-type">match_parent</span></span><br><span class="line">android:layout_gravity 该组件在父组件的对其方式，<span class="hljs-built_in">bottom</span>|<span class="hljs-type">left</span>|<span class="hljs-type">top</span>|<span class="hljs-type">right</span></span><br><span class="line">android:orientation 布局组件的内部子组件的排列方式，horizontal|<span class="hljs-type">vertical</span></span><br><span class="line">android:gravity 布局组件的内部子组件的对其方式,<span class="hljs-built_in">bottom</span>|<span class="hljs-type">left</span>|<span class="hljs-type">top</span>|<span class="hljs-type">right</span></span><br><span class="line">android:text 设置显示的文本内容，通过、string.xml文件引用</span><br><span class="line">android:textColor 设置字体颜色，通过colors.xml资源来引用</span><br><span class="line">android:textStyle 设置字体风格，normal(无效果)|<span class="hljs-type">bold</span>(加粗)|<span class="hljs-type">italic</span>(斜体)</span><br><span class="line">android:textSize 字体大小，单位一般是用sp！</span><br><span class="line">android:background 设置主键的背景图片</span><br></pre></td></tr></table></figure>
-<h1 id="第二类-属性值为true或false"><a href="#第二类-属性值为true或false" class="headerlink" title="第二类:属性值为true或false"></a>第二类:属性值为true或false</h1><figure class="highlight armasm hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">android:layout_centerHrizontal </span>水平居中</span><br><span class="line"><span class="hljs-keyword">android:layout_centerVertical </span>垂直居中</span><br><span class="line"><span class="hljs-keyword">android:layout_centerInparent </span>相对于父元素完全居中。</span><br><span class="line"><span class="hljs-keyword">android:layout_alignParentBottom </span>贴紧父元素的下边缘</span><br><span class="line"><span class="hljs-keyword">android:layout_alignParentLeft </span>贴紧父元素的左边缘</span><br><span class="line"><span class="hljs-keyword">android:layout_alignParentRight </span>贴紧父元素的右边缘</span><br><span class="line"><span class="hljs-keyword">android:layout_alignParentTop </span>贴紧父元素的上边缘</span><br><span class="line"><span class="hljs-keyword">android:layout_alignWithParentIfMissing </span>如果对应的兄弟元素找不到的话就以父元素做参照物</span><br></pre></td></tr></table></figure>
-<h1 id="第三类：属性值必须为id的引用名“-id-id-name”"><a href="#第三类：属性值必须为id的引用名“-id-id-name”" class="headerlink" title="第三类：属性值必须为id的引用名“@id/id-name”"></a>第三类：属性值必须为id的引用名“@id/id-name”</h1><figure class="highlight armasm hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">android:layout_below </span>在某元素的下方</span><br><span class="line"><span class="hljs-keyword">android:layout_above </span>在某元素的的上方</span><br><span class="line"><span class="hljs-keyword">android:layout_toLeftOf </span>在某元素的左边</span><br><span class="line"><span class="hljs-keyword">android:layout_toRightOf </span>在某元素的右边</span><br><span class="line"><span class="hljs-keyword">android:layout_alignTop </span>本元素的上边缘和某元素的的上边缘对齐</span><br><span class="line"><span class="hljs-keyword">android:layout_alignLeft </span>本元素的左边缘和某元素的的左边缘对齐</span><br><span class="line"><span class="hljs-keyword">android:layout_alignBottom </span>本元素的下边缘和某元素的的下边缘对齐</span><br><span class="line"><span class="hljs-keyword">android:layout_alignRight </span>本元素的右边缘和某元素的的右边缘对齐</span><br></pre></td></tr></table></figure>
-<h1 id="第四类：属性值为具体的像素值，如30dip，40px"><a href="#第四类：属性值为具体的像素值，如30dip，40px" class="headerlink" title="第四类：属性值为具体的像素值，如30dip，40px"></a>第四类：属性值为具体的像素值，如30dip，40px</h1><figure class="highlight armasm hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">android:layout_margin </span>离某元素上下左右的的距离</span><br><span class="line"><span class="hljs-keyword">android:layout_marginTop </span>离某元素上边缘的距离</span><br><span class="line"><span class="hljs-keyword">android:layout_marginRight </span>离某元素右边缘的距离</span><br><span class="line"><span class="hljs-keyword">android:layout_marginBottom </span>离某元素底边缘的距离</span><br><span class="line"><span class="hljs-keyword">android:layout_marginLeft </span>离某元素左边缘的距离</span><br><span class="line"><span class="hljs-keyword">android:padding </span>指该控件内部内容距离该控件上下左右边缘的边距</span><br><span class="line"><span class="hljs-keyword">android:paddingTop </span>指该控件内部内容距离该控件上边缘的边距</span><br><span class="line"><span class="hljs-keyword">android:paddingRight </span>指该控件内部内容距离该控件左边缘的边距</span><br><span class="line"><span class="hljs-keyword">android:paddingBottom </span>指该控件内部内容距离该控件下边缘的边距</span><br><span class="line"><span class="hljs-keyword">android:paddingLeft </span>指该控件内部内容距离该控件右边缘的边距</span><br></pre></td></tr></table></figure>
+            
+                
+                    
+                        
+                        第一类：通用属性1234567891011android:id设置IDandroid:layout_width该组件的宽度,wrap_content|fill_parent|match_parentandroid:layout_height该组件的高度，wrap_content|fill_parent|match_parentandroid:layout_gravity该组件在父组件的对其方式，b
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/03/18/Android/Android常用部署属性/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -360,7 +361,7 @@
                 <time class="level-item has-text-grey" datetime="2017-02-06T15:32:00.000Z">2017-02-06</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/hexo/">Hexo</a>
+                <a class="has-link-grey -link" href="/categories/Hexo/">Hexo</a>
                 </div>
                 
                 
@@ -379,29 +380,26 @@
             
         </h1>
         <div class="content">
-            <h1 id="更换主题icarus"><a href="#更换主题icarus" class="headerlink" title="更换主题icarus"></a>更换主题icarus</h1><p>1、下载icarus主题地址：<a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">https://github.com/ppoffice/hexo-theme-icarus</a><br>2、更换主题icarus，修改Hexo的_config.yml里面的theme如下：<br><figure class="highlight avrasm hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-symbol">theme:</span> icarus</span><br></pre></td></tr></table></figure></p>
-<h1 id="搜索插件"><a href="#搜索插件" class="headerlink" title="搜索插件"></a>搜索插件</h1><p>主题已经集成了，主题的_config.yml<br><figure class="highlight yaml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attr">search:</span></span><br><span class="line"><span class="hljs-attr">    insight:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># you need to install `hexo-generator-json-content` before using Insight Search</span></span><br><span class="line"><span class="hljs-attr">    swiftype:</span> <span class="hljs-comment"># enter swiftype install key here</span></span><br><span class="line"><span class="hljs-attr">    baidu:</span> <span class="hljs-literal">false</span> <span class="hljs-comment"># you need to disable other search engines to use Baidu search, options: true, false</span></span><br></pre></td></tr></table></figure></p>
-<p>默认配置不用改。但是需要安装<code>hexo-generator-json-content</code>。命令如下：<br><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="hljs-keyword">install</span> -S hexo-generator-<span class="hljs-keyword">json</span>-<span class="hljs-keyword">content</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="打赏"><a href="#打赏" class="headerlink" title="打赏"></a>打赏</h1><p>在国外比较流行打赏，在中国嘛…有总比没有好，万一有人打赏呢？是吧。<br>在主题配置文件_config.yml的comment上面添加:<br><figure class="highlight yaml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">#donate 打赏</span></span><br><span class="line"><span class="hljs-attr">donate:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># options: true , false</span></span><br><span class="line"><span class="hljs-attr">donate_message:</span> <span class="hljs-string">如果您觉得文章不错,可以请我喝一杯咖啡！</span></span><br></pre></td></tr></table></figure></p>
-<p>在layout添加文件jdonate.ejs，内容如下：<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">!</span> <span class="hljs-attr">--</span> 添加捐赠图标 <span class="hljs-attr">--</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span> =<span class="hljs-string">"post-donate"</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"donate_board"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"donate_bar center"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"btn_donate"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn_donate"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"javascript:;"</span> <span class="hljs-attr">title</span>=<span class="hljs-string">"打赏"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"donate_txt"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		   <span class="hljs-tag">&lt;<span class="hljs-name">%=theme.donate_message%</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span></span><br><span class="line">      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>  </span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"donate_guide"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"donate_bar center hidden"</span> &gt;</span></span><br><span class="line">		<span class="hljs-comment">&lt;!-- 支付宝打赏图案 --&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/img/zhifubao.png"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"支付宝打赏"</span> &gt;</span> </span><br><span class="line">		<span class="hljs-comment">&lt;!-- 微信打赏图案 --&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/img/weixin.png"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"微信打赏"</span> &gt;</span>  </span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="hljs-undefined"></span></span><br><span class="line"><span class="hljs-javascript">		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'btn_donate'</span>).onclick = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;</span></span><br><span class="line"><span class="hljs-javascript">			<span class="hljs-keyword">if</span>($(<span class="hljs-string">'#donate_guide'</span>).hasClass(<span class="hljs-string">'hidden'</span>))&#123;</span></span><br><span class="line"><span class="hljs-javascript">				$(<span class="hljs-string">'#donate_guide'</span>).removeClass(<span class="hljs-string">'hidden'</span>);</span></span><br><span class="line"><span class="hljs-actionscript">			&#125;<span class="hljs-keyword">else</span>&#123;</span></span><br><span class="line"><span class="hljs-javascript">				$(<span class="hljs-string">'#donate_guide'</span>).addClass(<span class="hljs-string">'hidden'</span>);</span></span><br><span class="line"><span class="hljs-undefined">			&#125;</span></span><br><span class="line"><span class="hljs-undefined">		&#125;</span></span><br><span class="line"><span class="hljs-undefined">	</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">!</span> <span class="hljs-attr">--</span> 添加捐赠图标 <span class="hljs-attr">--</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>在主题source\css_partial目录新增donate.styl：<br><figure class="highlight css hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-selector-class">.donate_bar</span> &#123;</span><br><span class="line">	<span class="hljs-attribute">text-align</span>: center;</span><br><span class="line">	<span class="hljs-attribute">background</span>: <span class="hljs-number">#fff</span></span><br><span class="line">	--margin-top: <span class="hljs-number">5%</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-selector-class">.donate_bar</span> <span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.btn_donate</span> &#123;</span><br><span class="line">	<span class="hljs-attribute">display</span>: inline-block;</span><br><span class="line">	<span class="hljs-attribute">width</span>: <span class="hljs-number">82px</span>;</span><br><span class="line">	<span class="hljs-attribute">height</span>: <span class="hljs-number">82px</span>;</span><br><span class="line">	<span class="hljs-attribute">margin-left</span>: auto;</span><br><span class="line">	<span class="hljs-attribute">margin-right</span>: auto;</span><br><span class="line">	<span class="hljs-attribute">background</span>: <span class="hljs-built_in">url</span>(../img/btn_reward.gif)<span class="hljs-built_in">no-repeat</span>;</span><br><span class="line">	<span class="hljs-attribute">-webkit-transition</span>: background <span class="hljs-number">0s</span>;</span><br><span class="line">	<span class="hljs-attribute">-moz-transition</span>: background <span class="hljs-number">0s</span>;</span><br><span class="line">	<span class="hljs-attribute">-o-transition</span>: background <span class="hljs-number">0s</span>;</span><br><span class="line">	<span class="hljs-attribute">-ms-transition</span>: background <span class="hljs-number">0s</span>;</span><br><span class="line">	<span class="hljs-attribute">transition</span>: background <span class="hljs-number">0s</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-selector-class">.donate_bar</span> <span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.btn_donate</span><span class="hljs-selector-pseudo">:hover</span> &#123;</span><br><span class="line">	<span class="hljs-attribute">background-position</span>: <span class="hljs-number">0</span> -<span class="hljs-number">82px</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-selector-class">.donate_bar</span> <span class="hljs-selector-class">.donate_txt</span> &#123;</span><br><span class="line">	<span class="hljs-attribute">display</span>: block;</span><br><span class="line">	<span class="hljs-attribute">color</span>: <span class="hljs-number">#9d9d9d</span>;</span><br><span class="line">	<span class="hljs-attribute">font</span>: <span class="hljs-number">14px</span>/<span class="hljs-number">2</span> <span class="hljs-string">"Microsoft Yahei"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-selector-class">.donate_bar</span><span class="hljs-selector-class">.hidden</span>&#123;</span><br><span class="line">	<span class="hljs-attribute">display</span>: none</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-selector-class">.post-donate</span>&#123;</span><br><span class="line">	<span class="hljs-attribute">--margin-top</span>: <span class="hljs-number">80px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-selector-id">#donate_guide</span>&#123;</span><br><span class="line">	<span class="hljs-attribute">height</span>: <span class="hljs-number">320px</span>;</span><br><span class="line">	<span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;</span><br><span class="line">	<span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-selector-id">#donate_guide</span> <span class="hljs-selector-tag">img</span>&#123;</span><br><span class="line">	<span class="hljs-attribute">height</span>: <span class="hljs-number">300px</span>;</span><br><span class="line">	<span class="hljs-attribute">height</span>: <span class="hljs-number">300px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>btn_reward.gif直接拿我的，然后放在img目录吧。<br>最后修改layout\common\article.ejs，添加如下：<br><figure class="highlight gcode hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;footer class=<span class="hljs-string">"article-footer"</span>&gt;</span><br><span class="line">	&lt;<span class="hljs-meta">%</span> <span class="hljs-keyword">if</span> <span class="hljs-comment">(!index &amp;&amp; theme.donate)</span>&#123; <span class="hljs-meta">%</span>&gt;</span><br><span class="line">		&lt;<span class="hljs-meta">%</span>- partial<span class="hljs-comment">('donate')</span> <span class="hljs-meta">%</span>&gt;</span><br><span class="line">	&lt;<span class="hljs-meta">%</span> &#125; <span class="hljs-meta">%</span>&gt;</span><br><span class="line">	&lt;<span class="hljs-meta">%</span>- partial<span class="hljs-comment">('share/index', &#123; post: post &#125;)</span> <span class="hljs-meta">%</span>&gt;</span><br><span class="line">	&lt;<span class="hljs-meta">%</span>- partial<span class="hljs-comment">('comment/counter', &#123; post: post &#125;)</span> <span class="hljs-meta">%</span>&gt;</span><br><span class="line">&lt;/footer&gt;</span><br></pre></td></tr></table></figure></p>
-<p>需要在加入icarus/css/style.styl计入@import ‘_partial/donate’</p>
-<h1 id="添加评论"><a href="#添加评论" class="headerlink" title="添加评论"></a>添加评论</h1><p>这个主题的评论已经集成了，并不需要我们进行手工导入，要求你有多说或者disqus的账号。<br><figure class="highlight dts hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-symbol">comment:</span></span><br><span class="line"><span class="hljs-symbol">    disqus:</span> <span class="hljs-meta"># enter disqus shortname here</span></span><br><span class="line"><span class="hljs-symbol">    duoshuo:</span> <span class="hljs-meta"># enter duoshuo shortname here</span></span><br><span class="line"><span class="hljs-symbol">    youyan:</span> <span class="hljs-meta"># enter youyan uid here</span></span><br></pre></td></tr></table></figure></p>
-<p>disqus是国外的，不适用。我们选择duoshuo。在多说注册账号：<a href="http://duoshuo.com/" target="_blank" rel="noopener">http://duoshuo.com/</a><br>创建站点后在主题目录的_config.yml中填写shortname： <code>duoshuo: 多说设置的名称</code></p>
-<h1 id="分享"><a href="#分享" class="headerlink" title="分享"></a>分享</h1><p>主题已经集成，只需要配置即可。启用jiathis，如下<br><figure class="highlight mipsasm hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># Share 分享</span></span><br><span class="line"><span class="hljs-keyword">share: </span><span class="hljs-keyword">jiathis </span><span class="hljs-comment"># options: jiathis, bdshare, addtoany, default</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="百度-谷歌验证站点"><a href="#百度-谷歌验证站点" class="headerlink" title="百度/谷歌验证站点"></a>百度/谷歌验证站点</h1><p>为什么要验证站点了，因为要搜索引擎进行收录，说白了就是让别人更容易搜索到你的网站，仅此而已。<br>首先需要到百度/谷歌站长统计中注册，以及验证：<br><a href="http://zhanzhang.baidu.com/" target="_blank" rel="noopener">百度站长工具</a><br><a href="http://www.google.com/webmasters/tools/?hl=zh_CN" target="_blank" rel="noopener">Google网站管理员工具地址</a><br>注册完后，进行输入相应的网站地址，然后选择html验证，将代码加入以下路径layout/_partial/head.ejs：<br><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta <span class="hljs-attribute">name</span>=<span class="hljs-string">"baidu-site-verification"</span> <span class="hljs-attribute">content</span>=<span class="hljs-string">"xxxx"</span> /&gt;</span><br><span class="line">  &lt;meta <span class="hljs-attribute">name</span>=<span class="hljs-string">"google-site-verification"</span> <span class="hljs-attribute">content</span>=<span class="hljs-string">"xxxx"</span> /&gt;</span><br><span class="line">  &lt;meta <span class="hljs-attribute">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span><br><span class="line">  <span class="hljs-built_in">..</span><span class="hljs-built_in">..</span></span><br></pre></td></tr></table></figure></p>
-<p>然后发布到github中，再进行验证即可。</p>
-<h1 id="添加站长统计"><a href="#添加站长统计" class="headerlink" title="添加站长统计"></a>添加站长统计</h1><p>我们通过站长统计来及时查看我们个人网站的浏览情况。我寻找cnzz，需要先注册：<br><a href="http://zhanzhang.cnzz.com/" target="_blank" rel="noopener">站长统计</a><br>1、在theme的_config.yml中的末尾添加以下：<br><figure class="highlight avrasm hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta"># CNZZ web_id</span></span><br><span class="line"><span class="hljs-symbol">cnzz:</span>  CNZZ的web_id</span><br></pre></td></tr></table></figure></p>
-<p>2、在主题目录的layout/common添加文件为cnzz.ejs，内容如下：<br><figure class="highlight erb hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-xml"><span class="hljs-tag">&lt;<span class="hljs-name">%</span></span></span><span class="hljs-ruby"> <span class="hljs-keyword">if</span> (theme.cnzz)&#123; </span><span class="hljs-xml"><span class="hljs-tag">%&gt;</span></span></span><br><span class="line"><span class="hljs-xml">Analyse with <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"http://s23.cnzz.com/z_stat.php?id=&lt;%=</span></span></span><span class="hljs-ruby"> theme.cnzz </span><span class="hljs-xml"><span class="hljs-tag"><span class="hljs-string">%&gt;&amp;web_id=&lt;%=</span></span></span><span class="hljs-ruby"> theme.cnzz </span><span class="hljs-xml"><span class="hljs-tag"><span class="hljs-string">%&gt;"</span> <span class="hljs-attr">language</span>=<span class="hljs-string">"JavaScript"</span>&gt;</span><span class="hljs-undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml"><span class="hljs-tag">&lt;<span class="hljs-name">%</span></span></span><span class="hljs-ruby"> &#125; </span><span class="hljs-xml"><span class="hljs-tag">%&gt;</span></span></span><br></pre></td></tr></table></figure></p>
-<p>如需其他形式的，请参数CNZZ上的代码。<br>3、最后进行显示，在路径layout/common/footer.ejs里面添加<br><figure class="highlight erb hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-xml">...PPOffice<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.<span class="hljs-tag">&lt;<span class="hljs-name">%-</span></span></span><span class="hljs-ruby"> partial(<span class="hljs-string">'cnzz'</span>) </span><span class="hljs-xml"><span class="hljs-tag">%&gt;</span></span></span><br></pre></td></tr></table></figure></p>
-<p><strong>提醒：</strong>注意在_config.xml中添加web_id，</p>
-<h1 id="自定义widget"><a href="#自定义widget" class="headerlink" title="自定义widget"></a>自定义widget</h1><p>在layout/widget 自定义模板即可，例如：<br><figure class="highlight erb hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-xml"><span class="hljs-tag">&lt;<span class="hljs-name">%</span></span></span><span class="hljs-ruby"> <span class="hljs-keyword">if</span> (site.tags.length) &#123; </span><span class="hljs-xml"><span class="hljs-tag">%&gt;</span></span></span><br><span class="line"><span class="hljs-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card widget"</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-content"</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"menu-label"</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">%=</span></span></span><span class="hljs-ruby"> _<span class="hljs-number">_</span>(<span class="hljs-string">'widget.announcement'</span>) </span><span class="hljs-xml"><span class="hljs-tag">%&gt;</span></span></span><br><span class="line"><span class="hljs-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml"></span></span><br><span class="line"><span class="hljs-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"board"</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml">        欢迎来访问！<span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml">        QQ：150045153<span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml">        微信：150045153<span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml">        邮箱：hmiter@sina.com<span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml">        欢迎交流与分享经验!</span></span><br><span class="line"><span class="hljs-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></span><br><span class="line"><span class="hljs-xml"><span class="hljs-tag">&lt;<span class="hljs-name">%</span></span></span><span class="hljs-ruby"> &#125; </span><span class="hljs-xml"><span class="hljs-tag">%&gt;</span></span></span><br></pre></td></tr></table></figure></p>
-<h1 id="categories和tags页面不显示解决办法"><a href="#categories和tags页面不显示解决办法" class="headerlink" title="categories和tags页面不显示解决办法"></a>categories和tags页面不显示解决办法</h1><p>默认是没有 categories 和 tags 的需要<br><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new<span class="hljs-built_in"> page </span><span class="hljs-string">"tags"</span> </span><br><span class="line">hexo new<span class="hljs-built_in"> page </span><span class="hljs-string">"categories"</span></span><br></pre></td></tr></table></figure></p>
-<p>编辑 /tags/index.md /categories/index.md<br><figure class="highlight avrasm hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-symbol">type:</span> <span class="hljs-string">"tags"</span></span><br><span class="line"><span class="hljs-symbol">layout:</span> <span class="hljs-string">"tags"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-symbol">type:</span> <span class="hljs-string">"categories"</span></span><br><span class="line"><span class="hljs-symbol">layout:</span> <span class="hljs-string">"categories"</span></span><br></pre></td></tr></table></figure></p>
-
+            
+                
+                    
+                        
+                        更换主题icarus1、下载icarus主题地址：https://github.com/ppoffice/hexo-theme-icarus2、更换主题icarus，修改Hexo的_config.yml里面的theme如下：1theme:icarus
+搜索插件主题已经集成了，主题的_config.yml1234search:insight:true#youneedtoinstall`hexo-ge
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/02/06/hexo/Hexo博客（二）更换主题和相关设置/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -424,7 +422,7 @@
                 <time class="level-item has-text-grey" datetime="2017-01-04T15:40:59.000Z">2017-01-04</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/hexo/">Hexo</a>
+                <a class="has-link-grey -link" href="/categories/Hexo/">Hexo</a>
                 </div>
                 
                 
@@ -443,100 +441,29 @@
             
         </h1>
         <div class="content">
-            <h1 id="1-Git准备"><a href="#1-Git准备" class="headerlink" title="1 Git准备"></a>1 Git准备</h1><h2 id="1-1-申请GitHub"><a href="#1-1-申请GitHub" class="headerlink" title="1.1 申请GitHub"></a>1.1 申请GitHub</h2><p>1、进入<a href="https://github.com/" target="_blank" rel="noopener">https://github.com/</a></p>
-<p>2、点击”New repository”，新建一个仓库。</p>
-<p>注意：输入Repository name:yourname.github.io(yourname与你的注册用户名一致,这个就是你博客的域名了)</p>
-<p>3、启用GitHub Page</p>
-<p>点击右边的“Setting”菜单进入设置,点击”Launch automatic page generator”，然后再点击点击底部的”Continue to layouts”。最后点击”Publish page”,发布github默认生成的一个静态站点。</p>
-<p>4、验证邮箱</p>
-<p>点击右上角个人设置的“Setting”菜单进入设置，再点击Emails,点击”Send verification Email”发送验证邮件。进入你的邮箱，查收验证邮件进行验证。</p>
-<h2 id="1-2-安装Git"><a href="#1-2-安装Git" class="headerlink" title="1.2 安装Git"></a>1.2 安装Git</h2><h3 id="1-2-1下载"><a href="#1-2-1下载" class="headerlink" title="1.2.1下载"></a>1.2.1下载</h3><pre><code>https://git-for-windows.github.io/
-</code></pre><h3 id="1-2-2安装"><a href="#1-2-2安装" class="headerlink" title="1.2.2安装"></a>1.2.2安装</h3><ol>
-<li>安装过程中，询问是否修改环境变量，选择“Use Git Bash Only”. 即只在msysGit提供的Shell</li>
-</ol>
-<p>(<strong>NOTE</strong>: 这个步骤最好选择第二项“Use Git from the Windows Command Prompt”， 这样在Windows的命令行cmd中也可以运行git命令了。这样会对以后的一些操作带来方便，比如Win7下安装配置gVim)</p>
-<ol>
-<li>配置行结束标记，保持默认“Checkout Windows-style, commit Unix-style line endings”.</li>
-</ol>
-<h3 id="1-2-3中文乱码问题解决方法"><a href="#1-2-3中文乱码问题解决方法" class="headerlink" title="1.2.3中文乱码问题解决方法"></a>1.2.3中文乱码问题解决方法</h3><p>ls 不能显示中文目录</p>
-<p>解决办法：在git/git-completion.bash中增加一行【4】：</p>
-<figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">alias</span> <span class="hljs-keyword">ls</span>='<span class="hljs-keyword">ls</span> <span class="hljs-params">--show-control-chars</span> <span class="hljs-params">--color=auto</span>'</span><br></pre></td></tr></table></figure>
-<p>另外，Git Shell 不支持 ls -l的缩写形式ll，也为其添加一个alias</p>
-<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">alias</span> ll=<span class="hljs-string">'ls -l'</span></span><br></pre></td></tr></table></figure>
-<h3 id="1-2-4-运行-Git-前的配置"><a href="#1-2-4-运行-Git-前的配置" class="headerlink" title="1.2.4 运行 Git 前的配置"></a>1.2.4 运行 Git 前的配置</h3><ol>
-<li>配置你个人的用户名称和电子邮件地址,打开git bash。</li>
-</ol>
-<figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-variable">$git</span><span class="hljs-built_in"> config </span>--global user.name <span class="hljs-string">"xxx"</span></span><br><span class="line"><span class="hljs-variable">$git</span><span class="hljs-built_in"> config </span>--global user.email xxx@example.com</span><br></pre></td></tr></table></figure>
-<ol>
-<li>配置GitHub SSH </li>
-</ol>
-<p>（1）首先使用 ssh-keygen 生成 SSH 密钥<br><figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">cd</span> ~<span class="hljs-string">/.ssh/</span></span><br><span class="line">Administrator</span><br><span class="line">@THINKPAD ~<span class="hljs-string">/.ssh</span></span><br><span class="line"> <span class="hljs-keyword">ls</span></span><br><span class="line">  known_hosts</span><br><span class="line">ssh-keygen -t rsa -C <span class="hljs-string">"youremail@example.com"</span></span><br></pre></td></tr></table></figure></p>
-<p>有提示，直接回车即可。生成key以后检查下”~”目录下的.ssh目录下是否多了2个文件 。</p>
-<p>把 id_rsa.pub 中的全部内容复制，包括最后的一个换行。或者用命令：<br><figure class="highlight awk hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clip &lt; ~<span class="hljs-regexp">/.ssh/i</span>d_rsa.pub</span><br></pre></td></tr></table></figure></p>
-<p>（2）配置Github SSH。</p>
-<p>登陆GitHub-&gt;Settings-&gt;“SSH Keys”，然后，点“Add SSH Key”，起个Title，在Key文本框里粘贴id_rsa.pub文件的内容，点“Add Key”。</p>
-<p>（3）测试是否可以连接到github<br><figure class="highlight applescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssh git@github.com</span><br><span class="line"></span><br><span class="line">Hi imsofter! You've successfully authenticated, <span class="hljs-keyword">but</span> GitHub <span class="hljs-keyword">does</span> <span class="hljs-keyword">not</span> provide shell access.</span><br><span class="line">Connection <span class="hljs-keyword">to</span> github.com closed.</span><br></pre></td></tr></table></figure></p>
-<p>现在可以将代码推上github上了。</p>
-<hr>
-<h1 id="2-安装node-js"><a href="#2-安装node-js" class="headerlink" title="2 安装node.js"></a>2 安装node.js</h1><p>下载：<a href="http://nodejs.org/download/" target="_blank" rel="noopener">http://nodejs.org/download/</a></p>
-<p>可以下载 node-v4.2.1-x64.msi</p>
-<p>安装时直接保持默认配置即可。</p>
-<hr>
-<h1 id="3-安装Hexo"><a href="#3-安装Hexo" class="headerlink" title="3 安装Hexo"></a>3 安装Hexo</h1><p>关于Hexo的安装配置过程，请以官方Hexo给出的步骤为准,大致如下：</p>
-<p>在电脑上E盘新建一个blog文件夹,该文件夹用于存放你的博客文件,然后右键单击选择“Git Bash”</p>
-<h2 id="3-1-Installation"><a href="#3-1-Installation" class="headerlink" title="3.1 Installation"></a>3.1 Installation</h2><p>打开Git命令行，执行如下命令<br><figure class="highlight avrasm hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-<span class="hljs-keyword">cli</span> g</span><br></pre></td></tr></table></figure></p>
-<h2 id="3-2-Quick-Start"><a href="#3-2-Quick-Start" class="headerlink" title="3.2 Quick Start"></a>3.2 Quick Start</h2><p><strong>1. Setup your blog</strong></p>
-<p>在电脑中建立一个名字叫「Hexo」的文件夹（比如我建在了E:\Hexo），然后在此文件夹中右键打开Git Bash。执行下面的命令<br><figure class="highlight applescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cd /e/blog</span><br><span class="line">$ hexo init</span><br><span class="line">[info] Copying data</span><br><span class="line">[info] You are almost done! Don't forget <span class="hljs-keyword">to</span> <span class="hljs-built_in">run</span> `npm install` <span class="hljs-keyword">before</span> you start b</span><br><span class="line">logging <span class="hljs-keyword">with</span> Hexo!</span><br></pre></td></tr></table></figure></p>
-<p>Hexo随后会自动在目标文件夹建立网站所需要的文件。</p>
-<p>然后按照提示，运行 npm install（在 /e/blog下）<br><figure class="highlight cmake hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="hljs-keyword">install</span></span><br></pre></td></tr></table></figure></p>
-<p>会在e:\blog目录中生成 node_modules。</p>
-<p>安装其它插件<br><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="hljs-keyword">install</span> hexo-<span class="hljs-keyword">server</span> <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-<span class="hljs-keyword">admin</span> <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-generator-<span class="hljs-keyword">archive</span> <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-generator-feed <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-generator-<span class="hljs-keyword">search</span> <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-generator-tag <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-deployer-git <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-generator-sitemap <span class="hljs-comment">--save</span></span><br></pre></td></tr></table></figure></p>
-<p><strong> 2. Start the server</strong></p>
-<p>运行下面的命令（在 /E/Hexo下）<br><figure class="highlight vim hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">[info] Hexo <span class="hljs-keyword">is</span> running at http://localhos<span class="hljs-variable">t:4000</span>/. Press Ctrl+C <span class="hljs-keyword">to</span> <span class="hljs-keyword">stop</span>.</span><br></pre></td></tr></table></figure></p>
-<p>表明Hexo Server已经启动了，在浏览器中打开 <a href="http://localhost:4000/，这时可以看到Hexo已为你生成了一篇blog。" target="_blank" rel="noopener">http://localhost:4000/，这时可以看到Hexo已为你生成了一篇blog。</a></p>
-<p>你可以按Ctrl+C 停止Server。</p>
-<p><strong> 3. Create a new post</strong></p>
-<p>新打开一个git bash命令行窗口，cd到/e/blog下，执行下面的命令<br><figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo <span class="hljs-keyword">new</span> <span class="hljs-string">"My New Post"</span></span><br><span class="line">[info] <span class="hljs-keyword">File</span> created at e:\blog\<span class="hljs-keyword">source</span>\_posts\My-<span class="hljs-keyword">New</span>-Post.md</span><br></pre></td></tr></table></figure></p>
-<p>刷新<a href="http://localhost:4000/，可以发现已生成了一篇新文章" target="_blank" rel="noopener">http://localhost:4000/，可以发现已生成了一篇新文章</a> “My New Post”。</p>
-<p><strong>NOTE：</strong></p>
-<p>有一个问题，发现 “My New Post” 被发了2遍，在Hexo server所在的git bash窗口也能看到create了2次。<br><figure class="highlight taggerscript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">[info] Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</span><br><span class="line">[create] e:<span class="hljs-symbol">\b</span>log<span class="hljs-symbol">\s</span>ource<span class="hljs-symbol">\_</span>posts<span class="hljs-symbol">\M</span>y-New-Post.md</span><br><span class="line">[create] e:<span class="hljs-symbol">\b</span>log<span class="hljs-symbol">\s</span>ource<span class="hljs-symbol">\_</span>posts<span class="hljs-symbol">\M</span>y-New-Post.md</span><br></pre></td></tr></table></figure></p>
-<p>经验证，在hexo new “My New Post” 时，如果按Ctrl+C将hexo server停掉，就不会出现发2次的问题了。</p>
-<p>所以，在hexo new文章时，需要stop server。</p>
-<p><strong>4. Generate static files</strong></p>
-<p>执行下面的命令，将markdown文件生成静态网页。</p>
-<p>该命令执行完后，会在 E:\blog\public\ 目录下生成一系列html，css等文件。</p>
-<p><strong>5. 编辑文章</strong></p>
-<p>hexo new “My New Post”会在E:\blog\source_posts目录下生成一个markdown文件：My-New-Post.md</p>
-<p>可以使用一个支持markdown语法的编辑器（比如 Sublime Text 2）来编辑该文件。</p>
-<p><strong>6.  部署到Github</strong></p>
-<p>运行  <code>npm install hexo-deployer-git --save</code> 安装git支持</p>
-<p>部署到Github前需要配置_config.yml文件，首先找到下面的内容<br><figure class="highlight dts hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta"># Deployment</span></span><br><span class="line"><span class="hljs-meta">## Docs: http:<span class="hljs-comment">//hexo.io/docs/deployment.html</span></span></span><br><span class="line"><span class="hljs-symbol">deploy:</span></span><br><span class="line"><span class="hljs-symbol">  type:</span></span><br></pre></td></tr></table></figure></p>
-<p>然后将它们修改为<br><figure class="highlight dts hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta"># Deployment</span></span><br><span class="line"><span class="hljs-meta">## Docs: http:<span class="hljs-comment">//hexo.io/docs/deployment.html</span></span></span><br><span class="line"><span class="hljs-symbol">deploy:</span></span><br><span class="line"><span class="hljs-symbol">  type:</span> github</span><br><span class="line"><span class="hljs-symbol">  repository:</span> git@github.com:hmiter/hmiter.github.io.git</span><br><span class="line"><span class="hljs-symbol">  branch:</span> master</span><br></pre></td></tr></table></figure></p>
-<p><strong>NOTE1:</strong></p>
-<p>Repository：必须是SSH形式的url（git@github.com:hmiter/hmiter.github.io.git），而不能是HTTPS形式的url（<a href="https://github.com/hmiter/hmiter.github.io.git），否则会出现错误：" target="_blank" rel="noopener">https://github.com/hmiter/hmiter.github.io.git），否则会出现错误：</a><br><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line">[info] <span class="hljs-keyword">Start</span> deploying: github</span><br><span class="line">[<span class="hljs-keyword">error</span>] https://github.com/hmiter/hmiter.github.io <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> a valid repositor <span class="hljs-keyword">URL</span>!</span><br></pre></td></tr></table></figure></p>
-<p>使用SSH url，如果电脑没有开放SSH 端口，会致部署失败。<br><figure class="highlight livecodeserver hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fatal: Could <span class="hljs-keyword">not</span> <span class="hljs-built_in">read</span> <span class="hljs-built_in">from</span> remote repository.</span><br><span class="line">Please make sure you have <span class="hljs-keyword">the</span> correct access rights <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> repository exists.</span><br></pre></td></tr></table></figure></p>
-<p><strong>NOTE2：</strong></p>
-<p>如果你是为一个项目制作网站，那么需要把branch设置为gh-pages。</p>
-<p><strong>NOTE3：</strong></p>
-<p>hexo3.0以上的版本type为git</p>
-<p><strong>7. 测试</strong></p>
-<p>当部署完成后，在浏览器中打开<a href="http://hmiter.github.io/（https://hmiter.github.io/）" target="_blank" rel="noopener">http://hmiter.github.io/（https://hmiter.github.io/）</a> ，正常显示网页，表明部署成功。</p>
-<p><strong>8. 总结：部署步骤</strong></p>
-<p>每次部署的步骤，可按以下三步来进行。<br><figure class="highlight verilog hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo <span class="hljs-keyword">generate</span></span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure></p>
-<p><strong>9. 总结：本地调试</strong></p>
-<ol>
-<li>在执行下面的命令后，<figure class="highlight elixir hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-variable">$ </span>hexo g <span class="hljs-comment">#生成</span></span><br><span class="line"><span class="hljs-variable">$ </span>hexo s <span class="hljs-comment">#启动本地服务，进行文章预览调试</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>浏览器输入<a href="http://localhost:4000，查看搭建效果。此后的每次变更_config.yml" target="_blank" rel="noopener">http://localhost:4000，查看搭建效果。此后的每次变更_config.yml</a> 文件或者新建文件都可以先用此命令调试，尤其是当你想调试新添加的主题时。</p>
-<ol>
-<li>可以用简化的一条命令<figure class="highlight ebnf hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attribute">hexo s -g</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>10.hexo命令缩写</strong><br>hexo支持命令缩写，如下所示。hexo g等价于hexo generate<br><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo g：hexo generate</span><br><span class="line">hexo c：hexo clean</span><br><span class="line">hexo s：hexo server</span><br><span class="line">hexo d：hexo deploy</span><br></pre></td></tr></table></figure></p>
-
+            
+                
+                    
+                        
+                        1Git准备1.1申请GitHub1、进入https://github.com/
+2、点击”Newrepository”，新建一个仓库。
+注意：输入Repositoryname:yourname.github.io(yourname与你的注册用户名一致,这个就是你博客的域名了)
+3、启用GitHubPage
+点击右边的“Setting”菜单进入设置,点击”Launchautomaticpagege
+                        ...
+                    
+                
+            
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2017/01/04/hexo/Hexo博客（一）在GitHub搭建博客/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
 
@@ -621,7 +548,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        4
                     </p>
                 </div>
             </div>
@@ -631,7 +558,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        18
                     </p>
                 </div>
             </div>
@@ -707,9 +634,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -728,7 +663,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -742,7 +677,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -836,9 +771,17 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/hexo/">
+        <a class="level is-marginless" href="/categories/Hexo/">
             <span class="level-start">
                 <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -857,7 +800,7 @@
                 <span class="level-item">programming</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">23</span>
+                <span class="level-item tag">21</span>
             </span>
         </a></li>
             </ul>
@@ -871,7 +814,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/android/" style="font-size: 10px;">Android</a> <a href="/tags/database/" style="font-size: 20px;">Database</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Server/" style="font-size: 15px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -1006,6 +949,46 @@ Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == do
 
     
     
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
     
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
