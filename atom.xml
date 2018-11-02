@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mindasoft.com/"/>
-  <updated>2018-10-24T06:29:38.002Z</updated>
+  <updated>2018-11-02T04:18:16.026Z</updated>
   <id>http://mindasoft.com/</id>
   
   <author>
@@ -21,13 +21,13 @@
     <link href="http://mindasoft.com/2018/10/24/javase/Integer%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
     <id>http://mindasoft.com/2018/10/24/javase/Integer源码分析/</id>
     <published>2018-10-24T14:29:37.000Z</published>
-    <updated>2018-10-24T06:29:38.002Z</updated>
+    <updated>2018-11-02T04:18:16.026Z</updated>
     
     <summary type="html">
     
     </summary>
     
-      <category term="javase源码分析" scheme="http://mindasoft.com/categories/javase%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+      <category term="JavaSE源码分析" scheme="http://mindasoft.com/categories/JavaSE%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
     
     
   </entry>
@@ -241,10 +241,10 @@
   
   <entry>
     <title>idea的使用</title>
-    <link href="http://mindasoft.com/2017/12/05/Java/idea%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
-    <id>http://mindasoft.com/2017/12/05/Java/idea的使用/</id>
+    <link href="http://mindasoft.com/2017/12/05/tools/idea%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <id>http://mindasoft.com/2017/12/05/tools/idea的使用/</id>
     <published>2017-12-05T05:16:08.000Z</published>
-    <updated>2018-11-01T11:19:23.614Z</updated>
+    <updated>2018-11-02T02:59:08.472Z</updated>
     
     <content type="html"><![CDATA[<h1 id="1-修改对应的配置信息-缓存-地址"><a href="#1-修改对应的配置信息-缓存-地址" class="headerlink" title="1 修改对应的配置信息(缓存)地址"></a>1 修改对应的配置信息(缓存)地址</h1><p>由于我家里的电脑C盘被我设置得超级小,然后Idea默认的各种系统配置,最主要是缓存的地址,修改 ${idea.home}/bin/idea.properties 修改下面几个值.</p><figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">15. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">16. <span class="hljs-comment"># Uncomment this option if you want to customize path to IDE config folder. Make sure you're using forward slashes  </span></span><br><span class="line">17. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">18. idea.config.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/config</span>  </span><br><span class="line">19.   </span><br><span class="line">20. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">21. <span class="hljs-comment"># Uncomment this option if you want to customize path to IDE system folder. Make sure you're using forward slashes  </span></span><br><span class="line">22. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">23. idea.system.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/system</span>  </span><br><span class="line">24.   </span><br><span class="line">25. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">26. <span class="hljs-comment"># Uncomment this option if you want to customize path to user installed plugins folder. Make sure you're using forward slashes  </span></span><br><span class="line">27. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">28. idea.plugins.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/config/plugins</span></span><br></pre></td></tr></table></figure><h1 id="2-修改快捷键"><a href="#2-修改快捷键" class="headerlink" title="2 修改快捷键"></a>2 修改快捷键</h1><p>  key/map 选择eclipse ,选择copy成自定义 (我还是习惯用eclipse的快捷键)</p><h1 id="3-配置修改"><a href="#3-配置修改" class="headerlink" title="3 配置修改"></a>3 配置修改</h1><p>1、修改主题 File | Settings | Appearance &amp; Behavior | Appearance ： Theme选择 Darcula<br>2、显示行号：Settings-&gt;Editor-&gt;Appearance标签项，勾选Show line numbers<br>3、选择字体大小：File | Settings | Editor | Font 15<br>4、Tab换成字符串 ：File | Settings | Editor | Code Style | Java –&gt; Use tab charactor<br>3、生成Serializable ID  ，setting–&gt;Editor–&gt;Inspactions–&gt;Java | Serialization issues | Serializable class without ‘serialVersionUID’ 打上勾<br>4、maven 工程 unable to read the metadata file for artifact 问题 :setting-&gt;maven-&gt;always update snapshot 打开,然后重新import change就搞定了.</p><h1 id="4、代码Templates"><a href="#4、代码Templates" class="headerlink" title="4、代码Templates"></a>4、代码Templates</h1><p>File | Settings | Editor | File and Code Templates –&gt; Includes–&gt;File Header<br>/**</p><ul><li>Company：MGTV</li><li>User: huangmin</li><li>DateTime: ${DATE} ${TIME}<br>*/</li></ul><p>File | Settings | Editor | Live Templates<br>添加Templates group ，再添加 Live Template。<br>private static final Logger LOGGER = LoggerFactory.getLogger($CLASS$.class);<br>点击$CLASS$  ，点击edit variables，选择getClassName()</p><h1 id="5、常用插件"><a href="#5、常用插件" class="headerlink" title="5、常用插件"></a>5、常用插件</h1><p>Mybatis<br>自动转换对象插件 generateO2O  快捷键 alt+insert<br> 快捷键提示插件Key Promoter<br>大小写转换插件  UpperLowerCapitalize  :  安装后快捷键alt+P全部大写     alt+L全部小写      alt+C开头字母大写<br>查看maven的依赖树 Maven Helper </p><h1 id="6、常用快捷键"><a href="#6、常用快捷键" class="headerlink" title="6、常用快捷键"></a>6、常用快捷键</h1><p>fori/sout/psvm+Tab<br>.for+Tab<br>.var+Tab</p><p>Top #10切来切去：Ctrl+Tab<br>Top #9选你所想：Ctrl+W<br>Top #8代码生成：Template/Postfix +Tab<br>Top #7发号施令：Ctrl+Shift+A<br>Top #6无处藏身：Shift+Shift<br>Top #5自动完成：Ctrl+Shift+Enter<br>Top #4创造万物：Alt+Insert</p><p>太难割舍，前三名并列吧！<br>Top #1智能补全：Ctrl+Shift+Space<br>Top #1自我修复：Alt+Enter<br>Top #1重构一切：Ctrl+Shift+Alt+T</p>]]></content>
     
@@ -348,11 +348,11 @@
   </entry>
   
   <entry>
-    <title>FreeMarker简单介绍</title>
-    <link href="http://mindasoft.com/2017/05/30/Java/FreeMarker%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/"/>
-    <id>http://mindasoft.com/2017/05/30/Java/FreeMarker简单介绍/</id>
+    <title>Velocity简单介绍</title>
+    <link href="http://mindasoft.com/2017/05/30/Java/Velocity%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://mindasoft.com/2017/05/30/Java/Velocity简单介绍/</id>
     <published>2017-05-30T12:13:44.000Z</published>
-    <updated>2017-12-05T02:41:49.300Z</updated>
+    <updated>2017-12-05T02:41:49.302Z</updated>
     
     <summary type="html">
     
@@ -366,11 +366,11 @@
   </entry>
   
   <entry>
-    <title>Velocity简单介绍</title>
-    <link href="http://mindasoft.com/2017/05/30/Java/Velocity%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/"/>
-    <id>http://mindasoft.com/2017/05/30/Java/Velocity简单介绍/</id>
+    <title>FreeMarker简单介绍</title>
+    <link href="http://mindasoft.com/2017/05/30/Java/FreeMarker%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://mindasoft.com/2017/05/30/Java/FreeMarker简单介绍/</id>
     <published>2017-05-30T12:13:44.000Z</published>
-    <updated>2017-12-05T02:41:49.302Z</updated>
+    <updated>2017-12-05T02:41:49.300Z</updated>
     
     <summary type="html">
     

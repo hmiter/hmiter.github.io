@@ -97,7 +97,7 @@ var _hmt = _hmt || [];
                 
                 <a class="navbar-item" href="/archives">归档</a>
                 
-                <a class="navbar-item" href="/categories/javase源码分析/">JavaSE源码</a>
+                <a class="navbar-item" href="/categories/javase源码分析/">JavaSE源码分析</a>
                 
                 <a class="navbar-item" href="/about">关于我</a>
                 
@@ -130,17 +130,28 @@ var _hmt = _hmt || [];
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     
     <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                mysql事件（计划任务）
+            
+        </h1>
+
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-09-04T07:16:08.000Z">2017-09-04</time>
+                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2017-09-04</div>
+                <time class="level-item has-text-grey" datetime="2017-09-04T07:16:08.000Z"> 2017-09-04T07:16:08.000Z </time>
+
                 
                 <div class="level-item">
+                <i class="fa fa-book"></i>&nbsp
                 <a class="has-link-grey -link" href="/categories/programming/">programming</a>
                 </div>
                 
+
                 
                 <span class="level-item has-text-grey">
+                    <i class="fa fa-clock"></i>&nbsp
                     
                     
                     1 分钟 读完 (大约 224 个字)
@@ -149,31 +160,12 @@ var _hmt = _hmt || [];
             </div>
         </div>
         
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                mysql事件（计划任务）
-            
-        </h1>
+
         <div class="content">
             
                 <h1 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h1><figure class="highlight coq hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"></span><br><span class="line">-- <span class="hljs-number">1</span>、设置 全局变量event_scheduler开启，使用event必须开启</span><br><span class="line">-- SET GLOBAL event_scheduler = ON$$     -- required <span class="hljs-keyword">for</span> event to execute but not create    </span><br><span class="line"></span><br><span class="line">CREATE	/*[DEFINER = &#123; user | <span class="hljs-type">CURRENT_USER</span> &#125;]*/	EVENT `start_distribution`.`event_account_checking`</span><br><span class="line"></span><br><span class="line">	ON SCHEDULE EVERY <span class="hljs-number">1</span> DAY STARTS '<span class="hljs-number">2017</span><span class="hljs-number">-09</span><span class="hljs-number">-04</span> <span class="hljs-number">06</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span>' </span><br><span class="line">	ON COMPLETION NOT PRESERVE</span><br><span class="line">	ENABLE</span><br><span class="line">	COMMENT '每天自动统计对账数据'</span><br><span class="line"></span><br><span class="line">	 /* uncomment the example below you want to use */</span><br><span class="line"></span><br><span class="line">	-- scheduleexample <span class="hljs-number">1</span>: run <span class="hljs-built_in">once</span>  执行一次</span><br><span class="line"></span><br><span class="line">	   --  AT 'YYYY-MM-DD HH:MM.SS'/CURRENT_TIMESTAMP &#123; + INTERVAL <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125;</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	-- scheduleexample</span> <span class="hljs-number">2</span>: run <span class="hljs-built_in">at</span> intervals forever <span class="hljs-built_in">after</span> creation  创建后每多久执行一次</span><br><span class="line"></span><br><span class="line">	   -- EVERY <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...]</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	-- scheduleexample</span> <span class="hljs-number">3</span>: specified start <span class="hljs-built_in">time</span>, <span class="hljs-keyword">end</span> <span class="hljs-built_in">time</span> and interval <span class="hljs-keyword">for</span> execution 指定开始开始、结束时间和间隔时间执行任务。</span><br><span class="line">	   /*EVERY <span class="hljs-number">1</span>  [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...]</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	   STARTS</span> CURRENT_TIMESTAMP/'YYYY-MM-DD HH:MM.SS' &#123; + INTERVAL <span class="hljs-number">1</span>[HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125;</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	   ENDS</span> CURRENT_TIMESTAMP/'YYYY-MM-DD HH:MM.SS' &#123; + INTERVAL <span class="hljs-number">1</span> [HOUR|<span class="hljs-type">MONTH</span>|<span class="hljs-type">WEEK</span>|<span class="hljs-type">DAY</span>|<span class="hljs-type">MINUTE</span>|<span class="hljs-type">...] &#125; */</span></span><br><span class="line"><span class="hljs-type"></span></span><br><span class="line"><span class="hljs-type">	/*[ON</span> COMPLETION [NOT] PRESERVE]  -- 执行后删除(NOT)还是保留</span><br><span class="line">	[ENABLE | <span class="hljs-type">DISABLE</span>]  -- 创建时，event的章台</span><br><span class="line">	[COMMENT 'comment']*/  -- 注释</span><br><span class="line"></span><br><span class="line">DO</span><br><span class="line">	BEGIN</span><br><span class="line">	    call pro_account_checking();</span><br><span class="line">	END$$</span><br><span class="line"></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
             
         </div>
-        
-        <div class="level is-size-7 is-uppercase">
-            <div class="level-start">
-                <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/Database/">Database</a>, <a class="has-link-grey -link" href="/tags/mysql/">mysql</a>, <a class="has-link-grey -link" href="/tags/计划任务/">计划任务</a>
-                </div>
-            </div>
-        </div>
-        
-        
-        
-        <div class="social-share"></div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
         
 
         
@@ -207,6 +199,23 @@ var _hmt = _hmt || [];
 </div>
 <! -- 添加捐赠图标 -->
         
+
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7"><i class="fa fa-tag"></i>&nbsp</span>
+                    <a class="has-link-grey -link" href="/tags/Database/">Database</a>, <a class="has-link-grey -link" href="/tags/mysql/">mysql</a>, <a class="has-link-grey -link" href="/tags/计划任务/">计划任务</a>
+                </div>
+            </div>
+        </div><hr>
+        
+
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+        
     </div>
 </div>
 
@@ -217,7 +226,7 @@ var _hmt = _hmt || [];
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/12/05/Java/idea的使用/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/12/05/tools/idea的使用/">
                 <i class="level-item material-icons">keyboard_arrow_left</i>
                 <span class="level-item">idea的使用</span>
             </a>
@@ -418,20 +427,20 @@ var _hmt = _hmt || [];
                 <span class="level-item tag">2</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Spring基础/">
             <span class="level-start">
                 <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/javase源码分析/">
-            <span class="level-start">
-                <span class="level-item">javase源码分析</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/programming/">
@@ -555,20 +564,20 @@ var _hmt = _hmt || [];
                 <span class="level-item tag">2</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Spring基础/">
             <span class="level-start">
                 <span class="level-item">Spring基础</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/javase源码分析/">
-            <span class="level-start">
-                <span class="level-item">javase源码分析</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/programming/">

@@ -9,7 +9,7 @@
       
         <categories>
             
-            <category> javase源码分析 </category>
+            <category> JavaSE源码分析 </category>
             
         </categories>
         
@@ -299,7 +299,7 @@
     
     <entry>
       <title><![CDATA[idea的使用]]></title>
-      <url>/2017/12/05/Java/idea%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+      <url>/2017/12/05/tools/idea%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
       <content type="html"><![CDATA[<h1 id="1-修改对应的配置信息-缓存-地址"><a href="#1-修改对应的配置信息-缓存-地址" class="headerlink" title="1 修改对应的配置信息(缓存)地址"></a>1 修改对应的配置信息(缓存)地址</h1><p>由于我家里的电脑C盘被我设置得超级小,然后Idea默认的各种系统配置,最主要是缓存的地址,修改 ${idea.home}/bin/idea.properties 修改下面几个值.</p>
 <figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">15. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">16. <span class="hljs-comment"># Uncomment this option if you want to customize path to IDE config folder. Make sure you're using forward slashes  </span></span><br><span class="line">17. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">18. idea.config.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/config</span>  </span><br><span class="line">19.   </span><br><span class="line">20. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">21. <span class="hljs-comment"># Uncomment this option if you want to customize path to IDE system folder. Make sure you're using forward slashes  </span></span><br><span class="line">22. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">23. idea.system.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/system</span>  </span><br><span class="line">24.   </span><br><span class="line">25. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">26. <span class="hljs-comment"># Uncomment this option if you want to customize path to user installed plugins folder. Make sure you're using forward slashes  </span></span><br><span class="line">27. <span class="hljs-comment">#---------------------------------------------------------------------  </span></span><br><span class="line">28. idea.plugins.path=D:<span class="hljs-string">/dev_soft/IntelliJ</span> IDEA 12.0.1/bin/<span class="hljs-string">.IntelliJIdea/config/plugins</span></span><br></pre></td></tr></table></figure>
 <h1 id="2-修改快捷键"><a href="#2-修改快捷键" class="headerlink" title="2 修改快捷键"></a>2 修改快捷键</h1><p>  key/map 选择eclipse ,选择copy成自定义 (我还是习惯用eclipse的快捷键)</p>
@@ -427,8 +427,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[FreeMarker简单介绍]]></title>
-      <url>/2017/05/30/Java/FreeMarker%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/</url>
+      <title><![CDATA[Velocity简单介绍]]></title>
+      <url>/2017/05/30/Java/Velocity%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/</url>
       <content type="html"></content>
       
         <categories>
@@ -447,8 +447,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Velocity简单介绍]]></title>
-      <url>/2017/05/30/Java/Velocity%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/</url>
+      <title><![CDATA[FreeMarker简单介绍]]></title>
+      <url>/2017/05/30/Java/FreeMarker%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/</url>
       <content type="html"></content>
       
         <categories>
