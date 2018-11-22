@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>SSL-https配置 - 黄敏</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="主流证书格式介绍一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。 Tomcat、Weblogic、JBoss等，使用Java提供的密码库。通过Java的Keytool工具，生成Java Keystore（JKS）格式的证书文件。 Apache、Nginx等，使用OpenSSL提供的密码库，生成PEM、KEY、CRT等格式的证书文件。 BM的产品，如Websphe">
+<meta name="keywords" content="ssl,https">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSL-https配置">
+<meta property="og:url" content="http://mindasoft.com/2018/01/08/server/SSL-https配置/index.html">
+<meta property="og:site_name" content="黄敏">
+<meta property="og:description" content="主流证书格式介绍一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。 Tomcat、Weblogic、JBoss等，使用Java提供的密码库。通过Java的Keytool工具，生成Java Keystore（JKS）格式的证书文件。 Apache、Nginx等，使用OpenSSL提供的密码库，生成PEM、KEY、CRT等格式的证书文件。 BM的产品，如Websphe">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://mindasoft.com/images/zhengshu.jpg">
+<meta property="og:updated_time" content="2018-11-01T09:48:10.179Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SSL-https配置">
+<meta name="twitter:description" content="主流证书格式介绍一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。 Tomcat、Weblogic、JBoss等，使用Java提供的密码库。通过Java的Keytool工具，生成Java Keystore（JKS）格式的证书文件。 Apache、Nginx等，使用OpenSSL提供的密码库，生成PEM、KEY、CRT等格式的证书文件。 BM的产品，如Websphe">
+<meta name="twitter:image" content="http://mindasoft.com/images/zhengshu.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+    
+
+    
+    
+    
+    <style>body{opacity: 0}</style>
+    
+
+    
+    
+    
+    
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?549090fe8e0555dbb3938f4ec59efefd";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">主页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                
+                <a class="navbar-item" href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/huang-min/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="material-icons is-size-5">search</i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                SSL-https配置
+            
+        </h1>
+
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2018-01-08</div>
+                <time class="level-item has-text-grey" datetime="2018-01-08T11:48:52.000Z"> 2018-01-08T11:48:52.000Z </time>
+
+                
+                <div class="level-item">
+                <i class="fa fa-book"></i>&nbsp
+                <a class="has-link-grey -link" href="/categories/programming/">programming</a>
+                </div>
+                
+
+                
+                <span class="level-item has-text-grey">
+                    <i class="fa fa-clock"></i>&nbsp
+                    
+                    
+                    7 分钟 读完 (大约 1104 个字)
+                </span>
+                
+
+                
+                <div class="level-item">
+                <span id="busuanzi_container_page_pv">
+                   被阅读<span id="busuanzi_value_page_pv"></span>次
+                </span>
+                </div>
+                
+            </div>
+        </div>
+        
+
+        <div class="content">
+            
+                <h1 id="主流证书格式介绍"><a href="#主流证书格式介绍" class="headerlink" title="主流证书格式介绍"></a>主流证书格式介绍</h1><p>一般来说，主流的Web服务软件，通常都基于两种基础密码库：OpenSSL和Java。</p>
+<p>Tomcat、Weblogic、JBoss等，使用Java提供的密码库。通过Java的Keytool工具，生成Java Keystore（JKS）格式的证书文件。</p>
+<p>Apache、Nginx等，使用OpenSSL提供的密码库，生成PEM、KEY、CRT等格式的证书文件。</p>
+<p>BM的产品，如Websphere、IBM Http Server（IHS）等，使用IBM产品自带的iKeyman工具，生成KDB格式的证书文件。</p>
+<p>微软Windows Server中的Internet Information Services（IIS），使用Windows自带的证书库生成PFX格式的证书文件。</p>
+<p>如果您在工作中遇到带有后缀扩展名的证书文件，可以简单用如下方法区分：</p>
+<p><em>.DER </em>.CER : 这样的证书文件是二进制格式，只含有证书信息，不包含私钥。</p>
+<p><em>.CRT : 这样的文件可以是二进制格式，也可以是文本格式，一般均为文本格式，功能与</em>.DER/*.CER相同。</p>
+<p><em>.PEM : 一般是文本格式，可以放证书或私钥，或者两者都包含。 </em>.PEM如果只包含私钥，那一般用 *.KEY代替。</p>
+<p><em>.PFX </em>.P12 是二进制格式，同时含证书和私钥，一般有密码保护。</p>
+<p>怎么判断是文本格式还是二进制？</p>
+<p>用记事本打开，如果是规则的数字字母，如<br>—–BEGIN CERTIFICATE—–<br>MIIE5zCCA8+gAwIBAgIQN+whYc2BgzAogau0dc3PtzANBgkqh……<br>—–END CERTIFICATE—–<br>就是文本的，上面的BEGIN CERTIFICATE，说明这是一个证书<br>如果是—–BEGIN RSA PRIVATE KEY—–，说明这是一个私钥</p>
+<p>这些证书格式之间是可以互相转换的<br><img src="/images/zhengshu.jpg" alt="证书转换"><br>以下提供了一些证书之间的转换方法：</p>
+<ol>
+<li>将JKS转换成PFX</li>
+</ol>
+<p>可以使用Keytool工具，将JKS格式转换为PFX格式。</p>
+<p>keytool -importkeystore -srckeystore D:\server.jks -destkeystore D:\server.pfx -srcstoretype JKS -deststoretype PKCS12</p>
+<ol>
+<li>将PFX转换为JKS</li>
+</ol>
+<p>可以使用Keytool工具，将PFX格式转换为JKS格式。</p>
+<p>keytool -importkeystore -srckeystore D:\server.pfx -destkeystore D:\server.jks -srcstoretype PKCS12 -deststoretype JKS</p>
+<ol>
+<li>将PEM/KEY/CRT转换为PFX</li>
+</ol>
+<p>使用OpenSSL工具，可以将密钥文件KEY和公钥文件CRT转化为PFX文件。</p>
+<p>将密钥文件KEY和公钥文件CRT放到OpenSSL目录下，打开OpenSSL执行以下命令：</p>
+<p>openssl pkcs12 -export -out server.pfx -inkey server.key -in server.crt</p>
+<ol>
+<li>将PFX转换为PEM/KEY/CRT</li>
+</ol>
+<p>使用OpenSSL工具，可以将PFX文件转化为密钥文件KEY和公钥文件CRT。</p>
+<p>将PFX文件放到OpenSSL目录下，打开OpenSSL执行以下命令：</p>
+<p>openssl pkcs12 -in server.pfx -nodes -out server.pem</p>
+<p>openssl rsa -in server.pem -out server.key</p>
+<p>openssl x509 -in server.pem -out server.crt</p>
+<p><strong> 请注意 </strong> 此步骤是专用于使用keytool生成私钥和CSR申请证书，并且获取到pem格式证书公钥的情况下做分离私钥使用的，所以在实际部署证书时请使用此步骤分离出来的私钥和申请下来的公钥证书做匹配使用。</p>
+<p>云盾证书服务统一使用 PEM 格式的数字证书文件。</p>
+<h1 id="pem证书转为jks证书"><a href="#pem证书转为jks证书" class="headerlink" title="pem证书转为jks证书"></a>pem证书转为jks证书</h1><p>第一步：pem(需要私钥) 转为 .pfx<br><figure class="highlight stylus hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 -export -out server<span class="hljs-selector-class">.pfx</span> -inkey private<span class="hljs-selector-class">.key</span> -<span class="hljs-keyword">in</span> server.pem</span><br></pre></td></tr></table></figure></p>
+<p>第二步：.pfx 转为 .jks<br><figure class="highlight stylus hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -importkeystore -srckeystore server<span class="hljs-selector-class">.pfx</span> -destkeystore server<span class="hljs-selector-class">.jks</span> -srcstoretype PKCS12 -deststoretype JKS</span><br></pre></td></tr></table></figure></p>
+<h1 id="tomcat配置"><a href="#tomcat配置" class="headerlink" title="tomcat配置"></a>tomcat配置</h1><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector <span class="hljs-attribute">protocol</span>=<span class="hljs-string">"org.apache.coyote.http11.Http11NioProtocol"</span></span><br><span class="line">                  <span class="hljs-attribute">port</span>=<span class="hljs-string">"443"</span> <span class="hljs-attribute">SSLEnabled</span>=<span class="hljs-string">"true"</span></span><br><span class="line">                   <span class="hljs-attribute">maxThreads</span>=<span class="hljs-string">"150"</span> <span class="hljs-attribute">scheme</span>=<span class="hljs-string">"https"</span> <span class="hljs-attribute">secure</span>=<span class="hljs-string">"true"</span></span><br><span class="line">               <span class="hljs-attribute">keystoreFile</span>=<span class="hljs-string">"/home/websoft/key/server.jks"</span> <span class="hljs-attribute">keystorePass</span>=<span class="hljs-string">"123456"</span></span><br><span class="line">               <span class="hljs-attribute">clientAuth</span>=<span class="hljs-string">"false"</span> <span class="hljs-attribute">sslProtocol</span>=<span class="hljs-string">"TLS"</span></span><br><span class="line"> <span class="hljs-attribute">ciphers</span>=<span class="hljs-string">"TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,</span></span><br><span class="line"><span class="hljs-string">TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA256"</span>  /&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="ngnix配置"><a href="#ngnix配置" class="headerlink" title="ngnix配置"></a>ngnix配置</h1><figure class="highlight nginx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-section">server</span> &#123;</span><br><span class="line">  <span class="hljs-attribute">listen</span>    <span class="hljs-number">80</span>;</span><br><span class="line">  <span class="hljs-attribute">listen</span>    <span class="hljs-number">443</span> ssl;</span><br><span class="line">  <span class="hljs-comment"># ssl on; #在同一个server&#123;&#125;里配置同时开启http和https时，不需要开启此项！</span></span><br><span class="line">  <span class="hljs-attribute">server_name</span> dev.cmop.mgtv.com;</span><br><span class="line">  <span class="hljs-attribute">root</span>     /home/websoft/nginx/html;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attribute">ssl_certificate</span> <span class="hljs-string">"/home/websoft/key/dev/full_chain.pem"</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_certificate_key</span> <span class="hljs-string">"/home/websoft/key/dev/private.key"</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_session_timeout</span>  <span class="hljs-number">5m</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_protocols</span>  SSLv2 SSLv3 TLSv1;<span class="hljs-comment">#指定密码为openssl支持的格式</span></span><br><span class="line">  <span class="hljs-attribute">ssl_ciphers</span>  HIGH:!aNULL:!MD5;<span class="hljs-comment">#密码加密方式</span></span><br><span class="line">  <span class="hljs-attribute">ssl_prefer_server_ciphers</span>   <span class="hljs-literal">on</span>; </span><br><span class="line">  </span><br><span class="line">  <span class="hljs-attribute">location</span> / &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-attribute">error_page</span> <span class="hljs-number">404</span> /<span class="hljs-number">404</span>.html;</span><br><span class="line">    <span class="hljs-attribute">location</span> = /40x.html &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-attribute">error_page</span> <span class="hljs-number">500</span> <span class="hljs-number">502</span> <span class="hljs-number">503</span> <span class="hljs-number">504</span> /50x.html;</span><br><span class="line">    <span class="hljs-attribute">location</span> = /50x.html &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-section">server</span> &#123;</span><br><span class="line">  <span class="hljs-attribute">listen</span>    <span class="hljs-number">80</span>;</span><br><span class="line">  <span class="hljs-attribute">listen</span>    <span class="hljs-number">443</span> ssl;</span><br><span class="line">  <span class="hljs-comment"># ssl on;  #在同一个server&#123;&#125;里配置同时开启http和https时，不需要开启此项！</span></span><br><span class="line">  <span class="hljs-attribute">server_name</span> book.cmop.mgtv.com;</span><br><span class="line">  <span class="hljs-attribute">root</span>     /home/websoft/nginx/html;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attribute">ssl_certificate</span> <span class="hljs-string">"/home/websoft/key/book/full_chain.pem"</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_certificate_key</span> <span class="hljs-string">"/home/websoft/key/book/private.key"</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_session_timeout</span>  <span class="hljs-number">5m</span>;</span><br><span class="line">  <span class="hljs-attribute">ssl_protocols</span>  SSLv2 SSLv3 TLSv1;<span class="hljs-comment">#指定密码为openssl支持的格式</span></span><br><span class="line">  <span class="hljs-attribute">ssl_ciphers</span>  HIGH:!aNULL:!MD5;<span class="hljs-comment">#密码加密方式</span></span><br><span class="line">  <span class="hljs-attribute">ssl_prefer_server_ciphers</span>   <span class="hljs-literal">on</span>; </span><br><span class="line">  </span><br><span class="line">  <span class="hljs-attribute">location</span> / &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-attribute">error_page</span> <span class="hljs-number">404</span> /<span class="hljs-number">404</span>.html;</span><br><span class="line">    <span class="hljs-attribute">location</span> = /40x.html &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-attribute">error_page</span> <span class="hljs-number">500</span> <span class="hljs-number">502</span> <span class="hljs-number">503</span> <span class="hljs-number">504</span> /50x.html;</span><br><span class="line">    <span class="hljs-attribute">location</span> = /50x.html &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            
+        </div>
+        
+
+        
+            <! -- 添加捐赠图标 -->
+<div class="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+
+		   如果您觉得文章不错,可以请我喝一杯咖啡！
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden">
+		<!-- 支付宝打赏图案 -->
+		<span><img src="/images/zhifubao.png" alt="支付宝打赏"></span>
+
+		<!-- 微信打赏图案 -->
+		<span><img src="/images/weixin.png" alt="微信打赏"></span>
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			//$('#donate_board').addClass('hidden');
+			if($('#donate_guide').hasClass('hidden')){
+				$('#donate_guide').removeClass('hidden');
+			}else{
+				$('#donate_guide').addClass('hidden');
+			}
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+        
+
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7"><i class="fa fa-tag"></i>&nbsp</span>
+                    <a class="has-link-grey -link" href="/tags/https/">https</a>, <a class="has-link-grey -link" href="/tags/ssl/">ssl</a>
+                </div>
+            </div>
+        </div><hr>
+        
+
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/02/07/Linux/Linux查看物理CPU个数、核数、逻辑CPU个数/">
+                <i class="level-item material-icons">keyboard_arrow_left</i>
+                <span class="level-item">Linux查看物理CPU个数、核数、逻辑CPU个数</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/01/03/Linux/Linux时间和时区/">
+                <span class="level-item">Linux时间和时区</span>
+                <i class="level-item material-icons">keyboard_arrow_right</i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+	const gitalk = new Gitalk({
+            clientID: 'f3cedbc73c19570bee41',
+            clientSecret: 'dff532b2bd6b11456d7de56b07f0db9bac8d599a',
+            repo: 'huang-min.github.io',
+            owner: 'huang-min',
+            admin: ['huang-min'],
+            id: '2018/01/08/server/SSL-https配置/',
+            distractionFreeMode: false
+        });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/logo.png">
+                    
+                    <p class="is-size-4 is-block">
+                        黄敏
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Java Developer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="material-icons is-size-5 has-mr-7">location_on</i>
+                        <span>中国 - 长沙</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        29
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        20
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/huang-min">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white" target="_blank" title="Github" href="http://github.com/huang-min">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="git" href="http://git.oschina.net/donecoder">
+                
+                <i class="fab fa-gg"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weixin" href="/">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weibo" href="/">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#主流证书格式介绍">
+        <span class="has-mr-6">1</span>
+        <span>主流证书格式介绍</span>
+        </a></li><li>
+        <a class="is-flex" href="#pem证书转为jks证书">
+        <span class="has-mr-6">2</span>
+        <span>pem证书转为jks证书</span>
+        </a></li><li>
+        <a class="is-flex" href="#tomcat配置">
+        <span class="has-mr-6">3</span>
+        <span>tomcat配置</span>
+        </a></li><li>
+        <a class="is-flex" href="#ngnix配置">
+        <span class="has-mr-6">4</span>
+        <span>ngnix配置</span>
+        </a></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+        <div class="card card-transparent is-hidden-widescreen">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+        
+            
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2018 Huang min&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & Theme by <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+        <div>
+            
+Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261418845'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1261418845%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+
+        </div>
+    </div>
+</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                if (typeof($.fn.lightGallery) === 'function') {
+                    $('.article').lightGallery({ selector: '.gallery-item' });
+                }
+                if (typeof($.fn.justifiedGallery) === 'function') {
+                    $('.justified-gallery').justifiedGallery();
+                }
+            });
+        })(jQuery);
+    </script>
+    
+
+    
+    
+    
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // plugin function, place inside DOM ready function
+            outdatedBrowser({
+                bgColor: '#f25648',
+                color: '#ffffff',
+                lowerThan: 'flex'
+            })
+        });
+    </script>
+    
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="material-icons">keyboard_arrow_up</i>
+</a>
+<style>
+#back-to-top {
+    position: fixed;
+    padding: 8px 0;
+    transition: 0.4s ease opacity, 0.4s ease width, 0.4s ease transform, 0.4s ease border-radius;
+    opacity: 0;
+    font-size: 0;
+    outline: none;
+    transform: translateY(120px);
+}
+#back-to-top.fade-in {
+    opacity: 1;
+}
+#back-to-top.rise-up {
+    transform: translateY(0);
+}
+</style>
+<script src="/js/back-to-top.js"></script>
+
+
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

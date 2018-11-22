@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>mysql存储过程 - 黄敏</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="简介存储过程是可编程的函数，在数据库中创建并保存，可以由SQL语句和控制结构组成。当想要在不同的应用程序或平台上执行相同的函数，或者封装特定功能时，存储过程是非常有用的。数据库中的存储过程可以看做是对编程中面向对象方法的模拟，它允许控制数据的访问方式。 存储过程是数据库的一个重要的功能，MySQL 5.0以前并不支持存储过程，这使得MySQL在应用上大打折扣。好在MySQL 5.0开始支持存储过程">
+<meta name="keywords" content="Database,mysql,存储过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql存储过程">
+<meta property="og:url" content="http://mindasoft.com/2017/08/18/Database/mysql存储过程/index.html">
+<meta property="og:site_name" content="黄敏">
+<meta property="og:description" content="简介存储过程是可编程的函数，在数据库中创建并保存，可以由SQL语句和控制结构组成。当想要在不同的应用程序或平台上执行相同的函数，或者封装特定功能时，存储过程是非常有用的。数据库中的存储过程可以看做是对编程中面向对象方法的模拟，它允许控制数据的访问方式。 存储过程是数据库的一个重要的功能，MySQL 5.0以前并不支持存储过程，这使得MySQL在应用上大打折扣。好在MySQL 5.0开始支持存储过程">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-01T09:28:09.086Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql存储过程">
+<meta name="twitter:description" content="简介存储过程是可编程的函数，在数据库中创建并保存，可以由SQL语句和控制结构组成。当想要在不同的应用程序或平台上执行相同的函数，或者封装特定功能时，存储过程是非常有用的。数据库中的存储过程可以看做是对编程中面向对象方法的模拟，它允许控制数据的访问方式。 存储过程是数据库的一个重要的功能，MySQL 5.0以前并不支持存储过程，这使得MySQL在应用上大打折扣。好在MySQL 5.0开始支持存储过程">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+    
+
+    
+    
+    
+    <style>body{opacity: 0}</style>
+    
+
+    
+    
+    
+    
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?549090fe8e0555dbb3938f4ec59efefd";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">主页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                
+                <a class="navbar-item" href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/huang-min/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="material-icons is-size-5">search</i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                mysql存储过程
+            
+        </h1>
+
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2017-08-18</div>
+                <time class="level-item has-text-grey" datetime="2017-08-18T07:16:08.000Z"> 2017-08-18T07:16:08.000Z </time>
+
+                
+                <div class="level-item">
+                <i class="fa fa-book"></i>&nbsp
+                <a class="has-link-grey -link" href="/categories/programming/">programming</a>
+                </div>
+                
+
+                
+                <span class="level-item has-text-grey">
+                    <i class="fa fa-clock"></i>&nbsp
+                    
+                    
+                    11 分钟 读完 (大约 1643 个字)
+                </span>
+                
+
+                
+                <div class="level-item">
+                <span id="busuanzi_container_page_pv">
+                   被阅读<span id="busuanzi_value_page_pv"></span>次
+                </span>
+                </div>
+                
+            </div>
+        </div>
+        
+
+        <div class="content">
+            
+                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p><strong>存储过程</strong>是可编程的函数，在数据库中创建并保存，可以由SQL语句和控制结构组成。当想要在不同的应用程序或平台上执行相同的函数，或者封装特定功能时，存储过程是非常有用的。数据库中的存储过程可以看做是对编程中面向对象方法的模拟，它允许控制数据的访问方式。</p>
+<p>存储过程是数据库的一个重要的功能，MySQL 5.0以前并不支持存储过程，这使得MySQL在应用上大打折扣。好在MySQL 5.0开始支持存储过程，这样即可以大大提高数据库的处理速度，同时也可以提高数据库编程的灵活性。</p>
+<h1 id="存储过程的优点"><a href="#存储过程的优点" class="headerlink" title="存储过程的优点"></a>存储过程的优点</h1><p>(1).增强SQL语言的功能和灵活性：存储过程可以用控制语句编写，有很强的灵活性，可以完成复杂的判断和较复杂的运算。</p>
+<p>(2).标准组件式编程：存储过程被创建后，可以在程序中被多次调用，而不必重新编写该存储过程的SQL语句。而且数据库专业人员可以随时对存储过程进行修改，对应用程序源代码毫无影响。</p>
+<p>(3).较快的执行速度：如果某一操作包含大量的Transaction-SQL代码或分别被多次执行，那么存储过程要比批处理的执行速度快很多。因为存储过程是预编译的。在首次运行一个存储过程时查询，优化器对其进行分析优化，并且给出最终被存储在系统表中的执行计划。而批处理的Transaction-SQL语句在每次运行时都要进行编译和优化，速度相对要慢一些。</p>
+<p>(4).减少网络流量：针对同一个数据库对象的操作（如查询、修改），如果这一操作所涉及的Transaction-SQL语句被组织进存储过程，那么当在客户计算机上调用该存储过程时，网络中传送的只是该调用语句，从而大大减少网络流量并降低了网络负载。</p>
+<p>(5).作为一种安全机制来充分利用：通过对执行某一存储过程的权限进行限制，能够实现对相应的数据的访问权限的限制，避免了非授权用户对数据的访问，保证了数据的安全。</p>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><figure class="highlight n1ql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"></span><br><span class="line">	USE `start_user`$$</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">PROCEDURE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-symbol">`rob_test`</span>$$</span><br><span class="line">	<span class="hljs-keyword">CREATE</span></span><br><span class="line">	    <span class="hljs-comment">/*[DEFINER = &#123; user | CURRENT_USER &#125;]*/</span></span><br><span class="line"></span><br><span class="line">		-- <span class="hljs-number">0</span>、定义存储过程名称和参数、返回值</span><br><span class="line">		-- <span class="hljs-keyword">in</span> 为输入参数；out 为返回值，inout 即是参数也是返回值 </span><br><span class="line">	    <span class="hljs-keyword">PROCEDURE</span> <span class="hljs-symbol">`start_user`</span>.<span class="hljs-symbol">`rob_test`</span>( out msg VARCHAR(<span class="hljs-number">50</span>) )</span><br><span class="line"></span><br><span class="line">	    <span class="hljs-comment">/* LANGUAGE SQL</span></span><br><span class="line"><span class="hljs-comment">	    | [NOT] DETERMINISTIC</span></span><br><span class="line"><span class="hljs-comment">	    | &#123; CONTAINS SQL | NO SQL | READS SQL DATA | MODIFIES SQL DATA &#125;</span></span><br><span class="line"><span class="hljs-comment">	    | SQL SECURITY &#123; DEFINER | INVOKER &#125;</span></span><br><span class="line"><span class="hljs-comment">	    | COMMENT 'string'</span></span><br><span class="line"><span class="hljs-comment">		*/</span></span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">BEGIN</span></span><br><span class="line">		-- <span class="hljs-number">1</span>、声明变量</span><br><span class="line">		<span class="hljs-keyword">DECLARE</span> userId int;</span><br><span class="line">		DECLARE i int;</span><br><span class="line">		DECLARE phoneId BIGint;</span><br><span class="line">	</span><br><span class="line">		-- 2、赋值，也可以用DEFAULT，如：DECLARE i int DEFAULT 0;</span><br><span class="line">		SET i=0;</span><br><span class="line">		SET phoneId= 11010000002;</span><br><span class="line">		</span><br><span class="line">		-- 3、业务逻辑，此处用循环插入数据</span><br><span class="line">		while i&lt;5 do</span><br><span class="line">			<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-symbol">`start_user`</span>.<span class="hljs-symbol">`user`</span> (<span class="hljs-symbol">`nickName`</span>, <span class="hljs-symbol">`gender`</span>, <span class="hljs-symbol">`mobile`</span>, <span class="hljs-symbol">`signatureText`</span>, <span class="hljs-symbol">`avatarUrl`</span>, <span class="hljs-symbol">`userType`</span>, <span class="hljs-symbol">`isUserGroup`</span>, <span class="hljs-symbol">`status`</span>, <span class="hljs-symbol">`channel`</span>, <span class="hljs-symbol">`inviteGuestPermission`</span>, <span class="hljs-symbol">`reported`</span>, <span class="hljs-symbol">`flag`</span>, <span class="hljs-symbol">`appId`</span>, <span class="hljs-symbol">`loginBundleId`</span>) <span class="hljs-keyword">VALUES</span>(CONCAT(<span class="hljs-string">'机器人'</span>,i),<span class="hljs-string">'MALE'</span>,CONCAT(phoneId,<span class="hljs-string">''</span>),<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-string">'NORMAL'</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-string">'1'</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>);</span><br><span class="line">			<span class="hljs-keyword">SELECT</span> LAST_INSERT_ID() <span class="hljs-keyword">INTO</span> userId ; </span><br><span class="line">			<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> <span class="hljs-symbol">`start_distribution`</span>.<span class="hljs-symbol">`dis_org_startuser`</span> ( <span class="hljs-symbol">`orgId`</span>, <span class="hljs-symbol">`agentId`</span>, <span class="hljs-symbol">`cooperatorId`</span>, <span class="hljs-symbol">`opcenterId`</span>, <span class="hljs-symbol">`startUserId`</span>, <span class="hljs-symbol">`startUserType`</span>, <span class="hljs-symbol">`inviteUserId`</span>) <span class="hljs-keyword">values</span>(<span class="hljs-string">'999992348'</span>,<span class="hljs-string">'999992347'</span>,<span class="hljs-string">'999992346'</span>,<span class="hljs-string">'999992345'</span>,userId,<span class="hljs-string">'ANCHOR'</span>,<span class="hljs-literal">NULL</span>);</span><br><span class="line">	</span><br><span class="line">			set i=i+1;</span><br><span class="line">			set phoneId= phoneId+1;</span><br><span class="line">		end while;</span><br><span class="line"></span><br><span class="line">		-- 4、结束循环，设定返回值</span><br><span class="line">		set msg ='执行成功';</span><br><span class="line">    END$$</span><br><span class="line"></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p>CREATE PROCEDURE 过程名([[IN|OUT|INOUT] 参数名 数据类型[,[IN|OUT|INOUT] 参数名 数据类型…]]) [特性 …] 过程体</p>
+<h2 id="结束符"><a href="#结束符" class="headerlink" title="结束符"></a>结束符</h2><p>DELIMITER 定义语句结束符。首先将结束符变为“$$”,在完成存储过程之后再将结束符改为默认的“;”。</p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p>存储过程根据需要可能会有输入、输出、输入输出参数，如果有多个参数用”,”分割开。MySQL存储过程的参数用在存储过程的定义，共有三种参数类型,IN,OUT,INOUT:</p>
+<p><strong>IN</strong>：参数的值必须在调用存储过程时指定，在存储过程中修改该参数的值不能被返回，为默认值<br><strong>OUT</strong>:该值可在存储过程内部被改变，并可返回<br><strong>INOUT</strong>:调用时指定，并且可被改变和返回</p>
+<h2 id="过程体"><a href="#过程体" class="headerlink" title="过程体"></a>过程体</h2><p>过程体的开始与结束使用BEGIN与END进行标识。</p>
+<h2 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h2><p>语法：SET 变量名 = 变量值 [,变量名= 变量值 …]</p>
+<h2 id="用户变量"><a href="#用户变量" class="headerlink" title="用户变量"></a>用户变量</h2><p>用户变量一般以@开头<br>注意：滥用用户变量会导致程序难以理解及管理</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>MySQL存储过程可使用两种风格的注释：<br>双杠：–，该风格一般用于单行注释<br>C风格： 一般用于多行注释</p>
+<h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><p>用call和你过程名以及一个括号，括号里面根据需要，加入参数，参数包括输入参数、输出参数、输入输出参数。</p>
+<h2 id="控制语句"><a href="#控制语句" class="headerlink" title="控制语句"></a>控制语句</h2><h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><h4 id="IF-THEN-ELSE语句"><a href="#IF-THEN-ELSE语句" class="headerlink" title="IF-THEN-ELSE语句"></a>IF-THEN-ELSE语句</h4><figure class="highlight oxygene hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DROP <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">IF</span> <span class="hljs-title">EXISTS</span> <span class="hljs-title">proc3</span>;</span></span><br><span class="line">DELIMITER <span class="hljs-comment">//</span></span><br><span class="line"><span class="hljs-keyword">CREATE</span> <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">proc3</span><span class="hljs-params">(<span class="hljs-keyword">IN</span> parameter int)</span></span></span><br><span class="line"><span class="hljs-function">  <span class="hljs-title">BEGIN</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">DECLARE</span> <span class="hljs-title">var</span> <span class="hljs-title">int</span>;</span></span><br><span class="line">    <span class="hljs-keyword">SET</span> <span class="hljs-keyword">var</span>=parameter+<span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">IF</span> <span class="hljs-keyword">var</span>=<span class="hljs-number">0</span> <span class="hljs-keyword">THEN</span></span><br><span class="line">      INSERT <span class="hljs-keyword">INTO</span> t VALUES (<span class="hljs-number">17</span>);</span><br><span class="line">    <span class="hljs-keyword">END</span> <span class="hljs-keyword">IF</span> ;</span><br><span class="line">    <span class="hljs-keyword">IF</span> parameter=<span class="hljs-number">0</span> <span class="hljs-keyword">THEN</span></span><br><span class="line">      UPDATE t <span class="hljs-keyword">SET</span> s1=s1+<span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">ELSE</span></span><br><span class="line">      UPDATE t <span class="hljs-keyword">SET</span> s1=s1+<span class="hljs-number">2</span>;</span><br><span class="line">    <span class="hljs-keyword">END</span> <span class="hljs-keyword">IF</span> ;</span><br><span class="line">  <span class="hljs-keyword">END</span> ;</span><br><span class="line">  <span class="hljs-comment">//</span></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<h4 id="CASE-WHEN-THEN-ELSE语句"><a href="#CASE-WHEN-THEN-ELSE语句" class="headerlink" title="CASE-WHEN-THEN-ELSE语句"></a>CASE-WHEN-THEN-ELSE语句</h4><figure class="highlight oxygene hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER <span class="hljs-comment">//</span></span><br><span class="line">  <span class="hljs-keyword">CREATE</span> <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">proc4</span> <span class="hljs-params">(<span class="hljs-keyword">IN</span> parameter INT)</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">BEGIN</span></span></span><br><span class="line"><span class="hljs-function">      <span class="hljs-title">DECLARE</span> <span class="hljs-title">var</span> <span class="hljs-title">INT</span>;</span></span><br><span class="line">      <span class="hljs-keyword">SET</span> <span class="hljs-keyword">var</span>=parameter+<span class="hljs-number">1</span>;</span><br><span class="line">      <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">var</span></span><br><span class="line">        WHEN <span class="hljs-number">0</span> <span class="hljs-keyword">THEN</span></span><br><span class="line">          INSERT <span class="hljs-keyword">INTO</span> t VALUES (<span class="hljs-number">17</span>);</span><br><span class="line">        WHEN <span class="hljs-number">1</span> <span class="hljs-keyword">THEN</span></span><br><span class="line">          INSERT <span class="hljs-keyword">INTO</span> t VALUES (<span class="hljs-number">18</span>);</span><br><span class="line">        <span class="hljs-keyword">ELSE</span></span><br><span class="line">          INSERT <span class="hljs-keyword">INTO</span> t VALUES (<span class="hljs-number">19</span>);</span><br><span class="line">      <span class="hljs-keyword">END</span> <span class="hljs-keyword">CASE</span> ;</span><br><span class="line">    <span class="hljs-keyword">END</span> ;</span><br><span class="line">  <span class="hljs-comment">//</span></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<h3 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h3><h4 id="WHILE-DO…END-WHILE"><a href="#WHILE-DO…END-WHILE" class="headerlink" title="WHILE-DO…END-WHILE"></a>WHILE-DO…END-WHILE</h4><figure class="highlight oxygene hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER <span class="hljs-comment">//</span></span><br><span class="line">  <span class="hljs-keyword">CREATE</span> <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">proc5</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">BEGIN</span></span></span><br><span class="line"><span class="hljs-function">      <span class="hljs-title">DECLARE</span> <span class="hljs-title">var</span> <span class="hljs-title">INT</span>;</span></span><br><span class="line">      <span class="hljs-keyword">SET</span> <span class="hljs-keyword">var</span>=<span class="hljs-number">0</span>;</span><br><span class="line">      <span class="hljs-keyword">WHILE</span> <span class="hljs-keyword">var</span>&lt;<span class="hljs-number">6</span> <span class="hljs-keyword">DO</span></span><br><span class="line">        INSERT <span class="hljs-keyword">INTO</span> t VALUES (<span class="hljs-keyword">var</span>);</span><br><span class="line">        <span class="hljs-keyword">SET</span> <span class="hljs-keyword">var</span>=<span class="hljs-keyword">var</span>+<span class="hljs-number">1</span>;</span><br><span class="line">      <span class="hljs-keyword">END</span> <span class="hljs-keyword">WHILE</span> ;</span><br><span class="line">    <span class="hljs-keyword">END</span>;</span><br><span class="line">  <span class="hljs-comment">//</span></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<h4 id="REPEAT…END-REPEAT"><a href="#REPEAT…END-REPEAT" class="headerlink" title="REPEAT…END REPEAT"></a>REPEAT…END REPEAT</h4><p>此语句的特点是执行操作后检查结果<br><figure class="highlight oxygene hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER <span class="hljs-comment">//</span></span><br><span class="line">  <span class="hljs-keyword">CREATE</span> <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">proc6</span> <span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">BEGIN</span></span></span><br><span class="line"><span class="hljs-function">      <span class="hljs-title">DECLARE</span> <span class="hljs-title">v</span> <span class="hljs-title">INT</span>;</span></span><br><span class="line">      <span class="hljs-keyword">SET</span> v=<span class="hljs-number">0</span>;</span><br><span class="line">      <span class="hljs-keyword">REPEAT</span></span><br><span class="line">        INSERT <span class="hljs-keyword">INTO</span> t VALUES(v);</span><br><span class="line">        <span class="hljs-keyword">SET</span> v=v+<span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">UNTIL</span> v&gt;=<span class="hljs-number">5</span></span><br><span class="line">      <span class="hljs-keyword">END</span> <span class="hljs-keyword">REPEAT</span>;</span><br><span class="line">    <span class="hljs-keyword">END</span>;</span><br><span class="line">  <span class="hljs-comment">//</span></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure></p>
+<h4 id="LOOP…END-LOOP"><a href="#LOOP…END-LOOP" class="headerlink" title="LOOP…END LOOP"></a>LOOP…END LOOP</h4><figure class="highlight oxygene hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER <span class="hljs-comment">//</span></span><br><span class="line">  <span class="hljs-keyword">CREATE</span> <span class="hljs-function"><span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title">proc7</span> <span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-title">BEGIN</span></span></span><br><span class="line"><span class="hljs-function">      <span class="hljs-title">DECLARE</span> <span class="hljs-title">v</span> <span class="hljs-title">INT</span>;</span></span><br><span class="line">      <span class="hljs-keyword">SET</span> v=<span class="hljs-number">0</span>;</span><br><span class="line">      LOOP_LABLE:<span class="hljs-keyword">LOOP</span></span><br><span class="line">        INSERT <span class="hljs-keyword">INTO</span> t VALUES(v);</span><br><span class="line">        <span class="hljs-keyword">SET</span> v=v+<span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">IF</span> v &gt;=<span class="hljs-number">5</span> <span class="hljs-keyword">THEN</span></span><br><span class="line">          LEAVE LOOP_LABLE;</span><br><span class="line">        <span class="hljs-keyword">END</span> <span class="hljs-keyword">IF</span>;</span><br><span class="line">      <span class="hljs-keyword">END</span> <span class="hljs-keyword">LOOP</span>;</span><br><span class="line">    <span class="hljs-keyword">END</span>;</span><br><span class="line">  <span class="hljs-comment">//</span></span><br><span class="line">DELIMITER ;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">#### LABLES标号</span><br><span class="line">标号可以用在<span class="hljs-keyword">begin</span> <span class="hljs-keyword">repeat</span> <span class="hljs-keyword">while</span> 或者<span class="hljs-keyword">loop</span> 语句前，语句标号只能在合法的语句前面使用。可以跳出循环，使运行指令达到复合语句的最后一步。</span><br><span class="line"></span><br><span class="line">#### ITERATE迭代</span><br><span class="line"></span><br><span class="line">通过引用复合语句的标号,来从新开始复合语句</span><br><span class="line"></span><br><span class="line">### ITERATE</span><br></pre></td></tr></table></figure>
+<p>DELIMITER //<br>  CREATE PROCEDURE proc8()<br>  BEGIN<br>    DECLARE v INT;<br>    SET v=0;<br>    LOOP_LABLE:LOOP<br>      IF v=3 THEN<br>        SET v=v+1;<br>        ITERATE LOOP_LABLE;<br>      END IF;<br>      INSERT INTO t VALUES(v);<br>      SET v=v+1;<br>      IF v&gt;=5 THEN<br>        LEAVE LOOP_LABLE;<br>      END IF;<br>    END LOOP;<br>  END;<br>  //<br>DELIMITER ;<br>```</p>
+
+            
+        </div>
+        
+
+        
+            <! -- 添加捐赠图标 -->
+<div class="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+
+		   如果您觉得文章不错,可以请我喝一杯咖啡！
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden">
+		<!-- 支付宝打赏图案 -->
+		<span><img src="/images/zhifubao.png" alt="支付宝打赏"></span>
+
+		<!-- 微信打赏图案 -->
+		<span><img src="/images/weixin.png" alt="微信打赏"></span>
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			//$('#donate_board').addClass('hidden');
+			if($('#donate_guide').hasClass('hidden')){
+				$('#donate_guide').removeClass('hidden');
+			}else{
+				$('#donate_guide').addClass('hidden');
+			}
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+        
+
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7"><i class="fa fa-tag"></i>&nbsp</span>
+                    <a class="has-link-grey -link" href="/tags/Database/">Database</a>, <a class="has-link-grey -link" href="/tags/mysql/">mysql</a>, <a class="has-link-grey -link" href="/tags/存储过程/">存储过程</a>
+                </div>
+            </div>
+        </div><hr>
+        
+
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/09/04/Database/mysql事件（计划任务）/">
+                <i class="level-item material-icons">keyboard_arrow_left</i>
+                <span class="level-item">mysql事件（计划任务）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2017/08/08/Java/Java配置中心/">
+                <span class="level-item">Java配置中心</span>
+                <i class="level-item material-icons">keyboard_arrow_right</i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+	const gitalk = new Gitalk({
+            clientID: 'f3cedbc73c19570bee41',
+            clientSecret: 'dff532b2bd6b11456d7de56b07f0db9bac8d599a',
+            repo: 'huang-min.github.io',
+            owner: 'huang-min',
+            admin: ['huang-min'],
+            id: '2017/08/18/Database/mysql存储过程/',
+            distractionFreeMode: false
+        });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/logo.png">
+                    
+                    <p class="is-size-4 is-block">
+                        黄敏
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Java Developer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="material-icons is-size-5 has-mr-7">location_on</i>
+                        <span>中国 - 长沙</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        29
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        20
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/huang-min">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white" target="_blank" title="Github" href="http://github.com/huang-min">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="git" href="http://git.oschina.net/donecoder">
+                
+                <i class="fab fa-gg"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weixin" href="/">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weibo" href="/">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#简介">
+        <span class="has-mr-6">1</span>
+        <span>简介</span>
+        </a></li><li>
+        <a class="is-flex" href="#存储过程的优点">
+        <span class="has-mr-6">2</span>
+        <span>存储过程的优点</span>
+        </a></li><li>
+        <a class="is-flex" href="#例子">
+        <span class="has-mr-6">3</span>
+        <span>例子</span>
+        </a></li><li>
+        <a class="is-flex" href="#语法">
+        <span class="has-mr-6">4</span>
+        <span>语法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#结束符">
+        <span class="has-mr-6">4.1</span>
+        <span>结束符</span>
+        </a></li><li>
+        <a class="is-flex" href="#参数">
+        <span class="has-mr-6">4.2</span>
+        <span>参数</span>
+        </a></li><li>
+        <a class="is-flex" href="#过程体">
+        <span class="has-mr-6">4.3</span>
+        <span>过程体</span>
+        </a></li><li>
+        <a class="is-flex" href="#变量赋值">
+        <span class="has-mr-6">4.4</span>
+        <span>变量赋值</span>
+        </a></li><li>
+        <a class="is-flex" href="#用户变量">
+        <span class="has-mr-6">4.5</span>
+        <span>用户变量</span>
+        </a></li><li>
+        <a class="is-flex" href="#注释">
+        <span class="has-mr-6">4.6</span>
+        <span>注释</span>
+        </a></li><li>
+        <a class="is-flex" href="#调用">
+        <span class="has-mr-6">4.7</span>
+        <span>调用</span>
+        </a></li><li>
+        <a class="is-flex" href="#控制语句">
+        <span class="has-mr-6">4.8</span>
+        <span>控制语句</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#条件语句">
+        <span class="has-mr-6">4.8.1</span>
+        <span>条件语句</span>
+        </a></li><li>
+        <a class="is-flex" href="#循环语句">
+        <span class="has-mr-6">4.8.2</span>
+        <span>循环语句</span>
+        </a></li></ul></li></ul></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+        <div class="card card-transparent is-hidden-widescreen">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+        
+            
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2018 Huang min&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & Theme by <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+        <div>
+            
+Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261418845'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1261418845%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+
+        </div>
+    </div>
+</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                if (typeof($.fn.lightGallery) === 'function') {
+                    $('.article').lightGallery({ selector: '.gallery-item' });
+                }
+                if (typeof($.fn.justifiedGallery) === 'function') {
+                    $('.justified-gallery').justifiedGallery();
+                }
+            });
+        })(jQuery);
+    </script>
+    
+
+    
+    
+    
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // plugin function, place inside DOM ready function
+            outdatedBrowser({
+                bgColor: '#f25648',
+                color: '#ffffff',
+                lowerThan: 'flex'
+            })
+        });
+    </script>
+    
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="material-icons">keyboard_arrow_up</i>
+</a>
+<style>
+#back-to-top {
+    position: fixed;
+    padding: 8px 0;
+    transition: 0.4s ease opacity, 0.4s ease width, 0.4s ease transform, 0.4s ease border-radius;
+    opacity: 0;
+    font-size: 0;
+    outline: none;
+    transform: translateY(120px);
+}
+#back-to-top.fade-in {
+    opacity: 1;
+}
+#back-to-top.rise-up {
+    transform: translateY(0);
+}
+</style>
+<script src="/js/back-to-top.js"></script>
+
+
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

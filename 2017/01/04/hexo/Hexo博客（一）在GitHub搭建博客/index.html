@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Hexo博客（一）在GitHub搭建博客 - 黄敏</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="1 Git准备1.1 申请GitHub1、进入https://github.com/ 2、点击”New repository”，新建一个仓库。 注意：输入Repository name:yourname.github.io(yourname与你的注册用户名一致,这个就是你博客的域名了) 3、启用GitHub Page 点击右边的“Setting”菜单进入设置,点击”Launch automatic">
+<meta name="keywords" content="Hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo博客（一）在GitHub搭建博客">
+<meta property="og:url" content="http://mindasoft.com/2017/01/04/hexo/Hexo博客（一）在GitHub搭建博客/index.html">
+<meta property="og:site_name" content="黄敏">
+<meta property="og:description" content="1 Git准备1.1 申请GitHub1、进入https://github.com/ 2、点击”New repository”，新建一个仓库。 注意：输入Repository name:yourname.github.io(yourname与你的注册用户名一致,这个就是你博客的域名了) 3、启用GitHub Page 点击右边的“Setting”菜单进入设置,点击”Launch automatic">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-31T03:24:49.435Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo博客（一）在GitHub搭建博客">
+<meta name="twitter:description" content="1 Git准备1.1 申请GitHub1、进入https://github.com/ 2、点击”New repository”，新建一个仓库。 注意：输入Repository name:yourname.github.io(yourname与你的注册用户名一致,这个就是你博客的域名了) 3、启用GitHub Page 点击右边的“Setting”菜单进入设置,点击”Launch automatic">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+    
+
+    
+    
+    
+    <style>body{opacity: 0}</style>
+    
+
+    
+    
+    
+    
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?549090fe8e0555dbb3938f4ec59efefd";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">主页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                
+                <a class="navbar-item" href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/huang-min/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="material-icons is-size-5">search</i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Hexo博客（一）在GitHub搭建博客
+            
+        </h1>
+
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2017-01-04</div>
+                <time class="level-item has-text-grey" datetime="2017-01-04T15:40:59.000Z"> 2017-01-04T15:40:59.000Z </time>
+
+                
+                <div class="level-item">
+                <i class="fa fa-book"></i>&nbsp
+                <a class="has-link-grey -link" href="/categories/Hexo/">Hexo</a>
+                </div>
+                
+
+                
+                <span class="level-item has-text-grey">
+                    <i class="fa fa-clock"></i>&nbsp
+                    
+                    
+                    12 分钟 读完 (大约 1784 个字)
+                </span>
+                
+
+                
+                <div class="level-item">
+                <span id="busuanzi_container_page_pv">
+                   被阅读<span id="busuanzi_value_page_pv"></span>次
+                </span>
+                </div>
+                
+            </div>
+        </div>
+        
+
+        <div class="content">
+            
+                <h1 id="1-Git准备"><a href="#1-Git准备" class="headerlink" title="1 Git准备"></a>1 Git准备</h1><h2 id="1-1-申请GitHub"><a href="#1-1-申请GitHub" class="headerlink" title="1.1 申请GitHub"></a>1.1 申请GitHub</h2><p>1、进入<a href="https://github.com/" target="_blank" rel="noopener">https://github.com/</a></p>
+<p>2、点击”New repository”，新建一个仓库。</p>
+<p>注意：输入Repository name:yourname.github.io(yourname与你的注册用户名一致,这个就是你博客的域名了)</p>
+<p>3、启用GitHub Page</p>
+<p>点击右边的“Setting”菜单进入设置,点击”Launch automatic page generator”，然后再点击点击底部的”Continue to layouts”。最后点击”Publish page”,发布github默认生成的一个静态站点。</p>
+<p>4、验证邮箱</p>
+<p>点击右上角个人设置的“Setting”菜单进入设置，再点击Emails,点击”Send verification Email”发送验证邮件。进入你的邮箱，查收验证邮件进行验证。</p>
+<h2 id="1-2-安装Git"><a href="#1-2-安装Git" class="headerlink" title="1.2 安装Git"></a>1.2 安装Git</h2><h3 id="1-2-1下载"><a href="#1-2-1下载" class="headerlink" title="1.2.1下载"></a>1.2.1下载</h3><pre><code>https://git-for-windows.github.io/
+</code></pre><h3 id="1-2-2安装"><a href="#1-2-2安装" class="headerlink" title="1.2.2安装"></a>1.2.2安装</h3><ol>
+<li>安装过程中，询问是否修改环境变量，选择“Use Git Bash Only”. 即只在msysGit提供的Shell</li>
+</ol>
+<p>(<strong>NOTE</strong>: 这个步骤最好选择第二项“Use Git from the Windows Command Prompt”， 这样在Windows的命令行cmd中也可以运行git命令了。这样会对以后的一些操作带来方便，比如Win7下安装配置gVim)</p>
+<ol>
+<li>配置行结束标记，保持默认“Checkout Windows-style, commit Unix-style line endings”.</li>
+</ol>
+<h3 id="1-2-3中文乱码问题解决方法"><a href="#1-2-3中文乱码问题解决方法" class="headerlink" title="1.2.3中文乱码问题解决方法"></a>1.2.3中文乱码问题解决方法</h3><p>ls 不能显示中文目录</p>
+<p>解决办法：在git/git-completion.bash中增加一行【4】：</p>
+<figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">alias</span> <span class="hljs-keyword">ls</span>='<span class="hljs-keyword">ls</span> <span class="hljs-params">--show-control-chars</span> <span class="hljs-params">--color=auto</span>'</span><br></pre></td></tr></table></figure>
+<p>另外，Git Shell 不支持 ls -l的缩写形式ll，也为其添加一个alias</p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">alias</span> ll=<span class="hljs-string">'ls -l'</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-2-4-运行-Git-前的配置"><a href="#1-2-4-运行-Git-前的配置" class="headerlink" title="1.2.4 运行 Git 前的配置"></a>1.2.4 运行 Git 前的配置</h3><ol>
+<li>配置你个人的用户名称和电子邮件地址,打开git bash。</li>
+</ol>
+<figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-variable">$git</span><span class="hljs-built_in"> config </span>--global user.name <span class="hljs-string">"xxx"</span></span><br><span class="line"><span class="hljs-variable">$git</span><span class="hljs-built_in"> config </span>--global user.email xxx@example.com</span><br></pre></td></tr></table></figure>
+<ol>
+<li>配置GitHub SSH </li>
+</ol>
+<p>（1）首先使用 ssh-keygen 生成 SSH 密钥<br><figure class="highlight jboss-cli hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">cd</span> ~<span class="hljs-string">/.ssh/</span></span><br><span class="line">Administrator</span><br><span class="line">@THINKPAD ~<span class="hljs-string">/.ssh</span></span><br><span class="line"> <span class="hljs-keyword">ls</span></span><br><span class="line">  known_hosts</span><br><span class="line">ssh-keygen -t rsa -C <span class="hljs-string">"youremail@example.com"</span></span><br></pre></td></tr></table></figure></p>
+<p>有提示，直接回车即可。生成key以后检查下”~”目录下的.ssh目录下是否多了2个文件 。</p>
+<p>把 id_rsa.pub 中的全部内容复制，包括最后的一个换行。或者用命令：<br><figure class="highlight awk hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clip &lt; ~<span class="hljs-regexp">/.ssh/i</span>d_rsa.pub</span><br></pre></td></tr></table></figure></p>
+<p>（2）配置Github SSH。</p>
+<p>登陆GitHub-&gt;Settings-&gt;“SSH Keys”，然后，点“Add SSH Key”，起个Title，在Key文本框里粘贴id_rsa.pub文件的内容，点“Add Key”。</p>
+<p>（3）测试是否可以连接到github<br><figure class="highlight applescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssh git@github.com</span><br><span class="line"></span><br><span class="line">Hi imsofter! You've successfully authenticated, <span class="hljs-keyword">but</span> GitHub <span class="hljs-keyword">does</span> <span class="hljs-keyword">not</span> provide shell access.</span><br><span class="line">Connection <span class="hljs-keyword">to</span> github.com closed.</span><br></pre></td></tr></table></figure></p>
+<p>现在可以将代码推上github上了。</p>
+<hr>
+<h1 id="2-安装node-js"><a href="#2-安装node-js" class="headerlink" title="2 安装node.js"></a>2 安装node.js</h1><p>下载：<a href="http://nodejs.org/download/" target="_blank" rel="noopener">http://nodejs.org/download/</a></p>
+<p>可以下载 node-v4.2.1-x64.msi</p>
+<p>安装时直接保持默认配置即可。</p>
+<hr>
+<h1 id="3-安装Hexo"><a href="#3-安装Hexo" class="headerlink" title="3 安装Hexo"></a>3 安装Hexo</h1><p>关于Hexo的安装配置过程，请以官方Hexo给出的步骤为准,大致如下：</p>
+<p>在电脑上E盘新建一个blog文件夹,该文件夹用于存放你的博客文件,然后右键单击选择“Git Bash”</p>
+<h2 id="3-1-Installation"><a href="#3-1-Installation" class="headerlink" title="3.1 Installation"></a>3.1 Installation</h2><p>打开Git命令行，执行如下命令<br><figure class="highlight avrasm hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-<span class="hljs-keyword">cli</span> g</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-2-Quick-Start"><a href="#3-2-Quick-Start" class="headerlink" title="3.2 Quick Start"></a>3.2 Quick Start</h2><p><strong>1. Setup your blog</strong></p>
+<p>在电脑中建立一个名字叫「Hexo」的文件夹（比如我建在了E:\Hexo），然后在此文件夹中右键打开Git Bash。执行下面的命令<br><figure class="highlight applescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cd /e/blog</span><br><span class="line">$ hexo init</span><br><span class="line">[info] Copying data</span><br><span class="line">[info] You are almost done! Don't forget <span class="hljs-keyword">to</span> <span class="hljs-built_in">run</span> `npm install` <span class="hljs-keyword">before</span> you start b</span><br><span class="line">logging <span class="hljs-keyword">with</span> Hexo!</span><br></pre></td></tr></table></figure></p>
+<p>Hexo随后会自动在目标文件夹建立网站所需要的文件。</p>
+<p>然后按照提示，运行 npm install（在 /e/blog下）<br><figure class="highlight cmake hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="hljs-keyword">install</span></span><br></pre></td></tr></table></figure></p>
+<p>会在e:\blog目录中生成 node_modules。</p>
+<p>安装其它插件<br><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="hljs-keyword">install</span> hexo-<span class="hljs-keyword">server</span> <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-<span class="hljs-keyword">admin</span> <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-generator-<span class="hljs-keyword">archive</span> <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-generator-feed <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-generator-<span class="hljs-keyword">search</span> <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-generator-tag <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-deployer-git <span class="hljs-comment">--save</span></span><br><span class="line">npm <span class="hljs-keyword">install</span> hexo-generator-sitemap <span class="hljs-comment">--save</span></span><br></pre></td></tr></table></figure></p>
+<p><strong> 2. Start the server</strong></p>
+<p>运行下面的命令（在 /E/Hexo下）<br><figure class="highlight vim hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">[info] Hexo <span class="hljs-keyword">is</span> running at http://localhos<span class="hljs-variable">t:4000</span>/. Press Ctrl+C <span class="hljs-keyword">to</span> <span class="hljs-keyword">stop</span>.</span><br></pre></td></tr></table></figure></p>
+<p>表明Hexo Server已经启动了，在浏览器中打开 <a href="http://localhost:4000/，这时可以看到Hexo已为你生成了一篇blog。" target="_blank" rel="noopener">http://localhost:4000/，这时可以看到Hexo已为你生成了一篇blog。</a></p>
+<p>你可以按Ctrl+C 停止Server。</p>
+<p><strong> 3. Create a new post</strong></p>
+<p>新打开一个git bash命令行窗口，cd到/e/blog下，执行下面的命令<br><figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo <span class="hljs-keyword">new</span> <span class="hljs-string">"My New Post"</span></span><br><span class="line">[info] <span class="hljs-keyword">File</span> created at e:\blog\<span class="hljs-keyword">source</span>\_posts\My-<span class="hljs-keyword">New</span>-Post.md</span><br></pre></td></tr></table></figure></p>
+<p>刷新<a href="http://localhost:4000/，可以发现已生成了一篇新文章" target="_blank" rel="noopener">http://localhost:4000/，可以发现已生成了一篇新文章</a> “My New Post”。</p>
+<p><strong>NOTE：</strong></p>
+<p>有一个问题，发现 “My New Post” 被发了2遍，在Hexo server所在的git bash窗口也能看到create了2次。<br><figure class="highlight taggerscript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">[info] Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</span><br><span class="line">[create] e:<span class="hljs-symbol">\b</span>log<span class="hljs-symbol">\s</span>ource<span class="hljs-symbol">\_</span>posts<span class="hljs-symbol">\M</span>y-New-Post.md</span><br><span class="line">[create] e:<span class="hljs-symbol">\b</span>log<span class="hljs-symbol">\s</span>ource<span class="hljs-symbol">\_</span>posts<span class="hljs-symbol">\M</span>y-New-Post.md</span><br></pre></td></tr></table></figure></p>
+<p>经验证，在hexo new “My New Post” 时，如果按Ctrl+C将hexo server停掉，就不会出现发2次的问题了。</p>
+<p>所以，在hexo new文章时，需要stop server。</p>
+<p><strong>4. Generate static files</strong></p>
+<p>执行下面的命令，将markdown文件生成静态网页。</p>
+<p>该命令执行完后，会在 E:\blog\public\ 目录下生成一系列html，css等文件。</p>
+<p><strong>5. 编辑文章</strong></p>
+<p>hexo new “My New Post”会在E:\blog\source_posts目录下生成一个markdown文件：My-New-Post.md</p>
+<p>可以使用一个支持markdown语法的编辑器（比如 Sublime Text 2）来编辑该文件。</p>
+<p><strong>6.  部署到Github</strong></p>
+<p>运行  <code>npm install hexo-deployer-git --save</code> 安装git支持</p>
+<p>部署到Github前需要配置_config.yml文件，首先找到下面的内容<br><figure class="highlight dts hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta"># Deployment</span></span><br><span class="line"><span class="hljs-meta">## Docs: http:<span class="hljs-comment">//hexo.io/docs/deployment.html</span></span></span><br><span class="line"><span class="hljs-symbol">deploy:</span></span><br><span class="line"><span class="hljs-symbol">  type:</span></span><br></pre></td></tr></table></figure></p>
+<p>然后将它们修改为<br><figure class="highlight dts hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta"># Deployment</span></span><br><span class="line"><span class="hljs-meta">## Docs: http:<span class="hljs-comment">//hexo.io/docs/deployment.html</span></span></span><br><span class="line"><span class="hljs-symbol">deploy:</span></span><br><span class="line"><span class="hljs-symbol">  type:</span> github</span><br><span class="line"><span class="hljs-symbol">  repository:</span> git@github.com:hmiter/hmiter.github.io.git</span><br><span class="line"><span class="hljs-symbol">  branch:</span> master</span><br></pre></td></tr></table></figure></p>
+<p><strong>NOTE1:</strong></p>
+<p>Repository：必须是SSH形式的url（git@github.com:hmiter/hmiter.github.io.git），而不能是HTTPS形式的url（<a href="https://github.com/hmiter/hmiter.github.io.git），否则会出现错误：" target="_blank" rel="noopener">https://github.com/hmiter/hmiter.github.io.git），否则会出现错误：</a><br><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line">[info] <span class="hljs-keyword">Start</span> deploying: github</span><br><span class="line">[<span class="hljs-keyword">error</span>] https://github.com/hmiter/hmiter.github.io <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> a valid repositor <span class="hljs-keyword">URL</span>!</span><br></pre></td></tr></table></figure></p>
+<p>使用SSH url，如果电脑没有开放SSH 端口，会致部署失败。<br><figure class="highlight livecodeserver hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fatal: Could <span class="hljs-keyword">not</span> <span class="hljs-built_in">read</span> <span class="hljs-built_in">from</span> remote repository.</span><br><span class="line">Please make sure you have <span class="hljs-keyword">the</span> correct access rights <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> repository exists.</span><br></pre></td></tr></table></figure></p>
+<p><strong>NOTE2：</strong></p>
+<p>如果你是为一个项目制作网站，那么需要把branch设置为gh-pages。</p>
+<p><strong>NOTE3：</strong></p>
+<p>hexo3.0以上的版本type为git</p>
+<p><strong>7. 测试</strong></p>
+<p>当部署完成后，在浏览器中打开<a href="http://hmiter.github.io/（https://hmiter.github.io/）" target="_blank" rel="noopener">http://hmiter.github.io/（https://hmiter.github.io/）</a> ，正常显示网页，表明部署成功。</p>
+<p><strong>8. 总结：部署步骤</strong></p>
+<p>每次部署的步骤，可按以下三步来进行。<br><figure class="highlight verilog hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo <span class="hljs-keyword">generate</span></span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure></p>
+<p><strong>9. 总结：本地调试</strong></p>
+<ol>
+<li>在执行下面的命令后，<figure class="highlight elixir hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-variable">$ </span>hexo g <span class="hljs-comment">#生成</span></span><br><span class="line"><span class="hljs-variable">$ </span>hexo s <span class="hljs-comment">#启动本地服务，进行文章预览调试</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>浏览器输入<a href="http://localhost:4000，查看搭建效果。此后的每次变更_config.yml" target="_blank" rel="noopener">http://localhost:4000，查看搭建效果。此后的每次变更_config.yml</a> 文件或者新建文件都可以先用此命令调试，尤其是当你想调试新添加的主题时。</p>
+<ol>
+<li>可以用简化的一条命令<figure class="highlight ebnf hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attribute">hexo s -g</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>10.hexo命令缩写</strong><br>hexo支持命令缩写，如下所示。hexo g等价于hexo generate<br><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo g：hexo generate</span><br><span class="line">hexo c：hexo clean</span><br><span class="line">hexo s：hexo server</span><br><span class="line">hexo d：hexo deploy</span><br></pre></td></tr></table></figure></p>
+
+            
+        </div>
+        
+
+        
+            <! -- 添加捐赠图标 -->
+<div class="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+
+		   如果您觉得文章不错,可以请我喝一杯咖啡！
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden">
+		<!-- 支付宝打赏图案 -->
+		<span><img src="/images/zhifubao.png" alt="支付宝打赏"></span>
+
+		<!-- 微信打赏图案 -->
+		<span><img src="/images/weixin.png" alt="微信打赏"></span>
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			//$('#donate_board').addClass('hidden');
+			if($('#donate_guide').hasClass('hidden')){
+				$('#donate_guide').removeClass('hidden');
+			}else{
+				$('#donate_guide').addClass('hidden');
+			}
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+        
+
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7"><i class="fa fa-tag"></i>&nbsp</span>
+                    <a class="has-link-grey -link" href="/tags/Hexo/">Hexo</a>
+                </div>
+            </div>
+        </div><hr>
+        
+
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/02/06/hexo/Hexo博客（二）更换主题和相关设置/">
+                <i class="level-item material-icons">keyboard_arrow_left</i>
+                <span class="level-item">Hexo博客（二）更换主题和相关设置</span>
+            </a>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+	const gitalk = new Gitalk({
+            clientID: 'f3cedbc73c19570bee41',
+            clientSecret: 'dff532b2bd6b11456d7de56b07f0db9bac8d599a',
+            repo: 'huang-min.github.io',
+            owner: 'huang-min',
+            admin: ['huang-min'],
+            id: '2017/01/04/hexo/Hexo博客（一）在GitHub搭建博客/',
+            distractionFreeMode: false
+        });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/logo.png">
+                    
+                    <p class="is-size-4 is-block">
+                        黄敏
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Java Developer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="material-icons is-size-5 has-mr-7">location_on</i>
+                        <span>中国 - 长沙</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        29
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        20
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/huang-min">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white" target="_blank" title="Github" href="http://github.com/huang-min">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="git" href="http://git.oschina.net/donecoder">
+                
+                <i class="fab fa-gg"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weixin" href="/">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weibo" href="/">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#1-Git准备">
+        <span class="has-mr-6">1</span>
+        <span>1 Git准备</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#1-1-申请GitHub">
+        <span class="has-mr-6">1.1</span>
+        <span>1.1 申请GitHub</span>
+        </a></li><li>
+        <a class="is-flex" href="#1-2-安装Git">
+        <span class="has-mr-6">1.2</span>
+        <span>1.2 安装Git</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#1-2-1下载">
+        <span class="has-mr-6">1.2.1</span>
+        <span>1.2.1下载</span>
+        </a></li><li>
+        <a class="is-flex" href="#1-2-2安装">
+        <span class="has-mr-6">1.2.2</span>
+        <span>1.2.2安装</span>
+        </a></li><li>
+        <a class="is-flex" href="#1-2-3中文乱码问题解决方法">
+        <span class="has-mr-6">1.2.3</span>
+        <span>1.2.3中文乱码问题解决方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#1-2-4-运行-Git-前的配置">
+        <span class="has-mr-6">1.2.4</span>
+        <span>1.2.4 运行 Git 前的配置</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#2-安装node-js">
+        <span class="has-mr-6">2</span>
+        <span>2 安装node.js</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-安装Hexo">
+        <span class="has-mr-6">3</span>
+        <span>3 安装Hexo</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#3-1-Installation">
+        <span class="has-mr-6">3.1</span>
+        <span>3.1 Installation</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-2-Quick-Start">
+        <span class="has-mr-6">3.2</span>
+        <span>3.2 Quick Start</span>
+        </a></li></ul></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+        <div class="card card-transparent is-hidden-widescreen">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+        
+            
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2018 Huang min&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & Theme by <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+        <div>
+            
+Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261418845'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1261418845%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+
+        </div>
+    </div>
+</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                if (typeof($.fn.lightGallery) === 'function') {
+                    $('.article').lightGallery({ selector: '.gallery-item' });
+                }
+                if (typeof($.fn.justifiedGallery) === 'function') {
+                    $('.justified-gallery').justifiedGallery();
+                }
+            });
+        })(jQuery);
+    </script>
+    
+
+    
+    
+    
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // plugin function, place inside DOM ready function
+            outdatedBrowser({
+                bgColor: '#f25648',
+                color: '#ffffff',
+                lowerThan: 'flex'
+            })
+        });
+    </script>
+    
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="material-icons">keyboard_arrow_up</i>
+</a>
+<style>
+#back-to-top {
+    position: fixed;
+    padding: 8px 0;
+    transition: 0.4s ease opacity, 0.4s ease width, 0.4s ease transform, 0.4s ease border-radius;
+    opacity: 0;
+    font-size: 0;
+    outline: none;
+    transform: translateY(120px);
+}
+#back-to-top.fade-in {
+    opacity: 1;
+}
+#back-to-top.rise-up {
+    transform: translateY(0);
+}
+</style>
+<script src="/js/back-to-top.js"></script>
+
+
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

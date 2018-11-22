@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>spring声明式事务配置 - 黄敏</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="上周要一个同事开发一个模块，他说事物死活不起作用。我看了一下，大致主要配置如下： 12345678910111213141516171819202122232425262728&amp;lt;!-- 配置事务管理 --&amp;gt;&amp;lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTrans">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring声明式事务配置">
+<meta property="og:url" content="http://mindasoft.com/2017/03/19/Spring/spring声明式事务配置/index.html">
+<meta property="og:site_name" content="黄敏">
+<meta property="og:description" content="上周要一个同事开发一个模块，他说事物死活不起作用。我看了一下，大致主要配置如下： 12345678910111213141516171819202122232425262728&amp;lt;!-- 配置事务管理 --&amp;gt;&amp;lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTrans">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-01T11:19:23.470Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring声明式事务配置">
+<meta name="twitter:description" content="上周要一个同事开发一个模块，他说事物死活不起作用。我看了一下，大致主要配置如下： 12345678910111213141516171819202122232425262728&amp;lt;!-- 配置事务管理 --&amp;gt;&amp;lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTrans">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+    
+
+    
+    
+    
+    <style>body{opacity: 0}</style>
+    
+
+    
+    
+    
+    
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?549090fe8e0555dbb3938f4ec59efefd";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">主页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                
+                <a class="navbar-item" href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/huang-min/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="material-icons is-size-5">search</i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                spring声明式事务配置
+            
+        </h1>
+
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2017-03-19</div>
+                <time class="level-item has-text-grey" datetime="2017-03-19T15:40:59.000Z"> 2017-03-19T15:40:59.000Z </time>
+
+                
+                <div class="level-item">
+                <i class="fa fa-book"></i>&nbsp
+                <a class="has-link-grey -link" href="/categories/Spring基础/">Spring基础</a>
+                </div>
+                
+
+                
+                <span class="level-item has-text-grey">
+                    <i class="fa fa-clock"></i>&nbsp
+                    
+                    
+                    5 分钟 读完 (大约 795 个字)
+                </span>
+                
+
+                
+                <div class="level-item">
+                <span id="busuanzi_container_page_pv">
+                   被阅读<span id="busuanzi_value_page_pv"></span>次
+                </span>
+                </div>
+                
+            </div>
+        </div>
+        
+
+        <div class="content">
+            
+                <p>上周要一个同事开发一个模块，他说事物死活不起作用。我看了一下，大致主要配置如下：</p>
+<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">&lt;!-- 配置事务管理 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"transactionManager"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"dataSource"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"businessDataSource"</span> /&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">&lt;!-- 事务相关控制配置：例如配置事务的传播机制 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">tx:advice</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"fortressAdvice"</span> <span class="hljs-attr">transaction-manager</span>=<span class="hljs-string">"transactionManager"</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"get*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"query*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"count*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"save*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"remove*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"modify*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"true"</span> /&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;/<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">tx:advice</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">&lt;!-- 事务控制切入点在service层</span></span><br><span class="line"><span class="hljs-comment">|第一个 *  —— 通配 任意返回值类型|</span></span><br><span class="line"><span class="hljs-comment">|第二个 *  —— 通配包com.mindasoft.fortress.service下的任意class|</span></span><br><span class="line"><span class="hljs-comment">|第三个 *  —— 通配包com.mindasoft.fortress.service下的任意class的任意方法|</span></span><br><span class="line"><span class="hljs-comment">|第四个 .. —— 通配 办法可以有0个或多个参数</span></span><br><span class="line"><span class="hljs-comment">--&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">aop:config</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">aop:pointcut</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"allFortressMethod"</span>  <span class="hljs-attr">expression</span>=<span class="hljs-string">"execution(* com.mindasoft.fortress.service.*.*(..))"</span> /&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">aop:advisor</span> <span class="hljs-attr">advice-ref</span>=<span class="hljs-string">"fortressAdvice"</span>  <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">"allFortressMethod"</span> /&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>配置是这样没错，他的配置也问题，但是为什么会不起作用呢？<br>Debug进行，发现根本就没有进入事物处理。为什么会这样？<br>看配置web.xml<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">&lt;!-- Spring MVC 子Context配置 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>classpath*:/config/servlet.web.xml<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">load-on-startup</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">load-on-startup</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>*.html<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">&lt;!-- Spring root Context监听配置 --&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">listener</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="hljs-tag">&lt;/<span class="hljs-name">listener-class</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">listener</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">context-param</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>classpath*:/config/**/*.bean.xml<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">context-param</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Spring和SpringMVC一起使用时，ContextLoaderListener会初始化一个Context，这个Context是RootContext，而DispatcherServlet也会初始化一个Context，简称WebContext。WebContext是RootContext的子集。当mvc有自己的bean时便不再去向父context要bean。</p>
+<p>所以，在servlet.web.xml 和*.bean.xml 当中，各自的component-scan配置要指定相应位置，否则会导致bean混乱，从导致声明事务无效。<br>如下：<br>servlet.web.xml<br><figure class="highlight vhdl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan base-<span class="hljs-keyword">package</span>=<span class="hljs-string">"com.mindasoft.*.controllers"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>*.bean.xml<br><figure class="highlight vhdl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan base-<span class="hljs-keyword">package</span>=<span class="hljs-string">"com.mindasoft.*.dao"</span>  /&gt;</span><br><span class="line">&lt;<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan base-<span class="hljs-keyword">package</span>=<span class="hljs-string">"com.mindasoft.*.service"</span>  /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当然你也可以使用DispatcherServlet加载全部的配置文件或者将AOP配置复制到servlet.web.xml中。</p>
+<p>这个修改了之后还是不行？？<br>看了下他的代码，他是自己写了一个Exception。然后断点跟踪源代码TransactionAspectSupport：<br><figure class="highlight aspectj hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> * Handle a throwable, completing the transaction.</span></span><br><span class="line"><span class="hljs-comment"> * We may commit or roll back, depending on the configuration.</span></span><br><span class="line"><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> txInfo information about the current transaction</span></span><br><span class="line"><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> ex throwable encountered</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"><span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">completeTransactionAfterThrowing</span><span class="hljs-params">(TransactionInfo txInfo, Throwable ex)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (txInfo != <span class="hljs-keyword">null</span> &amp;&amp; txInfo.hasTransaction()) &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (logger.isTraceEnabled()) &#123;</span><br><span class="line">            logger.trace(<span class="hljs-string">"Completing transaction for ["</span> + txInfo.getJoinpointIdentification() +</span><br><span class="line">                    <span class="hljs-string">"] after exception: "</span> + ex);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (txInfo.transactionAttribute.rollbackOn(ex)) &#123;</span><br><span class="line">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                txInfo.getTransactionManager().rollback(txInfo.getTransactionStatus());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (TransactionSystemException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by rollback exception"</span>, ex);</span><br><span class="line">                ex2.initApplicationException(ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (RuntimeException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by rollback exception"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (Error err) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by rollback error"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> err;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-comment">// We don't roll back on this exception.</span></span><br><span class="line">            <span class="hljs-comment">// Will still roll back if TransactionStatus.isRollbackOnly() is true.</span></span><br><span class="line">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                txInfo.getTransactionManager().commit(txInfo.getTransactionStatus());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (TransactionSystemException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by commit exception"</span>, ex);</span><br><span class="line">                ex2.initApplicationException(ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (RuntimeException ex2) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by commit exception"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> ex2;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">catch</span> (Error err) &#123;</span><br><span class="line">                logger.<span class="hljs-keyword">error</span>(<span class="hljs-string">"Application exception overridden by commit error"</span>, ex);</span><br><span class="line">                <span class="hljs-keyword">throw</span> err;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的方法中有这么一段txInfo.transactionAttribute.rollbackOn(ex)，这里是判断是否需要执行回滚操作的，跟踪rollbackOn方法最后会执行到DefaultTransactionAttribute中的rollbackOn方法。<br><figure class="highlight applescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * The default behavior <span class="hljs-keyword">is</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">with</span> EJB: rollback <span class="hljs-keyword">on</span> unchecked exception.</span><br><span class="line"> * Additionally attempt <span class="hljs-keyword">to</span> rollback <span class="hljs-keyword">on</span> Error.</span><br><span class="line"> * &lt;p&gt;This <span class="hljs-keyword">is</span> consistent <span class="hljs-keyword">with</span> TransactionTemplate's default behavior.</span><br><span class="line"> */</span><br><span class="line">public <span class="hljs-built_in">boolean</span> rollbackOn(Throwable ex) &#123;</span><br><span class="line"><span class="hljs-built_in">    return</span> (ex instanceof RuntimeException || ex instanceof Error);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>到这里，应该都清楚了。。。自己主动抛异常Exception是不对的。这里只捕获运行时异常RuntimeException 及Error，所以我们测试时不可以直接抛Exception，而应该换成RuntimeException 。当然。也可在xml中指定rollback-for。<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">&lt;!-- 事务相关控制配置：例如配置事务的传播机制 --&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">tx:advice</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"fortressAdvice"</span> <span class="hljs-attr">transaction-manager</span>=<span class="hljs-string">"transactionManager"</span>&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"get*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"query*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> /&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"count*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"save*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span>  <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">"Exception"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"remove*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">"Exception"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"modify*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">rollback-for</span>=<span class="hljs-string">"Exception"</span>/&gt;</span></span><br><span class="line">		<span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"*"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"SUPPORTS"</span> <span class="hljs-attr">read-only</span>=<span class="hljs-string">"true"</span> /&gt;</span></span><br><span class="line">	<span class="hljs-tag">&lt;/<span class="hljs-name">tx:attributes</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">tx:advice</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+
+            
+        </div>
+        
+
+        
+            <! -- 添加捐赠图标 -->
+<div class="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+
+		   如果您觉得文章不错,可以请我喝一杯咖啡！
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden">
+		<!-- 支付宝打赏图案 -->
+		<span><img src="/images/zhifubao.png" alt="支付宝打赏"></span>
+
+		<!-- 微信打赏图案 -->
+		<span><img src="/images/weixin.png" alt="微信打赏"></span>
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			//$('#donate_board').addClass('hidden');
+			if($('#donate_guide').hasClass('hidden')){
+				$('#donate_guide').removeClass('hidden');
+			}else{
+				$('#donate_guide').addClass('hidden');
+			}
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+        
+
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7"><i class="fa fa-tag"></i>&nbsp</span>
+                    <a class="has-link-grey -link" href="/tags/Spring/">Spring</a>
+                </div>
+            </div>
+        </div><hr>
+        
+
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/04/20/server/tomcat安装成服务及自启动/">
+                <i class="level-item material-icons">keyboard_arrow_left</i>
+                <span class="level-item">mysql安装成服务及自启动</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2017/03/18/Database/memcached在Linux下的安装/">
+                <span class="level-item">memcached在Linux下的安装</span>
+                <i class="level-item material-icons">keyboard_arrow_right</i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+	const gitalk = new Gitalk({
+            clientID: 'f3cedbc73c19570bee41',
+            clientSecret: 'dff532b2bd6b11456d7de56b07f0db9bac8d599a',
+            repo: 'huang-min.github.io',
+            owner: 'huang-min',
+            admin: ['huang-min'],
+            id: '2017/03/19/Spring/spring声明式事务配置/',
+            distractionFreeMode: false
+        });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/logo.png">
+                    
+                    <p class="is-size-4 is-block">
+                        黄敏
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Java Developer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="material-icons is-size-5 has-mr-7">location_on</i>
+                        <span>中国 - 长沙</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        29
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        20
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/huang-min">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white" target="_blank" title="Github" href="http://github.com/huang-min">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="git" href="http://git.oschina.net/donecoder">
+                
+                <i class="fab fa-gg"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weixin" href="/">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weibo" href="/">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+    
+        <div class="card card-transparent is-hidden-widescreen">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+        
+            
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2018 Huang min&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & Theme by <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+        <div>
+            
+Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261418845'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1261418845%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+
+        </div>
+    </div>
+</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                if (typeof($.fn.lightGallery) === 'function') {
+                    $('.article').lightGallery({ selector: '.gallery-item' });
+                }
+                if (typeof($.fn.justifiedGallery) === 'function') {
+                    $('.justified-gallery').justifiedGallery();
+                }
+            });
+        })(jQuery);
+    </script>
+    
+
+    
+    
+    
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // plugin function, place inside DOM ready function
+            outdatedBrowser({
+                bgColor: '#f25648',
+                color: '#ffffff',
+                lowerThan: 'flex'
+            })
+        });
+    </script>
+    
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="material-icons">keyboard_arrow_up</i>
+</a>
+<style>
+#back-to-top {
+    position: fixed;
+    padding: 8px 0;
+    transition: 0.4s ease opacity, 0.4s ease width, 0.4s ease transform, 0.4s ease border-radius;
+    opacity: 0;
+    font-size: 0;
+    outline: none;
+    transform: translateY(120px);
+}
+#back-to-top.fade-in {
+    opacity: 1;
+}
+#back-to-top.rise-up {
+    transform: translateY(0);
+}
+</style>
+<script src="/js/back-to-top.js"></script>
+
+
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
