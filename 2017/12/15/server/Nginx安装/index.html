@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="黄敏">
 <meta property="og:description" content="系统平台：CentOS release 6.6 (Final) 64位。 安装编译工具及库文件1yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-devel 首先要安装 PCREPCRE 作用是让 Nginx 支持 Rewrite 功能。 1、下载 PCRE 安装包，下载地址： http://downloads">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-01T11:19:23.501Z">
+<meta property="og:updated_time" content="2018-11-20T02:33:26.859Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx在Linux下的安装">
 <meta name="twitter:description" content="系统平台：CentOS release 6.6 (Final) 64位。 安装编译工具及库文件1yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-devel 首先要安装 PCREPCRE 作用是让 Nginx 支持 Rewrite 功能。 1、下载 PCRE 安装包，下载地址： http://downloads">
@@ -98,7 +98,7 @@ var _hmt = _hmt || [];
                 
                 <a class="navbar-item" href="/archives">归档</a>
                 
-                <a class="navbar-item" href="/categories/javase源码分析/">JavaSE源码分析</a>
+                <a class="navbar-item" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
                 
                 <a class="navbar-item" href="/about">关于我</a>
                 
@@ -155,7 +155,7 @@ var _hmt = _hmt || [];
                     <i class="fa fa-clock"></i>&nbsp
                     
                     
-                    5 分钟 读完 (大约 690 个字)
+                    8 分钟 读完 (大约 1161 个字)
                 </span>
                 
 
@@ -184,7 +184,20 @@ var _hmt = _hmt || [];
 <p>2、解压安装包<br><figure class="highlight css hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-selector-attr">[root@ngnix src]</span># <span class="hljs-selector-tag">tar</span> <span class="hljs-selector-tag">zxvf</span> <span class="hljs-selector-tag">nginx-1</span><span class="hljs-selector-class">.6</span><span class="hljs-selector-class">.2</span><span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.gz</span></span><br></pre></td></tr></table></figure></p>
 <p>3、进入安装包目录<br><figure class="highlight css hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-selector-attr">[root@ngnix src]</span># <span class="hljs-selector-tag">cd</span> <span class="hljs-selector-tag">nginx-1</span><span class="hljs-selector-class">.6</span><span class="hljs-selector-class">.2</span></span><br></pre></td></tr></table></figure></p>
 <p>4、编译安装<br><figure class="highlight typescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="hljs-meta">@ngnix</span> nginx<span class="hljs-number">-1.6</span><span class="hljs-number">.2</span>]# ./configure --prefix=<span class="hljs-regexp">/usr/</span>local/webserver/nginx --<span class="hljs-keyword">with</span>-http_stub_status_module --<span class="hljs-keyword">with</span>-http_ssl_module --<span class="hljs-keyword">with</span>-pcre=<span class="hljs-regexp">/usr/</span>local/src/pcre<span class="hljs-number">-8.35</span></span><br><span class="line">[root<span class="hljs-meta">@ngnix</span> nginx<span class="hljs-number">-1.6</span><span class="hljs-number">.2</span>]# make</span><br><span class="line">[root<span class="hljs-meta">@ngnix</span> nginx<span class="hljs-number">-1.6</span><span class="hljs-number">.2</span>]# make install</span><br></pre></td></tr></table></figure></p>
-<p>5、查看nginx版本<br><figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ngnix nginx-<span class="hljs-number">1.6</span>.<span class="hljs-number">2</span>]# <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/webserver/</span>nginx<span class="hljs-regexp">/sbin/</span>nginx -v</span><br></pre></td></tr></table></figure></p>
+<p>常用编译选项说明:</p>
+<p>nginx大部分常用模块，编译时./configure –help以–without开头的都默认安装。</p>
+<ul>
+<li>–prefix=PATH ： 指定nginx的安装目录。默认 /usr/local/nginx</li>
+<li>–conf-path=PATH ： 设置nginx.conf配置文件的路径。nginx允许使用不同的配置文件启动，通过命令行中的-c选项。默认为prefix/conf/nginx.conf</li>
+<li>–user=name： 设置nginx工作进程的用户。安装完成后，可以随时在nginx.conf配置文件更改user指令。默认的用户名是nobody。–group=name类似</li>
+<li>–with-pcre ： 设置PCRE库的源码路径，如果已通过yum方式安装，使用–with-pcre自动找到库文件。使用–with-pcre=PATH时，需要从PCRE网站下载pcre库的源码（版本4.4 – 8.30）并解压，剩下的就交给Nginx的./configure和make来完成。perl正则表达式使用在location指令和 ngx_http_rewrite_module模块中。</li>
+<li>–with-zlib=PATH ： 指定 zlib（版本1.1.3 – 1.2.5）的源码解压目录。在默认就启用的网络传输压缩模块ngx_http_gzip_module时需要使用zlib 。</li>
+<li>–with-http_ssl_module ： 使用https协议模块。默认情况下，该模块没有被构建。前提是openssl与openssl-devel已安装</li>
+<li>–with-http_stub_status_module ： 用来监控 Nginx 的当前状态</li>
+<li>–with-http_realip_module ： 通过这个模块允许我们改变客户端请求头中客户端IP地址值(例如X-Real-IP 或 X-Forwarded-For)，意义在于能够使得后台服务器记录原始客户端的IP地址</li>
+<li>–add-module=PATH ： 添加第三方外部模块，如nginx-sticky-module-ng或缓存模块。每次添加新的模块都要重新编译（Tengine可以在新加入module时无需重新编译）<br>5、查看nginx版本<figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ngnix nginx-<span class="hljs-number">1.6</span>.<span class="hljs-number">2</span>]# <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/webserver/</span>nginx<span class="hljs-regexp">/sbin/</span>nginx -v</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 <p>到此，nginx安装完成。</p>
 <h1 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h1><p>创建 Nginx 运行使用的用户 www：<br><figure class="highlight autoit hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="hljs-symbol">@ngnix</span> conf]<span class="hljs-meta"># /usr/sbin/groupadd www </span></span><br><span class="line">[root<span class="hljs-symbol">@ngnix</span> conf]<span class="hljs-meta"># /usr/sbin/useradd -g www www</span></span><br></pre></td></tr></table></figure></p>
 <p>配置nginx.conf ，将/usr/local/webserver/nginx/conf/nginx.conf替换为以下内容<br><figure class="highlight stata hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ngnix <span class="hljs-keyword">conf</span>]#  <span class="hljs-keyword">cat</span> /usr/<span class="hljs-keyword">local</span>/webserver/nginx/<span class="hljs-keyword">conf</span>/nginx.<span class="hljs-keyword">conf</span></span><br></pre></td></tr></table></figure></p>
@@ -335,7 +348,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        28
+                        29
                     </p>
                 </div>
             </div>
@@ -475,7 +488,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">JavaSE源码分析</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Spring基础/">
@@ -612,7 +625,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">JavaSE源码分析</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Spring基础/">

@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="黄敏">
 <meta property="og:description" content="firewall防火墙1、查看firewall服务状态123456789101112131415查看状态： systemctl status firewalld 启动： systemctl start firewalld停止： systemctl stop firewalld禁用： systemctl enable firewalld启用： systemctl disable firewalld启">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-01T11:19:23.563Z">
+<meta property="og:updated_time" content="2018-11-20T02:37:30.526Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos7.3防火墙配置">
 <meta name="twitter:description" content="firewall防火墙1、查看firewall服务状态123456789101112131415查看状态： systemctl status firewalld 启动： systemctl start firewalld停止： systemctl stop firewalld禁用： systemctl enable firewalld启用： systemctl disable firewalld启">
@@ -98,7 +98,7 @@ var _hmt = _hmt || [];
                 
                 <a class="navbar-item" href="/archives">归档</a>
                 
-                <a class="navbar-item" href="/categories/javase源码分析/">JavaSE源码分析</a>
+                <a class="navbar-item" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
                 
                 <a class="navbar-item" href="/about">关于我</a>
                 
@@ -177,7 +177,7 @@ var _hmt = _hmt || [];
 <p>3、开启、重启、关闭、firewalld.service服务<br><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># 开启</span></span><br><span class="line">service firewalld start</span><br><span class="line"><span class="hljs-comment"># 重启</span></span><br><span class="line">service firewalld restart</span><br><span class="line"><span class="hljs-comment"># 关闭</span></span><br><span class="line">service firewalld stop</span><br></pre></td></tr></table></figure></p>
 <p>4、查看防火墙规则<br><figure class="highlight dockerfile hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">firewall-<span class="hljs-keyword">cmd</span><span class="hljs-bash"> --list-all  -zone=public</span></span><br><span class="line"><span class="hljs-bash"></span></span><br><span class="line"><span class="hljs-bash">查看版本： firewall-cmd --version</span></span><br><span class="line"><span class="hljs-bash">查看帮助： firewall-cmd --<span class="hljs-built_in">help</span></span></span><br><span class="line"><span class="hljs-bash">显示状态： firewall-cmd --state</span></span><br><span class="line"><span class="hljs-bash">查看所有打开的端口： firewall-cmd --zone=public --list-ports</span></span><br><span class="line"><span class="hljs-bash">更新防火墙规则： firewall-cmd --reload</span></span><br><span class="line"><span class="hljs-bash">查看区域信息:  firewall-cmd --get-active-zones</span></span><br><span class="line"><span class="hljs-bash">查看指定接口所属区域： firewall-cmd --get-zone-of-interface=eth0</span></span><br><span class="line"><span class="hljs-bash">拒绝所有包：firewall-cmd --panic-on</span></span><br><span class="line"><span class="hljs-bash">取消拒绝状态： firewall-cmd --panic-off</span></span><br><span class="line"><span class="hljs-bash">查看是否拒绝： firewall-cmd --query-panic</span></span><br></pre></td></tr></table></figure></p>
 <p>5、查询、开放、关闭端口</p>
-<figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># 查询端口是否开放</span></span><br><span class="line">firewall-cmd <span class="hljs-attribute">--query-port</span>=8080/tcp </span><br><span class="line"><span class="hljs-comment"># 开放80端口</span></span><br><span class="line">firewall-cmd --permanent <span class="hljs-attribute">--add-port</span>=80/tcp <span class="hljs-attribute">-zone</span>=public</span><br><span class="line"><span class="hljs-comment"># 移除端口</span></span><br><span class="line">firewall-cmd --permanent <span class="hljs-attribute">--remove-port</span>=8080/tcp <span class="hljs-attribute">-zone</span>=public</span><br><span class="line"><span class="hljs-comment">#重启防火墙(修改配置后要重启防火墙)</span></span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># 查询端口是否开放</span></span><br><span class="line">firewall-cmd <span class="hljs-attribute">--query-port</span>=8080/tcp </span><br><span class="line"><span class="hljs-comment"># 开放80端口</span></span><br><span class="line">firewall-cmd --permanent <span class="hljs-attribute">--add-port</span>=8080/tcp <span class="hljs-attribute">--zone</span>=public</span><br><span class="line"><span class="hljs-comment"># 移除端口</span></span><br><span class="line">firewall-cmd --permanent <span class="hljs-attribute">--remove-port</span>=8080/tcp <span class="hljs-attribute">--zone</span>=public</span><br><span class="line"><span class="hljs-comment">#重启防火墙(修改配置后要重启防火墙)</span></span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
 <p>参数解释<br>1、firwall-cmd：是Linux提供的操作firewall的一个工具；<br>2、–permanent：表示设置为持久；<br>3、–add-port：标识添加的端口；</p>
 <h1 id="iptables防火墙"><a href="#iptables防火墙" class="headerlink" title="iptables防火墙"></a>iptables防火墙</h1><p>1、安装<br><figure class="highlight smali hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install iptables-services</span><br><span class="line">sudo<span class="hljs-keyword"> system</span>ctl enable iptables &amp;&amp; sudo<span class="hljs-keyword"> system</span>ctl enable ip6tables</span><br><span class="line">sudo<span class="hljs-keyword"> system</span>ctl start iptables &amp;&amp; sudo<span class="hljs-keyword"> system</span>ctl start ip6tables</span><br></pre></td></tr></table></figure></p>
 <p>2、启用、禁用<br><figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="hljs-comment">#最后重启防火墙使配置生效</span></span><br><span class="line">systemctl restart iptables.service</span><br><span class="line"><span class="hljs-comment"># 设置防火墙开机启动</span></span><br><span class="line">systemctl <span class="hljs-built_in">enable</span> iptables.service</span><br></pre></td></tr></table></figure></p>
@@ -329,7 +329,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        28
+                        29
                     </p>
                 </div>
             </div>
@@ -438,7 +438,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">JavaSE源码分析</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Spring基础/">
@@ -575,7 +575,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">JavaSE源码分析</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Spring基础/">
