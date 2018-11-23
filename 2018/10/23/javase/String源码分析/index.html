@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>JavaSE源码分析-String源码分析 - 黄敏</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="Integer 类在对象中包装了一个基本类型 int 的值。Integer 类型的对象包含一个 int 类型的字段。  类定义1public final class String implements java.io.Serializable, Comparable&amp;lt;String&amp;gt;, CharSequence&amp;#123;&amp;#125; 从该类的声明中我们可以看出String是final">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaSE源码分析-String源码分析">
+<meta property="og:url" content="http://mindasoft.com/2018/10/23/javase/String源码分析/index.html">
+<meta property="og:site_name" content="黄敏">
+<meta property="og:description" content="Integer 类在对象中包装了一个基本类型 int 的值。Integer 类型的对象包含一个 int 类型的字段。  类定义1public final class String implements java.io.Serializable, Comparable&amp;lt;String&amp;gt;, CharSequence&amp;#123;&amp;#125; 从该类的声明中我们可以看出String是final">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-23T07:28:05.300Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaSE源码分析-String源码分析">
+<meta name="twitter:description" content="Integer 类在对象中包装了一个基本类型 int 的值。Integer 类型的对象包含一个 int 类型的字段。  类定义1public final class String implements java.io.Serializable, Comparable&amp;lt;String&amp;gt;, CharSequence&amp;#123;&amp;#125; 从该类的声明中我们可以看出String是final">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+    
+
+    
+    
+    
+    <style>body{opacity: 0}</style>
+    
+
+    
+    
+    
+    
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?549090fe8e0555dbb3938f4ec59efefd";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">主页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                
+                <a class="navbar-item" href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/huang-min/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="material-icons is-size-5">search</i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                JavaSE源码分析-String源码分析
+            
+        </h1>
+
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2018-10-23</div>
+                <time class="level-item has-text-grey" datetime="2018-10-23T10:26:00.000Z"> 2018-10-23T10:26:00.000Z </time>
+
+                
+                <div class="level-item">
+                <i class="fa fa-book"></i>&nbsp
+                <a class="has-link-grey -link" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                </div>
+                
+
+                
+                <span class="level-item has-text-grey">
+                    <i class="fa fa-clock"></i>&nbsp
+                    
+                    
+                    12 分钟 读完 (大约 1873 个字)
+                </span>
+                
+
+                
+                <div class="level-item">
+                <span id="busuanzi_container_page_pv">
+                   被阅读<span id="busuanzi_value_page_pv"></span>次
+                </span>
+                </div>
+                
+            </div>
+        </div>
+        
+
+        <div class="content">
+            
+                <blockquote>
+<p>Integer 类在对象中包装了一个基本类型 int 的值。Integer 类型的对象包含一个 int 类型的字段。</p>
+</blockquote>
+<h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">String</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">java</span>.<span class="hljs-title">io</span>.<span class="hljs-title">Serializable</span>, <span class="hljs-title">Comparable</span>&lt;<span class="hljs-title">String</span>&gt;, <span class="hljs-title">CharSequence</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>从该类的声明中我们可以看出String是final类型的，表示该类不能被继承，同时该类实现了三个接口：java.io.Serializable、 Comparable<string>、 CharSequence</string></p>
+<h1 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h1><h2 id="私有属性"><a href="#私有属性" class="headerlink" title="私有属性"></a>私有属性</h2><p>Integer类中定义了以下几个私有属性：<br><figure class="highlight aspectj hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">char</span> value[];</span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> hash;</span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">-6849794470754667710</span>L;</span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ObjectStreamField[] serialPersistentFields = <span class="hljs-keyword">new</span> ObjectStreamField[<span class="hljs-number">0</span>];</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>value[]这是一个字符数组，并且是final类型，他用于存储字符串内容，从fianl这个关键字中我们可以看出，String的内容一旦被初始化了是不能被更改的。 虽然有这样的例子： String s = “a”; s = “b” 但是，这并不是对s的修改，而是重新指向了新的字符串， 从这里我们也能知道，String其实就是用char[]实现的。</li>
+<li>hash缓存字符串的hash Code，默认值为 0</li>
+<li>因为String实现了Serializable接口，所以支持序列化和反序列化支持。Java的序列化机制是通过在运行时判断类的serialVersionUID来验证版本一致性的。在进行反序列化时，JVM会把传来的字节流中的serialVersionUID与本地相应实体（类）的serialVersionUID进行比较，如果相同就认为是一致的，可以进行反序列化，否则就会出现序列化版本不一致的异常(InvalidCastException)。</li>
+</ol>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StringLearning</span> </span>&#123;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String s1 = <span class="hljs-string">"abc"</span>;</span><br><span class="line">        System.out.println(s1);</span><br><span class="line">        String s2 = <span class="hljs-keyword">new</span> String(<span class="hljs-string">"edf"</span>);</span><br><span class="line">        System.out.println(s2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码，编译后，我们通过jdk自带的javap命令工具对StringLearning.class 进行分析<br>javap -v StringLearning.class<br><figure class="highlight lasso hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> static <span class="hljs-literal">void</span> main(java.lang.<span class="hljs-built_in">String</span><span class="hljs-meta">[</span><span class="hljs-meta">]</span>);</span><br><span class="line">  descriptor: (<span class="hljs-meta">[</span>Ljava/lang/<span class="hljs-built_in">String</span>;)V</span><br><span class="line">  flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">  Code:</span><br><span class="line">    <span class="hljs-built_in">stack</span>=<span class="hljs-number">3</span>, locals=<span class="hljs-number">3</span>, args_size=<span class="hljs-number">1</span></span><br><span class="line">       <span class="hljs-number">0</span>: ldc           #2                  <span class="hljs-comment">// String abc</span></span><br><span class="line">       <span class="hljs-number">2</span>: astore_1</span><br><span class="line">       <span class="hljs-number">3</span>: getstatic     #3                  <span class="hljs-comment">// Field java/lang/System.out:Ljava/io/PrintStream;</span></span><br><span class="line">       <span class="hljs-number">6</span>: aload_1</span><br><span class="line">       <span class="hljs-number">7</span>: invokevirtual #4                  <span class="hljs-comment">// Method java/io/PrintStream.println:(Ljava/lang/String;)V</span></span><br><span class="line">      <span class="hljs-number">10</span>: <span class="hljs-literal">new</span>           #5                  <span class="hljs-comment">// class java/lang/String</span></span><br><span class="line">      <span class="hljs-number">13</span>: dup</span><br><span class="line">      <span class="hljs-number">14</span>: ldc           #6                  <span class="hljs-comment">// String edf</span></span><br><span class="line">      <span class="hljs-number">16</span>: invokespecial #7                  <span class="hljs-comment">// Method java/lang/String."&lt;init&gt;":(Ljava/lang/String;)V</span></span><br><span class="line">      <span class="hljs-number">19</span>: astore_2</span><br><span class="line">      <span class="hljs-number">20</span>: getstatic     #3                  <span class="hljs-comment">// Field java/lang/System.out:Ljava/io/PrintStream;</span></span><br><span class="line">      <span class="hljs-number">23</span>: aload_2</span><br><span class="line">      <span class="hljs-number">24</span>: invokevirtual #4                  <span class="hljs-comment">// Method java/io/PrintStream.println:(Ljava/lang/String;)V</span></span><br><span class="line">      <span class="hljs-number">27</span>: <span class="hljs-keyword">return</span></span><br></pre></td></tr></table></figure></p>
+<p>ldc表示将一个常量加载到操作数栈。 #2 从常量池中取出”abc”的引用，加载到操作数栈中 。在编译启动过程中,字符串字面量就会被存入常量池<br>astore_1 保存一个变量，就是s1<br>16: invokespecial #7  是调用String的构造方法。</p>
+<p>由以上可以知道，String s1 = “abc”中s1只是引用了常量池的值。String s2 = new String(“edf”);的s2是指向了一个String对象。<br>那么：<br><figure class="highlight arduino hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">String</span> s1 = <span class="hljs-string">"abc"</span>;</span><br><span class="line"><span class="hljs-keyword">String</span> s2 = <span class="hljs-string">"abc"</span>;</span><br><span class="line"><span class="hljs-keyword">String</span> s3 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">String</span>(<span class="hljs-string">"abc"</span>);</span><br><span class="line"><span class="hljs-keyword">String</span> s4 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">String</span>(<span class="hljs-string">"abc"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>s1 == s2        答案：true<br>s1 == s3        答案：false<br>s3 == s4        答案：false<br>s1.equals(s2)   答案：true<br>s1.equals(s3)   答案：true<br>s3.equals(s4)   答案：true</p>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><p>String类作为一个java.lang包中比较常用的类,自然有很多重载的构造方法.在这里介绍几种典型的构造方法:<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">String</span><span class="hljs-params">(String original)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.value = original.value;</span><br><span class="line">    <span class="hljs-keyword">this</span>.hash = original.hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们知道，其实String就是使用字符数组（char[]）实现的。所以我们可以使用一个字符数组来创建一个String，那么这里值得注意的是，当我们使用字符数组创建String的时候，会用到Arrays.copyOf方法和Arrays.copyOfRange方法。这两个方法是将原有的字符数组中的内容逐一的复制到String中的字符数组中。同样，我们也可以用一个String类型的对象来初始化一个String。这里将直接将源String中的value和hash两个属性直接赋值给目标String。因为String一旦定义之后是不可以改变的，所以也就不用担心改变源String的值会影响到目标String的值。</p>
+<p>当然，在使用字符数组来创建一个新的String对象的时候，不仅可以使用整个字符数组，也可以使用字符数组的一部分，只要多传入两个参数int offset和int count就可以了。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">String</span><span class="hljs-params">(<span class="hljs-keyword">char</span> value[])</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.value = Arrays.copyOf(value, value.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在Java中，String实例中保存有一个char[]字符数组，char[]字符数组是以unicode码来存储的，String 和 char 为内存形式，byte是网络传输或存储的序列化形式。所以在很多传输和存储的过程中需要将byte[]数组和String进行相互转化。所以，String提供了一系列重载的构造方法来将一个字符数组转化成String，提到byte[]和String之间的相互转换就不得不关注编码问题。String(byte[] bytes, Charset charset)是指通过charset来解码指定的byte数组，将其解码成unicode的char[]数组，够造成新的String。</p>
+<p>这里的bytes字节流是使用charset进行编码的，想要将他转换成unicode的char[]数组，而又保证不出现乱码，那就要指定其解码方式</p>
+<p>同样使用字节数组来构造String也有很多种形式，按照是否指定解码方式分的话可以分为两种：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String(<span class="hljs-keyword">byte</span> bytes[]) String(<span class="hljs-keyword">byte</span> bytes[], <span class="hljs-keyword">int</span> offset, <span class="hljs-keyword">int</span> length)</span><br><span class="line">String(<span class="hljs-keyword">byte</span> bytes[], Charset charset)</span><br><span class="line">String(<span class="hljs-keyword">byte</span> bytes[], String charsetName)</span><br><span class="line">String(<span class="hljs-keyword">byte</span> bytes[], <span class="hljs-keyword">int</span> offset, <span class="hljs-keyword">int</span> length, Charset charset)</span><br><span class="line">String(<span class="hljs-keyword">byte</span> bytes[], <span class="hljs-keyword">int</span> offset, <span class="hljs-keyword">int</span> length, String charsetName)</span><br></pre></td></tr></table></figure></p>
+<p>如果我们在使用byte[]构造String的时候，使用的是下面这四种构造方法(带有charsetName或者charset参数)的一种的话，那么就会使用StringCoding.decode方法进行解码，使用的解码的字符集就是我们指定的charsetName或者charset。 我们在使用byte[]构造String的时候，如果没有指明解码使用的字符集的话，那么StringCoding的decode方法首先调用系统的默认编码格式，如果没有指定编码格式则默认使用ISO-8859-1编码格式进行编码操作。主要体现代码如下：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">char</span>[] decode(<span class="hljs-keyword">byte</span>[] ba, <span class="hljs-keyword">int</span> off, <span class="hljs-keyword">int</span> len) &#123;</span><br><span class="line">    String csn = Charset.defaultCharset().name();</span><br><span class="line">    <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">        <span class="hljs-comment">// use charset name decode() variant which provides caching.</span></span><br><span class="line">        <span class="hljs-keyword">return</span> decode(csn, ba, off, len);</span><br><span class="line">    &#125; <span class="hljs-keyword">catch</span> (UnsupportedEncodingException x) &#123;</span><br><span class="line">        warnUnsupportedCharset(csn);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> decode(<span class="hljs-string">"ISO-8859-1"</span>, ba, off, len);</span><br><span class="line">    &#125; <span class="hljs-keyword">catch</span> (UnsupportedEncodingException x) &#123;</span><br><span class="line">        <span class="hljs-comment">// If this code is hit during VM initialization, MessageUtils is</span></span><br><span class="line">        <span class="hljs-comment">// the only way we will be able to get any kind of error message.</span></span><br><span class="line">        MessageUtils.err(<span class="hljs-string">"ISO-8859-1 charset not available: "</span></span><br><span class="line">                         + x.toString());</span><br><span class="line">        <span class="hljs-comment">// If we can not find ISO-8859-1 (a required encoding) then things</span></span><br><span class="line">        <span class="hljs-comment">// are seriously wrong with the installation.</span></span><br><span class="line">        System.exit(<span class="hljs-number">1</span>);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用StringBuffer和StringBuider构造一个String<br>作为String的两个“兄弟”，StringBuffer和StringBuider也可以被当做构造String的参数。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">String</span><span class="hljs-params">(StringBuffer buffer)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">synchronized</span>(buffer) &#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.value = Arrays.copyOf(buffer.getValue(), buffer.length());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">String</span><span class="hljs-params">(StringBuilder builder)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.value = Arrays.copyOf(builder.getValue(), builder.length());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然，这两个构造方法是很少用到的，至少我从来没有使用过，因为当我们有了StringBuffer或者StringBuilfer对象之后可以直接使用他们的toString方法来得到String。关于效率问题，Java的官方文档有提到说使用StringBuilder的toString方法会更快一些，原因是StringBuffer的toString方法是synchronized的，在牺牲了效率的情况下保证了线程安全。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// Create a copy, don't share the array</span></span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> String(value, <span class="hljs-number">0</span>, count);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">this</span>.value = Arrays.copyOfRange(value, offset, offset+count);</span><br></pre></td></tr></table></figure></p>
+<h2 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h2>
+            
+        </div>
+        
+
+        
+            <! -- 添加捐赠图标 -->
+<div class="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+
+		   如果您觉得文章不错,可以请我喝一杯咖啡！
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden">
+		<!-- 支付宝打赏图案 -->
+		<span><img src="/images/zhifubao.png" alt="支付宝打赏"></span>
+
+		<!-- 微信打赏图案 -->
+		<span><img src="/images/weixin.png" alt="微信打赏"></span>
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			//$('#donate_board').addClass('hidden');
+			if($('#donate_guide').hasClass('hidden')){
+				$('#donate_guide').removeClass('hidden');
+			}else{
+				$('#donate_guide').addClass('hidden');
+			}
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+        
+
+        
+
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/10/24/javase/Integer源码分析/">
+                <i class="level-item material-icons">keyboard_arrow_left</i>
+                <span class="level-item">JavaSE源码分析-Integer源码分析</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/02/07/Linux/Linux查看物理CPU个数、核数、逻辑CPU个数/">
+                <span class="level-item">Linux查看物理CPU个数、核数、逻辑CPU个数</span>
+                <i class="level-item material-icons">keyboard_arrow_right</i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+	const gitalk = new Gitalk({
+            clientID: 'f3cedbc73c19570bee41',
+            clientSecret: 'dff532b2bd6b11456d7de56b07f0db9bac8d599a',
+            repo: 'huang-min.github.io',
+            owner: 'huang-min',
+            admin: ['huang-min'],
+            id: '2018/10/23/javase/String源码分析/',
+            distractionFreeMode: false
+        });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/logo.png">
+                    
+                    <p class="is-size-4 is-block">
+                        黄敏
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Java Developer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="material-icons is-size-5 has-mr-7">location_on</i>
+                        <span>中国 - 长沙</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        32
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        20
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/huang-min">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white" target="_blank" title="Github" href="http://github.com/huang-min">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="git" href="http://git.oschina.net/donecoder">
+                
+                <i class="fab fa-gg"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weixin" href="/">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weibo" href="/">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#类定义">
+        <span class="has-mr-6">1</span>
+        <span>类定义</span>
+        </a></li><li>
+        <a class="is-flex" href="#属性">
+        <span class="has-mr-6">2</span>
+        <span>属性</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#私有属性">
+        <span class="has-mr-6">2.1</span>
+        <span>私有属性</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#方法">
+        <span class="has-mr-6">3</span>
+        <span>方法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#构造方法">
+        <span class="has-mr-6">3.1</span>
+        <span>构造方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#其他方法">
+        <span class="has-mr-6">3.2</span>
+        <span>其他方法</span>
+        </a></li></ul></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+        <div class="card card-transparent is-hidden-widescreen">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+        
+            
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">21</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Database/" style="font-size: 20px;">Database</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2018 Huang min&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & Theme by <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+        <div>
+            
+Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261418845'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1261418845%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+
+        </div>
+    </div>
+</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                if (typeof($.fn.lightGallery) === 'function') {
+                    $('.article').lightGallery({ selector: '.gallery-item' });
+                }
+                if (typeof($.fn.justifiedGallery) === 'function') {
+                    $('.justified-gallery').justifiedGallery();
+                }
+            });
+        })(jQuery);
+    </script>
+    
+
+    
+    
+    
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // plugin function, place inside DOM ready function
+            outdatedBrowser({
+                bgColor: '#f25648',
+                color: '#ffffff',
+                lowerThan: 'flex'
+            })
+        });
+    </script>
+    
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="material-icons">keyboard_arrow_up</i>
+</a>
+<style>
+#back-to-top {
+    position: fixed;
+    padding: 8px 0;
+    transition: 0.4s ease opacity, 0.4s ease width, 0.4s ease transform, 0.4s ease border-radius;
+    opacity: 0;
+    font-size: 0;
+    outline: none;
+    transform: translateY(120px);
+}
+#back-to-top.fade-in {
+    opacity: 1;
+}
+#back-to-top.rise-up {
+    transform: translateY(0);
+}
+</style>
+<script src="/js/back-to-top.js"></script>
+
+
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
