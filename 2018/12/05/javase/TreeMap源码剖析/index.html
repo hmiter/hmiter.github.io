@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>JavaSE源码分析-TreeMap源码剖析 - 黄敏</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="TreeMap简介TreeMap的基本概念： TreeMap集合是基于红黑树（Red-Black tree）的 NavigableMap实现。该集合最重要的特点就是可排序，该映射根据其键的自然顺序进行排序，或者根据创建映射时提供的 Comparator 进行排序，具体取决于使用的构造方法。这句话是什么意思呢？就是说TreeMap可以对添加进来的元素进行排序，可以按照默认的排序方式，也可以自己指定排">
+<meta name="keywords" content="源码分析,JavaSE,TreeMap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaSE源码分析-TreeMap源码剖析">
+<meta property="og:url" content="http://mindasoft.com/2018/12/05/javase/TreeMap源码剖析/index.html">
+<meta property="og:site_name" content="黄敏">
+<meta property="og:description" content="TreeMap简介TreeMap的基本概念： TreeMap集合是基于红黑树（Red-Black tree）的 NavigableMap实现。该集合最重要的特点就是可排序，该映射根据其键的自然顺序进行排序，或者根据创建映射时提供的 Comparator 进行排序，具体取决于使用的构造方法。这句话是什么意思呢？就是说TreeMap可以对添加进来的元素进行排序，可以按照默认的排序方式，也可以自己指定排">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-05T07:05:22.944Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaSE源码分析-TreeMap源码剖析">
+<meta name="twitter:description" content="TreeMap简介TreeMap的基本概念： TreeMap集合是基于红黑树（Red-Black tree）的 NavigableMap实现。该集合最重要的特点就是可排序，该映射根据其键的自然顺序进行排序，或者根据创建映射时提供的 Comparator 进行排序，具体取决于使用的构造方法。这句话是什么意思呢？就是说TreeMap可以对添加进来的元素进行排序，可以按照默认的排序方式，也可以自己指定排">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+    
+
+    
+    
+    
+    <style>body{opacity: 0}</style>
+    
+
+    
+    
+    
+    
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?549090fe8e0555dbb3938f4ec59efefd";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">主页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                
+                <a class="navbar-item" href="/categories/Spring源码分析/">Spring源码分析</a>
+                
+                <a class="navbar-item" href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/huang-min/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="material-icons is-size-5">search</i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                JavaSE源码分析-TreeMap源码剖析
+            
+        </h1>
+
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2018-12-05</div>
+                <time class="level-item has-text-grey" datetime="2018-12-05T03:00:37.000Z"> 2018-12-05T03:00:37.000Z </time>
+
+                
+                <div class="level-item">
+                <i class="fa fa-book"></i>&nbsp
+                <a class="has-link-grey -link" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                </div>
+                
+
+                
+                <span class="level-item has-text-grey">
+                    <i class="fa fa-clock"></i>&nbsp
+                    
+                    
+                    13 分钟 读完 (大约 2010 个字)
+                </span>
+                
+
+                
+                <div class="level-item">
+                <span id="busuanzi_container_page_pv">
+                   被阅读<span id="busuanzi_value_page_pv"></span>次
+                </span>
+                </div>
+                
+            </div>
+        </div>
+        
+
+        <div class="content">
+            
+                <h1 id="TreeMap简介"><a href="#TreeMap简介" class="headerlink" title="TreeMap简介"></a>TreeMap简介</h1><p>TreeMap的基本概念：</p>
+<p>TreeMap集合是基于红黑树（Red-Black tree）的 NavigableMap实现。该集合最重要的特点就是可排序，该映射根据其键的自然顺序进行排序，或者根据创建映射时提供的 Comparator 进行排序，具体取决于使用的构造方法。这句话是什么意思呢？就是说TreeMap可以对添加进来的元素进行排序，可以按照默认的排序方式，也可以自己指定排序方式。</p>
+<h1 id="类定义及类成员变量"><a href="#类定义及类成员变量" class="headerlink" title="类定义及类成员变量"></a>类定义及类成员变量</h1><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeMap</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt;</span></span><br><span class="line"><span class="hljs-class">    <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractMap</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt;</span></span><br><span class="line"><span class="hljs-class">    <span class="hljs-keyword">implements</span> <span class="hljs-title">NavigableMap</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt;, <span class="hljs-title">Cloneable</span>, <span class="hljs-title">java</span>.<span class="hljs-title">io</span>.<span class="hljs-title">Serializable</span></span></span><br><span class="line"><span class="hljs-class"></span>&#123;</span><br><span class="line">    <span class="hljs-comment">// 比较器对象</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Comparator&lt;? <span class="hljs-keyword">super</span> K&gt; comparator;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 根节点</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">transient</span> Entry&lt;K,V&gt; root;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 集合大小</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">transient</span> <span class="hljs-keyword">int</span> size = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 树结构被修改的次数</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">transient</span> <span class="hljs-keyword">int</span> modCount = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 静态内部类用来表示节点类型</span></span><br><span class="line">    <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Entry</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title">Map</span>.<span class="hljs-title">Entry</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt; </span>&#123;</span><br><span class="line">        K key;     <span class="hljs-comment">// 键</span></span><br><span class="line">        V value;   <span class="hljs-comment">// 值</span></span><br><span class="line">        Entry&lt;K,V&gt; left;    <span class="hljs-comment">// 指向左子树的引用（指针）</span></span><br><span class="line">        Entry&lt;K,V&gt; right;   <span class="hljs-comment">// 指向右子树的引用（指针）</span></span><br><span class="line">        Entry&lt;K,V&gt; parent;  <span class="hljs-comment">// 指向父节点的引用（指针）</span></span><br><span class="line">        <span class="hljs-keyword">boolean</span> color = BLACK; <span class="hljs-comment">// 当前节点颜色</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="类构造方法"><a href="#类构造方法" class="headerlink" title="类构造方法"></a>类构造方法</h1><p>先来看下TreeMap的构造方法。TreeMap一共有4个构造方法。</p>
+<p><strong>无参构造方法</strong><br><figure class="highlight aspectj hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TreeMap</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    comparator = <span class="hljs-keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>采用无参构造方法，不指定比较器，这时候，排序的实现要依赖key.compareTo()方法，因此key必须实现Comparable接口，并覆写其中的compareTo方法。</p>
+<p><strong>带有比较器的构造方法</strong></p>
+<figure class="highlight aspectj hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TreeMap</span><span class="hljs-params">(Comparator&lt;? <span class="hljs-keyword">super</span> K&gt; comparator)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">this</span>.comparator = comparator;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>采用带比较器的构造方法，这时候，排序依赖该比较器，key可以不用实现Comparable接口。</p>
+<p><strong>带Map的构造方法</strong><br><figure class="highlight aspectj hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TreeMap</span><span class="hljs-params">(Map&lt;? <span class="hljs-keyword">extends</span> K, ? <span class="hljs-keyword">extends</span> V&gt; m)</span> </span>&#123;</span><br><span class="line">    comparator = <span class="hljs-keyword">null</span>;</span><br><span class="line">    putAll(m);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>该构造方法同样不指定比较器，调用putAll方法将Map中的所有元素加入到TreeMap中。putAll的源码如下：<br><figure class="highlight processing hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// 将map中的全部节点添加到TreeMap中</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> putAll(Map&lt;? extends K, ? extends V&gt; <span class="hljs-built_in">map</span>) &#123;</span><br><span class="line">    <span class="hljs-comment">// 获取map的大小</span></span><br><span class="line">    <span class="hljs-built_in">int</span> mapSize = <span class="hljs-built_in">map</span>.<span class="hljs-built_in">size</span>();</span><br><span class="line">    <span class="hljs-comment">// 如果TreeMap的大小是0,且map的大小不是0,且map是已排序的“key-value对”</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">size</span>==<span class="hljs-number">0</span> &amp;&amp; mapSize!=<span class="hljs-number">0</span> &amp;&amp; <span class="hljs-built_in">map</span> <span class="hljs-keyword">instanceof</span> SortedMap) &#123;</span><br><span class="line">        Comparator c = ((SortedMap)<span class="hljs-built_in">map</span>).comparator();</span><br><span class="line">        <span class="hljs-comment">// 如果TreeMap和map的比较器相等；</span></span><br><span class="line">        <span class="hljs-comment">// 则将map的元素全部拷贝到TreeMap中，然后返回！</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (c == comparator || (c != <span class="hljs-keyword">null</span> &amp;&amp; c.equals(comparator))) &#123;</span><br><span class="line">            ++modCount;</span><br><span class="line">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                buildFromSorted(mapSize, <span class="hljs-built_in">map</span>.entrySet().iterator(),</span><br><span class="line">                        <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>);</span><br><span class="line">            &#125; <span class="hljs-keyword">catch</span> (java._01_io.IOException cannotHappen) &#123;</span><br><span class="line">            &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException cannotHappen) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">// 调用AbstractMap中的putAll();</span></span><br><span class="line">    <span class="hljs-comment">// AbstractMap中的putAll()又会调用到TreeMap的put()</span></span><br><span class="line">    <span class="hljs-keyword">super</span>.putAll(<span class="hljs-built_in">map</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>显然，如果Map里的元素是排好序的，就调用buildFromSorted方法来拷贝Map中的元素，这在下一个构造方法中会重点提及，而如果Map中的元素不是排好序的，就调用AbstractMap的putAll(map)方法，该方法源码如下：<br><figure class="highlight aspectj hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">putAll</span><span class="hljs-params">(Map&lt;? <span class="hljs-keyword">extends</span> K, ? <span class="hljs-keyword">extends</span> V&gt; m)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">for</span> (Map.Entry&lt;? <span class="hljs-keyword">extends</span> K, ? <span class="hljs-keyword">extends</span> V&gt; e : m.entrySet())</span><br><span class="line">        put(e.getKey(), e.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>很明显它是将Map中的元素一个个put（插入）到TreeMap中的，主要因为Map中的元素是无序存放的，因此要一个个插入到红黑树中，使其有序存放，并满足红黑树的性质。<br><strong>带有SortedMap的构造方法</strong><br><figure class="highlight aspectj hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TreeMap</span><span class="hljs-params">(SortedMap&lt;K, ? <span class="hljs-keyword">extends</span> V&gt; m)</span> </span>&#123;</span><br><span class="line">    comparator = m.comparator();</span><br><span class="line">    <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">        buildFromSorted(m.size(), m.entrySet().iterator(), <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>);</span><br><span class="line">    &#125; <span class="hljs-keyword">catch</span> (java._01_io.IOException cannotHappen) &#123;</span><br><span class="line">    </span><br><span class="line">    &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException cannotHappen) &#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>首先将比较器指定为m的比较器，这取决于生成m时调用构造方法是否传入了指定的构造器，而后调用buildFromSorted方法，将SortedMap中的元素插入到TreeMap中，由于SortedMap中的元素师有序的，实际上它是根据SortedMap创建的TreeMap，将SortedMap中对应的元素添加到TreeMap中。</p>
+<h1 id="put-方法详解"><a href="#put-方法详解" class="headerlink" title="put()方法详解"></a>put()方法详解</h1><p>插入操作即对应TreeMap的put方法，put操作实际上只需按照二叉排序树的插入步骤来操作即可，插入到指定位置后，再做调整，使其保持红黑树的特性。put源码的实现：<br><figure class="highlight processing hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> V put(K <span class="hljs-built_in">key</span>, V value) &#123;</span><br><span class="line">    Entry&lt;K,V&gt; t = root;  <span class="hljs-comment">// 获取根节点</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 如果根节点为空，则该元素置为根节点 </span></span><br><span class="line">    <span class="hljs-keyword">if</span> (t == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        compare(<span class="hljs-built_in">key</span>, <span class="hljs-built_in">key</span>); <span class="hljs-comment">// type (and possibly null) check</span></span><br><span class="line"></span><br><span class="line">        root = <span class="hljs-keyword">new</span> Entry&lt;&gt;(<span class="hljs-built_in">key</span>, value, <span class="hljs-keyword">null</span>);</span><br><span class="line">        <span class="hljs-built_in">size</span> = <span class="hljs-number">1</span>;    <span class="hljs-comment">// 集合大小为1</span></span><br><span class="line">        modCount++;  <span class="hljs-comment">// 结构修改次数自增</span></span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-built_in">int</span> cmp;</span><br><span class="line">    Entry&lt;K,V&gt; parent;</span><br><span class="line">    Comparator&lt;? <span class="hljs-keyword">super</span> K&gt; cpr = comparator;  <span class="hljs-comment">// 比较器对象</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 如果比较器对象不为空，也就是自定义了比较器</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (cpr != <span class="hljs-keyword">null</span>) &#123;   </span><br><span class="line">        do &#123; <span class="hljs-comment">// 循环比较并确定元素应插入的位置(也就是找到该元素的父节点)</span></span><br><span class="line">            parent = t;  <span class="hljs-comment">// t就是root</span></span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">// 调用比较器对象的compare()方法，该方法返回一个整数</span></span><br><span class="line">            cmp = cpr.compare(<span class="hljs-built_in">key</span>, t.<span class="hljs-built_in">key</span>); </span><br><span class="line">            <span class="hljs-keyword">if</span> (cmp &lt; <span class="hljs-number">0</span>)      <span class="hljs-comment">// 待插入元素的key"小于"当前位置元素的key，则查询左子树</span></span><br><span class="line">                t = t.left;</span><br><span class="line">            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cmp &gt; <span class="hljs-number">0</span>) <span class="hljs-comment">// 待插入元素的key"大于"当前位置元素的key，则查询右子树</span></span><br><span class="line">                t = t.right;</span><br><span class="line">            <span class="hljs-keyword">else</span>              <span class="hljs-comment">// "相等"则替换其value。</span></span><br><span class="line">                <span class="hljs-keyword">return</span> t.setValue(value);</span><br><span class="line">        &#125; <span class="hljs-keyword">while</span> (t != <span class="hljs-keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 如果比较器对象为空，使用默认的比较机制</span></span><br><span class="line">    <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">key</span> == <span class="hljs-keyword">null</span>)</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullPointerException();</span><br><span class="line">        @SuppressWarnings(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">            Comparable&lt;? <span class="hljs-keyword">super</span> K&gt; k = (Comparable&lt;? <span class="hljs-keyword">super</span> K&gt;) <span class="hljs-built_in">key</span>; <span class="hljs-comment">// 取出比较器对象</span></span><br><span class="line">        do &#123;  <span class="hljs-comment">// 同样是循环比较并确定元素应插入的位置(也就是找到该元素的父节点)</span></span><br><span class="line">            parent = t;</span><br><span class="line">            cmp = k.compareTo(t.<span class="hljs-built_in">key</span>); <span class="hljs-comment">// 同样调用比较方法并返回一个整数</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (cmp &lt; <span class="hljs-number">0</span>)       <span class="hljs-comment">// 待插入元素的key"小于"当前位置元素的key，则查询左子树</span></span><br><span class="line">                t = t.left;</span><br><span class="line">            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cmp &gt; <span class="hljs-number">0</span>)  <span class="hljs-comment">// 待插入元素的key"大于"当前位置元素的key，则查询右子树</span></span><br><span class="line">                t = t.right;</span><br><span class="line">            <span class="hljs-keyword">else</span>               <span class="hljs-comment">// "相等"则替换其value。</span></span><br><span class="line">                <span class="hljs-keyword">return</span> t.setValue(value);</span><br><span class="line">        &#125; <span class="hljs-keyword">while</span> (t != <span class="hljs-keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Entry&lt;K,V&gt; e = <span class="hljs-keyword">new</span> Entry&lt;&gt;(<span class="hljs-built_in">key</span>, value, parent);  <span class="hljs-comment">// 根据key找到父节点后新建一个节点</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (cmp &lt; <span class="hljs-number">0</span>)  <span class="hljs-comment">// 根据比较的结果来确定放在左子树还是右子树</span></span><br><span class="line">        parent.left = e;</span><br><span class="line">    <span class="hljs-keyword">else</span></span><br><span class="line">        parent.right = e;</span><br><span class="line">    fixAfterInsertion(e);</span><br><span class="line">    <span class="hljs-built_in">size</span>++;      <span class="hljs-comment">// 集合大小+1</span></span><br><span class="line">    modCount++;  <span class="hljs-comment">// 集合结构被修改次数+1</span></span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里的fixAfterInsertion便是节点插入后对树进行调整的方法，这里不做介绍。</p>
+<h1 id="remove"><a href="#remove" class="headerlink" title="remove"></a>remove</h1><p>删除操作及对应TreeMap的deleteEntry方法，deleteEntry方法同样也只需按照二叉排序树的操作步骤实现即可，删除指定节点后，再对树进行调整即可。deleteEntry方法的实现源码如下：<br><figure class="highlight nix hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">// 删除“红黑树的节点p”</span><br><span class="line">private void deleteEntry(Entry&lt;K,V&gt; p) &#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    size--;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">if</span> (p.left != <span class="hljs-literal">null</span> &amp;&amp; p.right != <span class="hljs-literal">null</span>) &#123;</span><br><span class="line">        Entry&lt;K,V&gt; <span class="hljs-attr">s</span> = successor (p);</span><br><span class="line">        p.<span class="hljs-attr">key</span> = s.key;</span><br><span class="line">        p.<span class="hljs-attr">value</span> = s.value;</span><br><span class="line">        <span class="hljs-attr">p</span> = s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Entry&lt;K,V&gt; <span class="hljs-attr">replacement</span> = (p.left != <span class="hljs-literal">null</span> ? p.left : p.right);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">if</span> (replacement != <span class="hljs-literal">null</span>) &#123;</span><br><span class="line">        replacement.<span class="hljs-attr">parent</span> = p.parent;</span><br><span class="line">        <span class="hljs-keyword">if</span> (p.<span class="hljs-attr">parent</span> == <span class="hljs-literal">null</span>)</span><br><span class="line">            <span class="hljs-attr">root</span> = replacement;</span><br><span class="line">        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-attr">p</span> == p.parent.left)</span><br><span class="line">            p.parent.<span class="hljs-attr">left</span>  = replacement;</span><br><span class="line">        <span class="hljs-keyword">else</span></span><br><span class="line">            p.parent.<span class="hljs-attr">right</span> = replacement;</span><br><span class="line"></span><br><span class="line">        p.<span class="hljs-attr">left</span> = p.<span class="hljs-attr">right</span> = p.<span class="hljs-attr">parent</span> = <span class="hljs-literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span> (p.<span class="hljs-attr">color</span> == BLACK)</span><br><span class="line">            fixAfterDeletion(replacement);</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (p.<span class="hljs-attr">parent</span> == <span class="hljs-literal">null</span>) &#123;</span><br><span class="line">        <span class="hljs-attr">root</span> = <span class="hljs-literal">null</span>;</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (p.<span class="hljs-attr">color</span> == BLACK)</span><br><span class="line">            fixAfterDeletion(p);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span> (p.parent != <span class="hljs-literal">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (<span class="hljs-attr">p</span> == p.parent.left)</span><br><span class="line">                p.parent.<span class="hljs-attr">left</span> = <span class="hljs-literal">null</span>;</span><br><span class="line">            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-attr">p</span> == p.parent.right)</span><br><span class="line">                p.parent.<span class="hljs-attr">right</span> = <span class="hljs-literal">null</span>;</span><br><span class="line">            p.<span class="hljs-attr">parent</span> = <span class="hljs-literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>后面的fixAfterDeletion方法便是节点删除后对树进行调整的方法，这里不做介绍。</p>
+<h1 id="get"><a href="#get" class="headerlink" title="get()"></a>get()</h1><p>一帮以getEntry()方法为基础的获取元素的方法，其中包括containsKey()，get()等。<br><figure class="highlight processing hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> V <span class="hljs-built_in">get</span>(<span class="hljs-keyword">Object</span> <span class="hljs-built_in">key</span>) &#123;</span><br><span class="line">    Entry&lt;K,V&gt; p = getEntry(<span class="hljs-built_in">key</span>);</span><br><span class="line">    <span class="hljs-keyword">return</span> (p==<span class="hljs-keyword">null</span> ? <span class="hljs-keyword">null</span> : p.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">final</span> Entry&lt;K,V&gt; getEntry(<span class="hljs-keyword">Object</span> <span class="hljs-built_in">key</span>) &#123;</span><br><span class="line">    <span class="hljs-comment">// 如果有自定义比较器对象，就按照自定义规则遍历二叉树</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (comparator != <span class="hljs-keyword">null</span>)</span><br><span class="line">        <span class="hljs-keyword">return</span> getEntryUsingComparator(<span class="hljs-built_in">key</span>);</span><br><span class="line">    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">key</span> == <span class="hljs-keyword">null</span>)</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullPointerException();</span><br><span class="line">    @SuppressWarnings(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">        Comparable&lt;? <span class="hljs-keyword">super</span> K&gt; k = (Comparable&lt;? <span class="hljs-keyword">super</span> K&gt;) <span class="hljs-built_in">key</span>;</span><br><span class="line">    Entry&lt;K,V&gt; p = root;</span><br><span class="line">    <span class="hljs-keyword">while</span> (p != <span class="hljs-keyword">null</span>) &#123;    <span class="hljs-comment">// 按照默认比较规则遍历二叉树</span></span><br><span class="line">        <span class="hljs-built_in">int</span> cmp = k.compareTo(p.<span class="hljs-built_in">key</span>);</span><br><span class="line">        <span class="hljs-keyword">if</span> (cmp &lt; <span class="hljs-number">0</span>)</span><br><span class="line">            p = p.left;</span><br><span class="line">        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cmp &gt; <span class="hljs-number">0</span>)</span><br><span class="line">            p = p.right;</span><br><span class="line">        <span class="hljs-keyword">else</span></span><br><span class="line">            <span class="hljs-keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="getFirstEntry-，getLastEntry"><a href="#getFirstEntry-，getLastEntry" class="headerlink" title="getFirstEntry()，getLastEntry()"></a>getFirstEntry()，getLastEntry()</h1><p>一帮以getFirstEntry()，getLastEntry()为基础的获取头和尾元素的方法，其中包括：firstKey()，lastKey()；firstEntry()，lastEntry()；pollFirstEntry()，pollLastEntry()；<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">final</span> Entry&lt;K,V&gt; <span class="hljs-title">getFirstEntry</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-comment">// 获取第一个元素也就是最小的元素，一直遍历左子树</span></span><br><span class="line">    Entry&lt;K,V&gt; p = root;</span><br><span class="line">    <span class="hljs-keyword">if</span> (p != <span class="hljs-keyword">null</span>)</span><br><span class="line">        <span class="hljs-keyword">while</span> (p.left != <span class="hljs-keyword">null</span>)</span><br><span class="line">            p = p.left;</span><br><span class="line">    <span class="hljs-keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">final</span> Entry&lt;K,V&gt; <span class="hljs-title">getLastEntry</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-comment">// 获取最后个元素也就是最大的元素，一直遍历右子树</span></span><br><span class="line">    Entry&lt;K,V&gt; p = root;</span><br><span class="line">    <span class="hljs-keyword">if</span> (p != <span class="hljs-keyword">null</span>)</span><br><span class="line">        <span class="hljs-keyword">while</span> (p.right != <span class="hljs-keyword">null</span>)</span><br><span class="line">            p = p.right;</span><br><span class="line">    <span class="hljs-keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+            
+        </div>
+        
+
+        
+            <! -- 添加捐赠图标 -->
+<div class="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+
+		   如果您觉得文章不错,可以请我喝一杯咖啡！
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden">
+		<!-- 支付宝打赏图案 -->
+		<span><img src="/images/zhifubao.png" alt="支付宝打赏"></span>
+
+		<!-- 微信打赏图案 -->
+		<span><img src="/images/weixin.png" alt="微信打赏"></span>
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			//$('#donate_board').addClass('hidden');
+			if($('#donate_guide').hasClass('hidden')){
+				$('#donate_guide').removeClass('hidden');
+			}else{
+				$('#donate_guide').addClass('hidden');
+			}
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+        
+
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7"><i class="fa fa-tag"></i>&nbsp</span>
+                    <a class="has-link-grey -link" href="/tags/JavaSE/">JavaSE</a>, <a class="has-link-grey -link" href="/tags/TreeMap/">TreeMap</a>, <a class="has-link-grey -link" href="/tags/源码分析/">源码分析</a>
+                </div>
+            </div>
+        </div><hr>
+        
+
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/05/javase/TreeSet源码剖析/">
+                <i class="level-item material-icons">keyboard_arrow_left</i>
+                <span class="level-item">JavaSE源码分析-TreeSet源码剖析</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/12/05/javase/HashSet源码剖析/">
+                <span class="level-item">JavaSE源码分析-HashSet源码剖析</span>
+                <i class="level-item material-icons">keyboard_arrow_right</i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+	const gitalk = new Gitalk({
+            clientID: 'f3cedbc73c19570bee41',
+            clientSecret: 'dff532b2bd6b11456d7de56b07f0db9bac8d599a',
+            repo: 'huang-min.github.io',
+            owner: 'huang-min',
+            admin: ['huang-min'],
+            id: '2018/12/05/javase/TreeMap源码剖析/',
+            distractionFreeMode: false
+        });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/logo.png">
+                    
+                    <p class="is-size-4 is-block">
+                        黄敏
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Java Developer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="material-icons is-size-5 has-mr-7">location_on</i>
+                        <span>中国 - 长沙</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        40
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        5
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        33
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/huang-min">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white" target="_blank" title="Github" href="http://github.com/huang-min">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="git" href="http://git.oschina.net/donecoder">
+                
+                <i class="fab fa-gg"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weixin" href="/">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weibo" href="https://weibo.com/u/6409883441">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#TreeMap简介">
+        <span class="has-mr-6">1</span>
+        <span>TreeMap简介</span>
+        </a></li><li>
+        <a class="is-flex" href="#类定义及类成员变量">
+        <span class="has-mr-6">2</span>
+        <span>类定义及类成员变量</span>
+        </a></li><li>
+        <a class="is-flex" href="#类构造方法">
+        <span class="has-mr-6">3</span>
+        <span>类构造方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#put-方法详解">
+        <span class="has-mr-6">4</span>
+        <span>put()方法详解</span>
+        </a></li><li>
+        <a class="is-flex" href="#remove">
+        <span class="has-mr-6">5</span>
+        <span>remove</span>
+        </a></li><li>
+        <a class="is-flex" href="#get">
+        <span class="has-mr-6">6</span>
+        <span>get()</span>
+        </a></li><li>
+        <a class="is-flex" href="#getFirstEntry-，getLastEntry">
+        <span class="has-mr-6">7</span>
+        <span>getFirstEntry()，getLastEntry()</span>
+        </a></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+        <div class="card card-transparent is-hidden-widescreen">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring源码分析/">
+            <span class="level-start">
+                <span class="level-item">Spring源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">22</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 16.67px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.67px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.33px;">JavaSE</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/nginx/" style="font-size: 11.67px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+        
+            
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hexo/">
+            <span class="level-start">
+                <span class="level-item">Hexo</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring基础/">
+            <span class="level-start">
+                <span class="level-item">Spring基础</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring源码分析/">
+            <span class="level-start">
+                <span class="level-item">Spring源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/programming/">
+            <span class="level-start">
+                <span class="level-item">programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">22</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 16.67px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.67px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.33px;">JavaSE</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/nginx/" style="font-size: 11.67px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2018 Huang min&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & Theme by <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+        <div>
+            
+Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261418845'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1261418845%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+
+        </div>
+    </div>
+</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                if (typeof($.fn.lightGallery) === 'function') {
+                    $('.article').lightGallery({ selector: '.gallery-item' });
+                }
+                if (typeof($.fn.justifiedGallery) === 'function') {
+                    $('.justified-gallery').justifiedGallery();
+                }
+            });
+        })(jQuery);
+    </script>
+    
+
+    
+    
+    
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // plugin function, place inside DOM ready function
+            outdatedBrowser({
+                bgColor: '#f25648',
+                color: '#ffffff',
+                lowerThan: 'flex'
+            })
+        });
+    </script>
+    
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="material-icons">keyboard_arrow_up</i>
+</a>
+<style>
+#back-to-top {
+    position: fixed;
+    padding: 8px 0;
+    transition: 0.4s ease opacity, 0.4s ease width, 0.4s ease transform, 0.4s ease border-radius;
+    opacity: 0;
+    font-size: 0;
+    outline: none;
+    transform: translateY(120px);
+}
+#back-to-top.fade-in {
+    opacity: 1;
+}
+#back-to-top.rise-up {
+    transform: translateY(0);
+}
+</style>
+<script src="/js/back-to-top.js"></script>
+
+
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
