@@ -144,20 +144,20 @@ var _hmt = _hmt || [];
     <div class="card-content article ">
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2018/12/05/javase/TreeMap源码剖析/">JavaSE源码分析-TreeMap源码剖析</a>
+                <a class="has-link-black-ter" href="/2018/12/06/Java线程/Thread源码剖析/">Java线程-Thread源码剖析</a>
             
         </h1>
 
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2018-12-05</div>
-                <time class="level-item has-text-grey" datetime="2018-12-05T03:00:37.000Z"> 2018-12-05T03:00:37.000Z </time>
+                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2018-12-06</div>
+                <time class="level-item has-text-grey" datetime="2018-12-06T10:04:37.000Z"> 2018-12-06T10:04:37.000Z </time>
 
                 
                 <div class="level-item">
                 <i class="fa fa-book"></i>&nbsp
-                <a class="has-link-grey -link" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                <a class="has-link-grey -link" href="/categories/Java线程/">Java线程</a>
                 </div>
                 
 
@@ -166,7 +166,7 @@ var _hmt = _hmt || [];
                     <i class="fa fa-clock"></i>&nbsp
                     
                     
-                    13 分钟 读完 (大约 2010 个字)
+                    20 分钟 读完 (大约 2926 个字)
                 </span>
                 
 
@@ -180,8 +180,10 @@ var _hmt = _hmt || [];
                 
                     
                         
-                        TreeMap简介TreeMap的基本概念：
-TreeMap集合是基于红黑树（Red-Blacktree）的NavigableMap实现。该集合最重要的特点就是可排序，该映射根据其键的自然顺序进行排序，或者根据创建映射时提供的Comparator进行排序，具体取决于使用的构造方法。这句话是什么意思呢？就是说TreeMap可以对添加进来的元素进行排序，可以按照默认的排序方式，也可以自己指定排序方式。
+                        概述
+线程是一个操作系统级别的概念。JAVA语言（包括其他编程语言）本身不创建线程；而是调用操作系统层提供的接口创建、控制、销毁线程实例。
+根据操作系统的不同（Windows/Unix/Linux/其他），他们所支持的线程底层实现和操作效果也是不尽相同的。不过一个操作系统支持的线程至少会有四种状态：就绪、执行、阻塞和终结。线程在四种状态下进行切换，都是要消耗不少的CPU计算能力的。
+并且根据操作系
                         ...
                     
                 
@@ -191,7 +193,7 @@ TreeMap集合是基于红黑树（Red-Blacktree）的NavigableMap实现。该集
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/12/05/javase/TreeMap源码剖析/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2018/12/06/Java线程/Thread源码剖析/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -267,6 +269,78 @@ TreeSet中的元素支持2种排序方式：自然排序或者根据创建TreeSe
             <div class="level-start">
                 <div class="level-item">
                 <a class="button is-size-7 is-light" href="/2018/12/05/javase/TreeSet源码剖析/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+
+        
+
+        
+
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/12/05/javase/TreeMap源码剖析/">JavaSE源码分析-TreeMap源码剖析</a>
+            
+        </h1>
+
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2018-12-05</div>
+                <time class="level-item has-text-grey" datetime="2018-12-05T03:00:37.000Z"> 2018-12-05T03:00:37.000Z </time>
+
+                
+                <div class="level-item">
+                <i class="fa fa-book"></i>&nbsp
+                <a class="has-link-grey -link" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                </div>
+                
+
+                
+                <span class="level-item has-text-grey">
+                    <i class="fa fa-clock"></i>&nbsp
+                    
+                    
+                    13 分钟 读完 (大约 2010 个字)
+                </span>
+                
+
+                
+            </div>
+        </div>
+        
+
+        <div class="content">
+            
+                
+                    
+                        
+                        TreeMap简介TreeMap的基本概念：
+TreeMap集合是基于红黑树（Red-Blacktree）的NavigableMap实现。该集合最重要的特点就是可排序，该映射根据其键的自然顺序进行排序，或者根据创建映射时提供的Comparator进行排序，具体取决于使用的构造方法。这句话是什么意思呢？就是说TreeMap可以对添加进来的元素进行排序，可以按照默认的排序方式，也可以自己指定排序方式。
+                        ...
+                    
+                
+            
+        </div>
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2018/12/05/javase/TreeMap源码剖析/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -793,78 +867,6 @@ HashTable源码剖析H
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/11/08/javase/符号++的原理/">符号++的原理</a>
-            
-        </h1>
-
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2018-11-08</div>
-                <time class="level-item has-text-grey" datetime="2018-11-08T09:29:37.000Z"> 2018-11-08T09:29:37.000Z </time>
-
-                
-                <div class="level-item">
-                <i class="fa fa-book"></i>&nbsp
-                <a class="has-link-grey -link" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
-                </div>
-                
-
-                
-                <span class="level-item has-text-grey">
-                    <i class="fa fa-clock"></i>&nbsp
-                    
-                    
-                    3 分钟 读完 (大约 522 个字)
-                </span>
-                
-
-                
-            </div>
-        </div>
-        
-
-        <div class="content">
-            
-                
-                    
-                        
-                        我们在使用java程序时，会使用带i++这样一个表达式，那么他的底层原理是什么呢？
-先来看下面这段代码：publicclassIntegerPlusPlusLearningimplementsRunnable&#123;publicstaticIntegeri=newInteger(0);@Overridepublicvoidrun()&#123;while(true)&#123;synchron
-                        ...
-                    
-                
-            
-        </div>
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/11/08/javase/符号++的原理/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-
-        
-
-        
-
-        
-    </div>
-</div>
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -924,7 +926,7 @@ HashTable源码剖析H
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        40
+                        42
                     </p>
                 </div>
             </div>
@@ -934,7 +936,7 @@ HashTable源码剖析H
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        5
+                        3
                     </p>
                 </div>
             </div>
@@ -944,7 +946,7 @@ HashTable源码剖析H
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        33
+                        35
                     </p>
                 </div>
             </div>
@@ -1020,14 +1022,6 @@ HashTable源码剖析H
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/Hexo/">
-            <span class="level-start">
-                <span class="level-item">Hexo</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li><li>
         <a class="level is-marginless" href="/categories/JavaSE源码分析/">
             <span class="level-start">
                 <span class="level-item">JavaSE源码分析</span>
@@ -1036,12 +1030,12 @@ HashTable源码剖析H
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/Spring基础/">
+        <a class="level is-marginless" href="/categories/Java线程/">
             <span class="level-start">
-                <span class="level-item">Spring基础</span>
+                <span class="level-item">Java线程</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Spring源码分析/">
@@ -1050,14 +1044,6 @@ HashTable源码剖析H
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/programming/">
-            <span class="level-start">
-                <span class="level-item">programming</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">22</span>
             </span>
         </a></li>
             </ul>
@@ -1071,7 +1057,7 @@ HashTable源码剖析H
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 16.67px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.67px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.33px;">JavaSE</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/nginx/" style="font-size: 11.67px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 16.67px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.67px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.33px;">JavaSE</a> <a href="/tags/Java线程/" style="font-size: 10px;">Java线程</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Thread/" style="font-size: 10px;">Thread</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -1165,14 +1151,6 @@ HashTable源码剖析H
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/Hexo/">
-            <span class="level-start">
-                <span class="level-item">Hexo</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li><li>
         <a class="level is-marginless" href="/categories/JavaSE源码分析/">
             <span class="level-start">
                 <span class="level-item">JavaSE源码分析</span>
@@ -1181,12 +1159,12 @@ HashTable源码剖析H
                 <span class="level-item tag">12</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/Spring基础/">
+        <a class="level is-marginless" href="/categories/Java线程/">
             <span class="level-start">
-                <span class="level-item">Spring基础</span>
+                <span class="level-item">Java线程</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Spring源码分析/">
@@ -1195,14 +1173,6 @@ HashTable源码剖析H
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/programming/">
-            <span class="level-start">
-                <span class="level-item">programming</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">22</span>
             </span>
         </a></li>
             </ul>
@@ -1216,7 +1186,7 @@ HashTable源码剖析H
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 16.67px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.67px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.33px;">JavaSE</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/nginx/" style="font-size: 11.67px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 16.67px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.67px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.33px;">JavaSE</a> <a href="/tags/Java线程/" style="font-size: 10px;">Java线程</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Thread/" style="font-size: 10px;">Thread</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -1287,7 +1257,7 @@ HashTable源码剖析H
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2018 Huang min&nbsp;
+                &copy; 2019 Huang min&nbsp;
                 Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & Theme by <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
                 </p>
             </div>
