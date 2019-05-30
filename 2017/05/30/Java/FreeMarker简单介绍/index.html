@@ -7,18 +7,18 @@
 
 
 
-    <meta name="description" content="黄敏的博客!">
+    <meta name="description" content="模板技术在现代的软件开发中有着重要的地位，而目前最流行的两种模板技术恐怕要算freemarker和velocity了，webwork2.2对两者 都有不错的支持，也就是说在webwork2中你可以随意选择使用freemarker或velocity作为view，模板技术作为view的好处是很 多，尤其和jsp比较起来优点更大，众所周知jsp需要在第一次被执行的时候编译成servlet，那么这个过程是">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FreeMarker简单介绍">
 <meta property="og:url" content="http://mindasoft.com/2017/05/30/Java/FreeMarker简单介绍/index.html">
 <meta property="og:site_name" content="黄敏">
-<meta property="og:description" content="黄敏的博客!">
+<meta property="og:description" content="模板技术在现代的软件开发中有着重要的地位，而目前最流行的两种模板技术恐怕要算freemarker和velocity了，webwork2.2对两者 都有不错的支持，也就是说在webwork2中你可以随意选择使用freemarker或velocity作为view，模板技术作为view的好处是很 多，尤其和jsp比较起来优点更大，众所周知jsp需要在第一次被执行的时候编译成servlet，那么这个过程是">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-06T09:26:55.134Z">
+<meta property="og:updated_time" content="2019-03-22T02:13:19.875Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FreeMarker简单介绍">
-<meta name="twitter:description" content="黄敏的博客!">
+<meta name="twitter:description" content="模板技术在现代的软件开发中有着重要的地位，而目前最流行的两种模板技术恐怕要算freemarker和velocity了，webwork2.2对两者 都有不错的支持，也就是说在webwork2中你可以随意选择使用freemarker或velocity作为view，模板技术作为view的好处是很 多，尤其和jsp比较起来优点更大，众所周知jsp需要在第一次被执行的时候编译成servlet，那么这个过程是">
 
 
 
@@ -152,7 +152,7 @@ var _hmt = _hmt || [];
                     <i class="fa fa-clock"></i>&nbsp
                     
                     
-                    几秒 读完 (大约 0 个字)
+                    26 分钟 读完 (大约 3842 个字)
                 </span>
                 
 
@@ -169,7 +169,109 @@ var _hmt = _hmt || [];
 
         <div class="content">
             
-                
+                <p>模板技术在现代的软件开发中有着重要的地位，而目前最流行的两种模板技术恐怕要算freemarker和velocity了，webwork2.2对两者 都有不错的支持，也就是说在webwork2中你可以随意选择使用freemarker或velocity作为view，模板技术作为view的好处是很 多，尤其和jsp比较起来优点更大，众所周知jsp需要在第一次被执行的时候编译成servlet，那么这个过程是很慢的，当然很多应用服务器都提供预编 译的功能，但是在开发的时候仍然给我们程序员带来了很多痛苦，每次修改都要多几秒钟，那在一天的开发中就有很多时间浪费在jsp的编译上了。用 webwork in action的作者的话来说：“每次修改之后重新运行都要等等几秒是令人失望的，而频繁地修改jsp更是会令你的失望情绪变本加厉“。我们把模板技术引入 到view中去可以带来更好的开发效率，而且模板的速度要比jsp快（虽然编译过后的jsp在速度上已经满足我的需求了，呵呵）。 当然模板技术可以用在很多领域，可不只在view那里。我们可以通过模板技术来生成xml，生成jsp，生成java文件等等，说到这里，大家通常会使用 模板技术用在公司的框架里，这样就可以很快速的生成添删改查的代码，需要的只是模板，其他比如还有邮件模板等等。 </p>
+<p>以上是模板的作用，那么现在开源的模板技术有好几种，多了之后就有一个选择的问题了，如何选择一个满足自己需要的模板的呢，写了一个例子，我使用了几种设 计模式来完成了这个例子，这个例子中，同时使用了freemarker和velocity，这样同学们可以通过代码很直观的比较两种模板技术，通过这个例 子，我认识到freemarker在功能上要比velocity强大<br>1。在view层的时候，它提供了format日期和数字的功能，我想大家都有在页面上format日期或数字的经验，用jsp的同学可能对jstl的 fmt标签很有感情，使用了freemarker之后也可以使用freemarker提供的功能来formmat日期和数据，这个功能我想是很贴心的</p>
+<p>2。通过我的使用我发现freemaker的eclipseplugin要比velocity的eclipseplugin好，好在很多地方 呢，freemarker的插件除了支持freemarker语法也支持html语句，而velocity的插件貌似只支持velocity的语 法，html就只是用普通的文本来显示了，在这一点上freemarker占上风了</p>
+<p>3。freemarker对jsptag的支持很好，算了，不到迫不得已还是不要这样做吧。</p>
+<p>还有就是两者的语法格式，这一点上不同的人有不同倾向</p>
+<p>下面就先介绍标签吧</p>
+<p>一、FreeMarker模板文件主要有4个部分组成<br>  1、文本，直接输出的部分<br>  2、注释，即&lt;#–…–&gt;格式不会输出<br>  3、插值（Interpolation）：即${..}或者#{..}格式的部分,将使用数据模型中的部分替代输出<br>  4、FTL指令：FreeMarker指令，和HTML标记类似，名字前加#予以区分，不会输出。</p>
+<p>  FTL指令规则<br>    FreeMarker有三种FTL标签，这和HTML的标签是完全类似的<br>     开始标签：&lt;#directivename parameters&gt;<br>     结束标签：&lt;/#directivename&gt;<br>     空标签： &lt;#directivename parameters /&gt;<br>     实际上，使用标签时前面的#符号也可能变成@，如果该指令是一个用户指令而不是系统内建指令时，应将#符号改为@符号</p>
+<p>   插值规则<br>     FreeMarker的插值有如下两种类型<br>     1、通用插值：${expr}<br>     2、数字格式化插值：#{expr}或者#{expr;format}</p>
+<p>   通用插值，有可以分为四种情况<br>    a、插值结果为字符串值：直接输出表达式结果<br>    b、插值结果为数字值：根据默认格式(#setting 指令设置)将表达式结果转换成文本输出。可以使用内建的字符串函数格式单个插值，例如<br>       &lt;#setting number_format = “currency” /&gt;<br>       &lt;#assign price = 42 /&gt;<br>       ${price}<br>       ${price?string}<br>       ${price?string.number}<br>       ${price?string.currency}<br>       ${price?string.percent}</p>
+<p>   c、输出值为日期值：根据默认格式(由 #setting 指令设置)将表达式结果转换成文本输出，可以使用内建的字符串函数格式化单个插值，例如<br>      &lt;#assign lastUpdated = “2009-01-07 15:05”?datetime(“yyyy-MM-dd HH:mm”) /&gt;<br>      ${lastUpdated?string(“yyyy-MM-dd HH:mm:ss zzzz”)};<br>      ${lastUpdated?string(“EEE,MMM d,yy”)};<br>      ${lastUpdated?string(“EEEE,MMMM dd,yyyy,hh:mm:ss a ‘(‘zzz’)’”)};<br>      ${lastUpdated?string.short};<br>      ${lastUpdated?string.long};<br>      ${lastUpdated?String.full};<br>   d、插值结果为布尔值<br>      &lt;#assign foo=true /&gt;<br>      ${foo?string(“是foo”,”非foo”)}</p>
+<p>   数字格式化插值<br>     数字格式化插值可采用#{expr;format}的形式来格式化数字，其中format可以是：<br>     mX:小数部分最小X位<br>     MX:小数部分最大X位<br>     例如：<br>        &lt;#assign x = 2.582 /&gt;<br>        &lt;#assign y =4 /&gt;</p>
+<pre><code>#{x;M2};
+#{y;M2};
+#{x;m1};
+#{y;m1};
+#{x;m1M2};
+#{y:m1M2};
+</code></pre><p>二、表达式<br>    表达式是FreeMarker的核心功能。表达式放置在插值语法（${…}）之中时，表面需要输出表达式的值，表达式语法也可以与FreeMarker标签结合，用于控制输出</p>
+<p>1、直接指定值<br>  例如：<br>  a、字符串<br>     ${‘我的名字是\”yeek\”‘};<br>     ${“我的文件保存在d：\盘”};<br>  b、数值<br>  c、布尔值<br>  d、日期型<br>     FreeMarker支持date、time、datetime三种类型，这三种类型的值无法直接指定，通常需要借助字符串的date、time、datetime三个内建函数进行转换才可以<br>       &lt;#assign test1 = “2009-01-22”?date(“yyyy-MM-dd”) /&gt;;<br>       &lt;#assign test2 =”16:34:43”?time(“HH:mm:ss”) /&gt;<br>       &lt;#assign test2 = “2009-01-22 17:23:45”?datetime(“yyyy-MM-dd HH:mm:ss”) /&gt;<br>       ${test1?string.full}<br>  e、集合<br>    集合以方括号包括，各集合元素之间以英文逗号(,)分隔，看如下的示例:<br>  &lt;#list[“星期一”,,[“星期二”,[“星期三”,[“星期四”,[“星期五”] as x&gt;<br>     ${s};<br>    &lt;/#list&gt;<br>  f、Map集合<br>     Map对象使用花括号包括，Map中的key-value对之间以英文冒号(:)隔开，多组key-value对之间以英文逗号(,) 隔开<br>       例如<br>       &lt;#assign score = {“语文”:78,”数学”:83,”Java”:89} &gt;<br>         &lt;#list score?key as x&gt;<br>          ${x}—&gt;${score[x]};<br>         &lt;/#list&gt;</p>
+<p>2、输出变量值<br>  FreeMarker的表达式输出变量时，这些变量可以是顶层变量，也可以是Map对象中的变量，还可以是集合中的变量，并可以使用点(.)语法来访问Java对象的属性<br>  a、顶层变量<br>     Map root = new HashMap();<br>     root.put(“name”,”wenchao”);<br>     对应顶层变量，直接使用${variableName}来输出变量值，变量名只能是数字、字母、下划线、$、@和#的组合，并不能以数字开头<br>  b、输出集合元素<br>     如果需要输出集合元素，则可以根据集合元素的索引来输出元素。集合元素的索引以方括号指定。<br>     假设有集合对象为：[“星期一”,”星期二”,”星期三”,”星期四”,”星期五”,”星期六”],该集合对象名为week, 如果需要输出星期三，则可以使用如下语法：<br>        ${week[2]}<br>     集合里的第一个元素的索引是0<br>  c、输出Map元素<br>      这里的Map对象可以是直接HashMap的实例，甚至包括 JavaBean实例，对应JavaBean实例，我们一样可以把其当成属性为key，属性为value的Map实例</p>
+<p>3、字符串操作<br> a、字符串链接<br>   字符串连接有两种语法<br>   A、使用${..}(或#{..})在字符串常量部分插入表达式的值，从而完成字符串连接<br>   B、直接使用连接运算符（+）来连接字符串<br>     使用第一种语法来连接字符串<br>     ${“Hello,${user}!”}<br>      第二种使用连接符号来连接字符串<br>     ${“Hello,”+user+”!”};<br>       值的注意的是，${..}只能用于文本部分，因此，下面的代码是错误的：<br>         &lt;#if ${isBig}&gt;Wow!&lt;/#if&gt;<br>         &lt;#if “${isBig}”&gt;Wow!&lt;/#if&gt;<br>         应该写成：<br>         &lt;#if isBig&gt;Wow!&lt;/#if&gt;</p>
+<p> b、截取字符串<br>    Map root = new HashMap();<br>    root.put(“book”,”疯狂Ajax讲义”)；</p>
+<pre><code>${book[0]}
+${book[4]}
+${book[1..4]}
+</code></pre><p>4、集合连接运算符<br>这里所说的集合连接运算时将两个集合连接成一个新的集合，连接集合的运算符是+，例如<br>&lt;#list [“星期一”,” 星期二”,”星期三”]+[“星期四”,”星期五”] as x&gt;<br>   ${x}<br>&lt;/#list&gt;</p>
+<p>5、Map连接运算符<br>     Map对象的连接运算也是将两个Map对象连接成一个新的Map对象，Map对象的连接运算符是+。如果两个Map对象具有相同的 key，则后加入Map里的key所<br> 对应的value替代原来key所对应的value</p>
+<p>6、算术运算符<br> FreeMarker表达式中完全支持算术运算，FreeMarker支持的算术运算符包括： +，-，<em>，/，%<br> 看如下代码示范<br>   &lt;#assign x = 5 /&gt;<br>   ${x</em> -100}<br>   ${x/2}<br>   ${12%10}<br> 在表达式中使用算术运算时要注意以下几点。<br> A、运算符两边的运算数必须是数字，因此下面的代码是错误的：<br>   ${3*”5”}<br> B、使用+（既可以作为加号，也可以作为字符串连接运算符）运算时，如果一边是数字，一边是字符串，就会自动将数字转化为字符串。例如<br>    ${3+”5”}<br>    输出结果：35<br> C、使用内建的int函数可对数值取整。例如<br>    &lt;#assign x = 5&gt;<br>    ${(x/2)?int}<br>    ${1.1?int}<br>    ${1.999?int}<br>    ${-1.9999?int}<br>    ${-1.1?int}</p>
+<p>7、比较运算符<br>   表达式中支持的比较运算符有如下几个<br>   a、=（或者==）:判断两个值是否相等.<br>   b、!=:判断两个值是否不相等<br>   c、 &gt;(或者gt):判断坐标值是否大于右边值<br>   d、 &gt;=(或者gte):判断坐标值是否大于等于右边值<br>   e、 &lt;(或者lt):判断左边值是否小于右边值<br>   f、 &lt;=(或者lte):判断左边值是否小于等于右边值          </p>
+<p>8、逻辑运算符<br>  逻辑运算符有如下几个<br>  a、逻辑与：&amp;&amp;<br>  b、逻辑或：||<br>  c、逻辑非：!<br>  逻辑运算符只能作用于布尔值，否则将产生错误。</p>
+<p>9、内建函数<br>  FreeMarker还提供了一些内建函数来转换输出，可以在任何变量后紧跟?,?后紧跟内建函数，就可通过内建函数来转换输出变量<br>  下面是常用的内建的字符串函数<br>  a、html：对字符串进行HTML编码<br>  b、cap_first:将字符串第一个字母成大写<br>  c、lower_case:将字符串转换成小写<br>  d、upper_case:将字符串转换成大写<br>  e、trim: 去掉字符串前后的空白字符<br>  下面是集合的常用的内建函数<br>  a、size： 获得序列中元素的数目</p>
+<p>  下面是数字值的常用的内建函数<br>  a、int 取得数字的整数部分<br>  例如<br>  &lt;#assign test=”Tom &amp; Jerry” /&gt;<br>  ${test?html}<br>  ${test?upper_case?html}</p>
+<p>10、空值处理运算符<br>  FreeMarker对空值的处理非常严格，FreeMarker的变量必须有值，没有被赋值的变量就会抛出异常。</p>
+<p>  freemarker中显示某对象使用${name}.<br>  但如果name为null，freemarker就会报错。如果需要判断对象是否为空：<br>  &lt;#if name??&gt;<br>  ……<br>  &lt;/#if&gt;</p>
+<p>  当然也可以通过设置默认值${name!’’}来避免对象为空的错误。如果name为空，就以默认值（“!”后的字符）显示。</p>
+<p>  对象user，name为user的属性的情况，user，name都有可能为空，那么可以写成${(user.name)!’’},表示user或者name为null，都显示为空。判断为空<br>  &lt;#if (user.name)??&gt;<br>  ……<br>  &lt;/#if&gt;<br>11、运算符优先级</p>
+<p>  三、FreeMarker 的常用指令<br>     1、if指令<br>        分支控制语句<br>        语法格式如下<br>       &lt;#if condition&gt;<br>            ….<br>       &lt;#elseif condition2&gt;<br>          …<br>       &lt;#elseif condition3&gt;<br>          …<br>       &lt;#else&gt;<br>          …<br>       &lt;/#if&gt;</p>
+<pre><code> 2、switch、case、default、break指令
+    &lt;#switch value&gt;
+       &lt;#case refValue&gt;
+          ...
+          &lt;#bread&gt;
+       &lt;#case refValue&gt;
+          ...
+          &lt;#bread&gt;
+       &lt;#default&gt;
+          ...
+    &lt;/#switch&gt;
+    虽然FreeMarker提供了switch指令，但它并不推荐使用switch指令来控制也输出，而是推荐使用FreeMarker的if..elseif..else 指令来替代它。
+
+3、list、break指令
+list指令时一个典型的迭代输出指令，用于迭代输出数据模型中的集合。list指令的语法格式如下：
+ &lt;#list sequence as item&gt;
+   ...
+ &lt;/#list&gt;
+  除此之外，迭代集合对象时，还包括两个特殊的循环变量：
+  a、item_index：当前变量的索引值。
+  b、item_has_next:是否存在下一个对象
+  也可以使用&lt;#break&gt;指令跳出迭代
+  &lt;#list [&quot;星期一&quot;,&quot;星期二&quot;,&quot;星期三&quot;,&quot;星期四&quot;,&quot;星期五&quot;] as x&gt;
+      ${x_index +1}.${x} &lt;#if x_has_next&gt;,&lt;/#if&gt;
+      &lt;#if x = &quot;星期四&quot;&gt;&lt;#break&gt;&lt;/#if&gt;
+  &lt;/#list&gt;
+  list还有一些内置函数sort,sort_by,reverse,size
+
+  4、include 指令
+    include指令的作用类似于JSP的包含指令，用于包含指定页，include指令的语法格式如下
+     &lt;#include filename [options]
+      在上面的语法格式中，两个参数的解释如下
+      a、filename：该参数指定被包含的模板文件
+      b、options：该参数可以省略，指定包含时的选项，包含encoding和parse两个选项，encoding指定包含页面时所使用的解码集，而parse指定被
+         包含是否作为FTL文件来解析。如果省略了parse选项值，则该选项值默认是true
+ 5、 import指令
+    该指令用于导入FreeMarker模板中的所有变量，并将该变量放置在指定的Map对象中，import 指令的语法格式如下
+    &lt;#import path as mapObject&gt;
+    在上面的语法格式中，path指定要被导入的模板文件，而mapObject是一个Map对象名，通过这行代码，将导致path模板中的所有变量都被放置
+    在mapObject中
+    &lt;#import &quot;/lib/common.ftl&quot; as com&gt;
+
+ 6、noparse指令
+     noparse指令指定FreeMarker不处理该指令里包含的内容，该指令的语法格式如下：
+     &lt;#noparse&gt;
+        ...
+     &lt;/#noparse&gt;
+
+ 7、escape、noescape指令
+
+
+ 8、assign指令
+    它用于为该模板页面创建或替换一个顶层变量
+
+ 9、setting指令
+    该指令用于设置FreeMarker的运行环境，该指令的语法格式如下：
+    &lt;#setting name = value&gt;
+    name 的取值范围包括如下几个
+     locale ：该选项指定该模板所用的国家/语言选项
+     number_format:该选项指定格式化输出数字的格式
+     boolean_format:该选项指定两个布尔值的语法格式，默认值是&quot;true、false&quot;
+     date_format,time_format,datetime_format：该选项指定格式化输出日期的格式
+     time_zone:  设置格式化输出日期时所使用的时区
+ 10、macro、nested、return指令
+</code></pre>
             
         </div>
         
@@ -232,16 +334,16 @@ var _hmt = _hmt || [];
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/05/30/Java/Velocity简单介绍/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2017/08/08/Java/Java配置中心/">
                 <i class="level-item material-icons">keyboard_arrow_left</i>
-                <span class="level-item">Velocity简单介绍</span>
+                <span class="level-item">Java配置中心</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2017/05/30/Database/Oracle查看表空间常用语句/">
-                <span class="level-item">Oracle查看表空间常用语句</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2017/05/30/Java/Velocity简单介绍/">
+                <span class="level-item">Velocity简单介绍</span>
                 <i class="level-item material-icons">keyboard_arrow_right</i>
             </a>
         </div>
@@ -314,7 +416,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        42
+                        44
                     </p>
                 </div>
             </div>
@@ -445,7 +547,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 16.67px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.67px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.33px;">JavaSE</a> <a href="/tags/Java线程/" style="font-size: 10px;">Java线程</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Thread/" style="font-size: 10px;">Thread</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 17.14px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.43px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 15.71px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.57px;">JavaSE</a> <a href="/tags/Java线程/" style="font-size: 10px;">Java线程</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.43px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.86px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Thread/" style="font-size: 10px;">Thread</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 14.29px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
@@ -574,7 +676,7 @@ var _hmt = _hmt || [];
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 16.67px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.67px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.33px;">JavaSE</a> <a href="/tags/Java线程/" style="font-size: 10px;">Java线程</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.67px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 13.33px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Thread/" style="font-size: 10px;">Thread</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 17.14px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.43px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 15.71px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.57px;">JavaSE</a> <a href="/tags/Java线程/" style="font-size: 10px;">Java线程</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.43px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.86px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Thread/" style="font-size: 10px;">Thread</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 14.29px;">mysql</a> <a href="/tags/nginx/" style="font-size: 12.86px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
     </div>
 </div>
 
