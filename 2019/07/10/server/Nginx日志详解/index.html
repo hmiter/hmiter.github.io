@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Nginx日志详解 - 黄敏</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="nginx日志介绍Nginx日志对于统计、系统服务排错很有用。Nginx日志主要分为两种：access_log(访问日志)和error_log(错误日志)。通过访问日志我们可以得到用户的IP地址、浏览器的信息，请求的处理时间等信息。错误日志记录了访问出错的信息，可以帮助我们定位错误的原因。本文将详细描述一下如何配置Nginx日志。 访问日志主要记录客户端的请求。客户端向Nginx服务器发起的每一次">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx日志详解">
+<meta property="og:url" content="http://mindasoft.com/2019/07/10/server/Nginx日志详解/index.html">
+<meta property="og:site_name" content="黄敏">
+<meta property="og:description" content="nginx日志介绍Nginx日志对于统计、系统服务排错很有用。Nginx日志主要分为两种：access_log(访问日志)和error_log(错误日志)。通过访问日志我们可以得到用户的IP地址、浏览器的信息，请求的处理时间等信息。错误日志记录了访问出错的信息，可以帮助我们定位错误的原因。本文将详细描述一下如何配置Nginx日志。 访问日志主要记录客户端的请求。客户端向Nginx服务器发起的每一次">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-10T02:21:10.985Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx日志详解">
+<meta name="twitter:description" content="nginx日志介绍Nginx日志对于统计、系统服务排错很有用。Nginx日志主要分为两种：access_log(访问日志)和error_log(错误日志)。通过访问日志我们可以得到用户的IP地址、浏览器的信息，请求的处理时间等信息。错误日志记录了访问出错的信息，可以帮助我们定位错误的原因。本文将详细描述一下如何配置Nginx日志。 访问日志主要记录客户端的请求。客户端向Nginx服务器发起的每一次">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+    
+
+    
+    
+    
+    <style>body{opacity: 0}</style>
+    
+
+    
+    
+    
+    
+
+
+    
+    
+
+    
+    
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?549090fe8e0555dbb3938f4ec59efefd";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">主页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories/JavaSE源码分析/">JavaSE源码分析</a>
+                
+                <a class="navbar-item" href="/categories/Spring源码分析/">Spring源码分析</a>
+                
+                <a class="navbar-item" href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/huang-min/">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="material-icons is-size-5">search</i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Nginx日志详解
+            
+        </h1>
+
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <div class="level-item"><i class="fa fa-calendar"></i>&nbsp 2019-07-10</div>
+                <time class="level-item has-text-grey" datetime="2019-07-10T02:30:00.000Z"> 2019-07-10T02:30:00.000Z </time>
+
+                
+
+                
+                <span class="level-item has-text-grey">
+                    <i class="fa fa-clock"></i>&nbsp
+                    
+                    
+                    16 分钟 读完 (大约 2450 个字)
+                </span>
+                
+
+                
+                <div class="level-item">
+                <span id="busuanzi_container_page_pv">
+                   被阅读<span id="busuanzi_value_page_pv"></span>次
+                </span>
+                </div>
+                
+            </div>
+        </div>
+        
+
+        <div class="content">
+            
+                <h1 id="nginx日志介绍"><a href="#nginx日志介绍" class="headerlink" title="nginx日志介绍"></a>nginx日志介绍</h1><p>Nginx日志对于统计、系统服务排错很有用。Nginx日志主要分为两种：access_log(访问日志)和error_log(错误日志)。通过访问日志我们可以得到用户的IP地址、浏览器的信息，请求的处理时间等信息。错误日志记录了访问出错的信息，可以帮助我们定位错误的原因。本文将详细描述一下如何配置Nginx日志。</p>
+<p>访问日志主要记录客户端的请求。客户端向Nginx服务器发起的每一次请求都记录在这里。客户端IP，浏览器信息，referer，请求处理时间，请求URL等都可以在访问日志中得到。当然具体要记录哪些信息，你可以通过log_format指令定义。</p>
+<p>错误日志在Nginx中是通过error_log指令实现的。该指令记录服务器和请求处理过程中的错误信息。</p>
+<p>Nginx中通过access_log和error_log指令配置访问日志和错误日志，通过log_format我们可以自定义日志格式。如果日志文件路径中使用了变量，我们可以通过open_log_file_cache指令来设置缓存，提升性能。</p>
+<p>另外，在access_log和log_format中使用了很多变量，详细的变量信息可以参考Nginx官方文档</p>
+<h1 id="访问日志配置"><a href="#访问日志配置" class="headerlink" title="访问日志配置"></a>访问日志配置</h1><h2 id="设置访问日志的语法"><a href="#设置访问日志的语法" class="headerlink" title="设置访问日志的语法"></a>设置访问日志的语法</h2><figure class="highlight inform7 hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">access_log path <span class="hljs-comment">[format <span class="hljs-comment">[buffer=size]</span> <span class="hljs-comment">[gzip<span class="hljs-comment">[=level]</span>]</span> <span class="hljs-comment">[flush=time]</span> <span class="hljs-comment">[if=condition]</span>]</span>; # 设置访问日志</span><br><span class="line"></span><br><span class="line">access_log off; # 关闭访问日志</span><br></pre></td></tr></table></figure>
+<ul>
+<li>path 指定日志的存放位置。</li>
+<li>format 指定日志的格式。默认使用预定义的combined。</li>
+<li>buffer 用来指定日志写入时的缓存大小。默认是64k。</li>
+<li>gzip 日志写入前先进行压缩。压缩率可以指定，从1到9数值越大压缩比越高，同时压缩的速度也越慢。默认是1。</li>
+<li>flush 设置缓存的有效时间。如果超过flush指定的时间，缓存中的内容将被清空。</li>
+<li>if 条件判断。如果指定的条件计算为0或空字符串，那么该请求不会写入日志。</li>
+</ul>
+<h2 id="访问日志的作用域"><a href="#访问日志的作用域" class="headerlink" title="访问日志的作用域"></a>访问日志的作用域</h2><p>可以应用access_log指令的作用域分别有http，server，location，limit_except。也就是说，在这几个作用域外使用该指令，Nginx会报错。</p>
+<h2 id="访问日志使用实例"><a href="#访问日志使用实例" class="headerlink" title="访问日志使用实例"></a>访问日志使用实例</h2><figure class="highlight fortran hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">access_log /var/logs/nginx-<span class="hljs-keyword">access</span>.<span class="hljs-built_in">log</span></span><br></pre></td></tr></table></figure>
+<p>该例子指定日志的写入路径为/var/logs/nginx-access.log，日志格式使用默认的combined。</p>
+<figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">access_log /var/logs/nginx-access.log <span class="hljs-attribute">buffer</span>=32k gzip <span class="hljs-attribute">flush</span>=1m</span><br></pre></td></tr></table></figure>
+<p>该例子指定日志的写入路径为/var/logs/nginx-access.log，日志格式使用默认的combined，指定日志的缓存大小为32k，日志写入前启用gzip进行压缩，压缩比使用默认值1，缓存数据有效时间为1分钟。</p>
+<h1 id="使用log-format自定义日志格式"><a href="#使用log-format自定义日志格式" class="headerlink" title="使用log_format自定义日志格式"></a>使用log_format自定义日志格式</h1><h2 id="nginx默认日志格式"><a href="#nginx默认日志格式" class="headerlink" title="nginx默认日志格式"></a>nginx默认日志格式</h2><p>Nginx预定义了名为combined日志格式，如果没有明确指定日志格式默认使用该格式：<br><figure class="highlight nginx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attribute">log_format</span> combined <span class="hljs-string">'<span class="hljs-variable">$remote_addr</span> - <span class="hljs-variable">$remote_user</span> [<span class="hljs-variable">$time_local</span>] '</span></span><br><span class="line">                  <span class="hljs-string">'"<span class="hljs-variable">$request</span>" <span class="hljs-variable">$status</span> <span class="hljs-variable">$body_bytes_sent</span> '</span></span><br><span class="line">                  <span class="hljs-string">'"<span class="hljs-variable">$http_referer</span>" "<span class="hljs-variable">$http_user_agent</span>"'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>如果不想使用Nginx预定义的格式，可以通过log_format指令来自定义。</p>
+<h2 id="Nginx自定义日志语法及常用变量"><a href="#Nginx自定义日志语法及常用变量" class="headerlink" title="Nginx自定义日志语法及常用变量"></a>Nginx自定义日志语法及常用变量</h2><figure class="highlight qml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_format name [<span class="hljs-built_in">escape</span>=<span class="hljs-keyword">default</span>|json] <span class="hljs-built_in">string</span> ...;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>name 格式名称。在access_log指令中引用。</li>
+<li>escape 设置变量中的字符编码方式是json还是default，默认是default。</li>
+<li>string 要定义的日志格式内容。该参数可以有多个。参数中可以使用Nginx变量。</li>
+</ul>
+<p>下面是log_format指令中常用的一些变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$bytes_sent</td>
+<td>发送给客户端的总字节数</td>
+</tr>
+<tr>
+<td>$body_bytes_sent</td>
+<td>发送给客户端的字节数，不包括响应头的大小</td>
+</tr>
+<tr>
+<td>$connection</td>
+<td>连接序列号</td>
+</tr>
+<tr>
+<td>$connection_requests</td>
+<td>当前通过连接发出的请求数量</td>
+</tr>
+<tr>
+<td>$msec</td>
+<td>日志写入时间，单位为秒，精度是毫秒</td>
+</tr>
+<tr>
+<td>$pipe</td>
+<td>如果请求是通过http流水线发送，则其值为”p”，否则为“.”</td>
+</tr>
+<tr>
+<td>$request_length</td>
+<td>请求长度（包括请求行，请求头和请求体）</td>
+</tr>
+<tr>
+<td>$request_time</td>
+<td>请求处理时长，单位为秒，精度为毫秒，从读入客户端的第一个字节开始，直到把最后一个字符发送张客户端进行日志写入为止</td>
+</tr>
+<tr>
+<td>$status</td>
+<td>响应状态码</td>
+</tr>
+<tr>
+<td>$time_iso8601</td>
+<td>标准格式的本地时间,形如“2017-05-24T18:31:27+08:00”</td>
+</tr>
+<tr>
+<td>$time_local</td>
+<td>通用日志格式下的本地时间，如”24/May/2017:18:31:27 +0800”</td>
+</tr>
+<tr>
+<td>$http_referer</td>
+<td>请求的referer地址。</td>
+</tr>
+<tr>
+<td>$http_user_agent</td>
+<td>客户端浏览器信息。</td>
+</tr>
+<tr>
+<td>$remote_addr</td>
+<td>客户端IP</td>
+</tr>
+<tr>
+<td>$http_x_forwarded_for</td>
+<td>当前端有代理服务器时，设置web节点记录客户端地址的配置，此参数生效的前提是代理服务器也要进行相关的x_forwarded_for设置。</td>
+</tr>
+<tr>
+<td>$request</td>
+<td>完整的原始请求行，如 “GET / HTTP/1.1”</td>
+</tr>
+<tr>
+<td>$remote_user</td>
+<td>客户端用户名称，针对启用了用户认证的请求</td>
+</tr>
+<tr>
+<td>$request_uri</td>
+<td>完整的请求地址，如 “<a href="https://baidu.com/" target="_blank" rel="noopener">https://baidu.com/</a>“</td>
+</tr>
+</tbody>
+</table>
+<h2 id="自定义日志格式的使用"><a href="#自定义日志格式的使用" class="headerlink" title="自定义日志格式的使用"></a>自定义日志格式的使用</h2><figure class="highlight nginx hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attribute">access_log</span> /var/logs/nginx-access.log main</span><br><span class="line">log_format  main  <span class="hljs-string">'<span class="hljs-variable">$remote_addr</span> - <span class="hljs-variable">$remote_user</span> [<span class="hljs-variable">$time_local</span>] "<span class="hljs-variable">$request</span>" '</span></span><br><span class="line">                 <span class="hljs-string">'<span class="hljs-variable">$status</span> <span class="hljs-variable">$body_bytes_sent</span> "<span class="hljs-variable">$http_referer</span>" '</span></span><br><span class="line">                 <span class="hljs-string">'"<span class="hljs-variable">$http_user_agent</span>" "<span class="hljs-variable">$http_x_forwarded_for</span>"'</span>;</span><br></pre></td></tr></table></figure>
+<p>我们使用log_format指令定义了一个main的格式，并在access_log指令中引用了它。假如客户端有发起请求：<a href="https://suyunfe.com/，我们看一下我截取的一个请求的日志记录" target="_blank" rel="noopener">https://suyunfe.com/，我们看一下我截取的一个请求的日志记录</a>:<br><figure class="highlight accesslog hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-number">112.195.209.90</span> - - <span class="hljs-string">[20/Feb/2018:12:12:14 +0800]</span> <span class="hljs-string">"<span class="hljs-keyword">GET</span> / HTTP/1.1"</span> <span class="hljs-number">200</span> <span class="hljs-number">190</span> <span class="hljs-string">"-"</span> <span class="hljs-string">"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Mobile Safari/537.36"</span> <span class="hljs-string">"-"</span></span><br></pre></td></tr></table></figure></p>
+<p>我们看到最终的日志记录中$remote_user、$http_referer、$http_x_forwarded_for都对应了一个”-“，这是因为这几个变量为空。</p>
+<h1 id="错误日志配置error-log"><a href="#错误日志配置error-log" class="headerlink" title="错误日志配置error_log"></a>错误日志配置error_log</h1><h2 id="设置错误日志的语法"><a href="#设置错误日志的语法" class="headerlink" title="设置错误日志的语法"></a>设置错误日志的语法</h2><p>错误日志主要记录客户端访问Nginx出错时的日志，格式不支持自定义。通过错误日志，你可以得到系统某个服务或server的性能瓶颈等。因此，将日志好好利用，你可以得到很多有价值的信息。错误日志由指令error_log来指定，具体格式如下：<br><figure class="highlight gcode hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error_log path<span class="hljs-comment">(存放路径)</span> level<span class="hljs-comment">(日志等级)</span></span><br></pre></td></tr></table></figure></p>
+<p>path含义同access_log，level表示日志等级，日志等级分为[ debug | info | notice | warn | error | crit ]，从左至右，日志详细程度逐级递减，即debug最详细，crit最少。</p>
+<p>举例说明如下：<br><figure class="highlight applescript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error_log  logs/<span class="hljs-keyword">error</span>.<span class="hljs-built_in">log</span>  info;</span><br></pre></td></tr></table></figure></p>
+<p>需要注意的是：error_log off并不能关闭错误日志，而是会将错误日志记录到一个文件名为off的文件中。正确的关闭错误日志记录功能的方法如下：<br><figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error_log <span class="hljs-regexp">/dev/</span><span class="hljs-keyword">null</span>;    表示将存储日志的路径设置为“垃圾桶”。</span><br></pre></td></tr></table></figure></p>
+<p>第一个参数指定日志的写入位置。</p>
+<p>第二个参数指定日志的级别。level可以是debug, info, notice, warn, error, crit, alert,emerg中的任意值。可以看到其取值范围是按紧急程度从低到高排列的。只有日志的错误级别等于或高于level指定的值才会写入错误日志中。默认值是error。</p>
+<h2 id="nginx日志设置的基本用法"><a href="#nginx日志设置的基本用法" class="headerlink" title="nginx日志设置的基本用法"></a>nginx日志设置的基本用法</h2><figure class="highlight maxima hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error_log /<span class="hljs-built_in">var</span>/logs/nginx/nginx-<span class="hljs-built_in">error</span>.<span class="hljs-built_in">log</span></span><br></pre></td></tr></table></figure>
+<p>它可以配置在：main， http, mail, stream, server, location作用域。</p>
+<p>例子中指定了错误日志的路径为：/var/logs/nginx/nginx-error.log，日志级别使用默认的error。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open_log_file_cache</span><br></pre></td></tr></table></figure>
+<p>每一条日志记录的写入都是先打开文件再写入记录，然后关闭日志文件。如果你的日志文件路径中使用了变量，如access_log /var/logs/$host/nginx-access.log，为提高性能，可以使用open_log_file_cache指令设置日志文件描述符的缓存。</p>
+<p>语法<br><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open_log_file_cache <span class="hljs-attribute">max</span>=N [<span class="hljs-attribute">inactive</span>=time] [<span class="hljs-attribute">min_uses</span>=N] [<span class="hljs-attribute">valid</span>=time];</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>max 设置缓存中最多容纳的文件描述符数量，如果被占满，采用LRU算法将描述符关闭。</li>
+<li>inactive 设置缓存存活时间，默认是10s。</li>
+<li>min_uses 在inactive时间段内，日志文件最少使用几次，该日志文件描述符记入缓存，默认是1次。</li>
+<li>valid：设置多久对日志文件名进行检查，看是否发生变化，默认是60s。</li>
+<li>off：不使用缓存。默认为off。</li>
+</ul>
+<p>基本用法<br><figure class="highlight routeros hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open_log_file_cache <span class="hljs-attribute">max</span>=1000 <span class="hljs-attribute">inactive</span>=20s <span class="hljs-attribute">valid</span>=1m <span class="hljs-attribute">min_uses</span>=2;</span><br></pre></td></tr></table></figure></p>
+<p>它可以配置在http、server、location作用域中。</p>
+<p>例子中，设置缓存最多缓存1000个日志文件描述符，20s内如果缓存中的日志文件描述符至少被被访问2次，才不会被缓存关闭。每隔1分钟检查缓存中的文件描述符的文件名是否还存在。</p>
+<h1 id="Nginx日志分割"><a href="#Nginx日志分割" class="headerlink" title="Nginx日志分割"></a>Nginx日志分割</h1><h2 id="编写nginx日志分割脚本"><a href="#编写nginx日志分割脚本" class="headerlink" title="编写nginx日志分割脚本"></a>编写nginx日志分割脚本</h2><figure class="highlight autoit hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># vim /usr/local/nginx/logs/NginxLogSeparation.sh</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#!/bin/bash </span></span><br><span class="line"></span><br><span class="line">LOGS_PATH=/usr/<span class="hljs-built_in">local</span>/nginx/logs </span><br><span class="line"></span><br><span class="line">YESTERDAY=$(date -d <span class="hljs-string">"yesterday"</span> +%Y-%m-%d) </span><br><span class="line"></span><br><span class="line">cp <span class="hljs-variable">$&#123;LOGS_PATH&#125;</span>/access.log <span class="hljs-variable">$&#123;LOGS_PATH&#125;</span>/access_<span class="hljs-variable">$&#123;YESTERDAY&#125;</span>.<span class="hljs-built_in">log</span> &amp;&amp; &gt;<span class="hljs-variable">$&#123;LOGS_PATH&#125;</span>/access.log</span><br><span class="line"></span><br><span class="line">cp <span class="hljs-variable">$&#123;LOGS_PATH&#125;</span>/error.log <span class="hljs-variable">$&#123;LOGS_PATH&#125;</span>/error_<span class="hljs-variable">$&#123;YESTERDAY&#125;</span>.<span class="hljs-built_in">log</span> &amp;&amp; &gt;<span class="hljs-variable">$&#123;LOGS_PATH&#125;</span>/error.log</span><br></pre></td></tr></table></figure>
+<h2 id="设置定时任务运行脚本"><a href="#设置定时任务运行脚本" class="headerlink" title="设置定时任务运行脚本"></a>设置定时任务运行脚本</h2><figure class="highlight autoit hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># crontab -e</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight basic hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-symbol">0 </span><span class="hljs-number">0</span> * * *  /<span class="hljs-keyword">usr</span>/local/nginx/logs/NginxLogSeparation.sh</span><br></pre></td></tr></table></figure>
+<p>定时任务每天00:00执行脚本/usr/local/nginx/logs/NginxLogRotate.sh，实现定时自动分割Nginx日志（包括访问日志和错误日志），这样Nginx每天都会生成一个新的日志文件。</p>
+
+            
+        </div>
+        
+
+        
+            <! -- 添加捐赠图标 -->
+<div class="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+
+		   如果您觉得文章不错,可以请我喝一杯咖啡！
+        </span>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center hidden">
+		<!-- 支付宝打赏图案 -->
+		<span><img src="/images/zhifubao.png" alt="支付宝打赏"></span>
+
+		<!-- 微信打赏图案 -->
+		<span><img src="/images/weixin.png" alt="微信打赏"></span>
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			//$('#donate_board').addClass('hidden');
+			if($('#donate_guide').hasClass('hidden')){
+				$('#donate_guide').removeClass('hidden');
+			}else{
+				$('#donate_guide').addClass('hidden');
+			}
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+        
+
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7"><i class="fa fa-tag"></i>&nbsp</span>
+                    <a class="has-link-grey -link" href="/tags/nginx/">nginx</a>
+                </div>
+            </div>
+        </div><hr>
+        
+
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/07/10/server/Nginx配置gzip压缩/">
+                <span class="level-item">Nginx配置gzip压缩</span>
+                <i class="level-item material-icons">keyboard_arrow_right</i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+	const gitalk = new Gitalk({
+            clientID: 'f3cedbc73c19570bee41',
+            clientSecret: 'dff532b2bd6b11456d7de56b07f0db9bac8d599a',
+            repo: 'huang-min.github.io',
+            owner: 'huang-min',
+            admin: ['huang-min'],
+            id: '2019/07/10/server/Nginx日志详解/',
+            distractionFreeMode: false
+        });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/logo.png">
+                    
+                    <p class="is-size-4 is-block">
+                        黄敏
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Java Developer
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="material-icons is-size-5 has-mr-7">location_on</i>
+                        <span>中国 - 长沙</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        48
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        3
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        36
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/huang-min">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white" target="_blank" title="Github" href="http://github.com/huang-min">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="git" href="http://git.oschina.net/donecoder">
+                
+                <i class="fab fa-gg"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weixin" href="/">
+                
+                <i class="fab fa-weixin"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank" title="weibo" href="https://weibo.com/u/6409883441">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#nginx日志介绍">
+        <span class="has-mr-6">1</span>
+        <span>nginx日志介绍</span>
+        </a></li><li>
+        <a class="is-flex" href="#访问日志配置">
+        <span class="has-mr-6">2</span>
+        <span>访问日志配置</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#设置访问日志的语法">
+        <span class="has-mr-6">2.1</span>
+        <span>设置访问日志的语法</span>
+        </a></li><li>
+        <a class="is-flex" href="#访问日志的作用域">
+        <span class="has-mr-6">2.2</span>
+        <span>访问日志的作用域</span>
+        </a></li><li>
+        <a class="is-flex" href="#访问日志使用实例">
+        <span class="has-mr-6">2.3</span>
+        <span>访问日志使用实例</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#使用log-format自定义日志格式">
+        <span class="has-mr-6">3</span>
+        <span>使用log_format自定义日志格式</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#nginx默认日志格式">
+        <span class="has-mr-6">3.1</span>
+        <span>nginx默认日志格式</span>
+        </a></li><li>
+        <a class="is-flex" href="#Nginx自定义日志语法及常用变量">
+        <span class="has-mr-6">3.2</span>
+        <span>Nginx自定义日志语法及常用变量</span>
+        </a></li><li>
+        <a class="is-flex" href="#自定义日志格式的使用">
+        <span class="has-mr-6">3.3</span>
+        <span>自定义日志格式的使用</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#错误日志配置error-log">
+        <span class="has-mr-6">4</span>
+        <span>错误日志配置error_log</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#设置错误日志的语法">
+        <span class="has-mr-6">4.1</span>
+        <span>设置错误日志的语法</span>
+        </a></li><li>
+        <a class="is-flex" href="#nginx日志设置的基本用法">
+        <span class="has-mr-6">4.2</span>
+        <span>nginx日志设置的基本用法</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Nginx日志分割">
+        <span class="has-mr-6">5</span>
+        <span>Nginx日志分割</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#编写nginx日志分割脚本">
+        <span class="has-mr-6">5.1</span>
+        <span>编写nginx日志分割脚本</span>
+        </a></li><li>
+        <a class="is-flex" href="#设置定时任务运行脚本">
+        <span class="has-mr-6">5.2</span>
+        <span>设置定时任务运行脚本</span>
+        </a></li></ul></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+        <div class="card card-transparent is-hidden-widescreen">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java线程/">
+            <span class="level-start">
+                <span class="level-item">Java线程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring源码分析/">
+            <span class="level-start">
+                <span class="level-item">Spring源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 17.5px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.25px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 16.25px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.75px;">JavaSE</a> <a href="/tags/Java线程/" style="font-size: 10px;">Java线程</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.25px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.25px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Thread/" style="font-size: 10px;">Thread</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/Web/" style="font-size: 10px;">Web</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+        
+            
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            公告
+        </h3>
+
+        <p class="board">
+        欢迎来访问！<br>
+        QQ：150045153<br>
+        微信：150045153<br>
+        邮箱：hmiter@sina.com<br><br>
+        欢迎交流与分享经验!
+        </p>
+    </div>
+</div>
+
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/JavaSE源码分析/">
+            <span class="level-start">
+                <span class="level-item">JavaSE源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java线程/">
+            <span class="level-start">
+                <span class="level-item">Java线程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring源码分析/">
+            <span class="level-start">
+                <span class="level-item">Spring源码分析</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ArrayList/" style="font-size: 10px;">ArrayList</a> <a href="/tags/ConcurrentHashMap/" style="font-size: 10px;">ConcurrentHashMap</a> <a href="/tags/Database/" style="font-size: 17.5px;">Database</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashSet/" style="font-size: 10px;">HashSet</a> <a href="/tags/Hashtable/" style="font-size: 10px;">Hashtable</a> <a href="/tags/Hexo/" style="font-size: 11.25px;">Hexo</a> <a href="/tags/IOC/" style="font-size: 10px;">IOC</a> <a href="/tags/Integer/" style="font-size: 10px;">Integer</a> <a href="/tags/Java/" style="font-size: 16.25px;">Java</a> <a href="/tags/JavaSE/" style="font-size: 18.75px;">JavaSE</a> <a href="/tags/Java线程/" style="font-size: 10px;">Java线程</a> <a href="/tags/LinkedList/" style="font-size: 10px;">LinkedList</a> <a href="/tags/Linux/" style="font-size: 11.25px;">Linux</a> <a href="/tags/Oracle/" style="font-size: 11.25px;">Oracle</a> <a href="/tags/Server/" style="font-size: 10px;">Server</a> <a href="/tags/Spring/" style="font-size: 12.5px;">Spring</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Thread/" style="font-size: 10px;">Thread</a> <a href="/tags/TreeMap/" style="font-size: 10px;">TreeMap</a> <a href="/tags/TreeSet/" style="font-size: 10px;">TreeSet</a> <a href="/tags/Web/" style="font-size: 10px;">Web</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/memcached/" style="font-size: 10px;">memcached</a> <a href="/tags/mysql/" style="font-size: 13.75px;">mysql</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/存储过程/" style="font-size: 10px;">存储过程</a> <a href="/tags/源码分析/" style="font-size: 20px;">源码分析</a> <a href="/tags/计划任务/" style="font-size: 10px;">计划任务</a> <a href="/tags/防火墙/" style="font-size: 10px;">防火墙</a>
+    </div>
+</div>
+
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="https://github.com/ppoffice" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">https://github.com/ppoffice</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.didispace.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">程序员DDD</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.didispace.com/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 Huang min&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & Theme by <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+        <div>
+            
+Analyse with <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1261418845'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1261418845%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+
+        </div>
+    </div>
+</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                if (typeof($.fn.lightGallery) === 'function') {
+                    $('.article').lightGallery({ selector: '.gallery-item' });
+                }
+                if (typeof($.fn.justifiedGallery) === 'function') {
+                    $('.justified-gallery').justifiedGallery();
+                }
+            });
+        })(jQuery);
+    </script>
+    
+
+    
+    
+    
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // plugin function, place inside DOM ready function
+            outdatedBrowser({
+                bgColor: '#f25648',
+                color: '#ffffff',
+                lowerThan: 'flex'
+            })
+        });
+    </script>
+    
+
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.column-main > .card',
+             '.column-left > .card',
+             '.column-right > .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="material-icons">keyboard_arrow_up</i>
+</a>
+<style>
+#back-to-top {
+    position: fixed;
+    padding: 8px 0;
+    transition: 0.4s ease opacity, 0.4s ease width, 0.4s ease transform, 0.4s ease border-radius;
+    opacity: 0;
+    font-size: 0;
+    outline: none;
+    transform: translateY(120px);
+}
+#back-to-top.fade-in {
+    opacity: 1;
+}
+#back-to-top.rise-up {
+    transform: translateY(0);
+}
+</style>
+<script src="/js/back-to-top.js"></script>
+
+
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
